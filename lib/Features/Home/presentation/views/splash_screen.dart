@@ -1,6 +1,6 @@
 import 'package:azkark/core/services/service_locator.dart';
 import 'package:azkark/core/utils/app_styles.dart';
-import 'package:azkark/core/utils/helper/provider/app_provider.dart';
+import 'package:azkark/Features/All_acts_of_worship/presentation/manager/azkar_provider.dart';
 import 'package:azkark/core/utils/helper/shared_pref_keys.dart';
 import 'package:azkark/core/utils/routes/app_routes.dart';
 import 'package:azkark/core/utils/shared_pre.dart';
@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
       //   context.read<AppProvider>().loadDataFromJson();
       // }
-      context.read<AppProvider>().loadDataFromJson();
+      context.read<AzkarProvider>().loadDataFromJson();
     });
   }
 

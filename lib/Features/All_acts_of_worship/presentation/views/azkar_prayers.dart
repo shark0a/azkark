@@ -1,9 +1,9 @@
 import 'package:azkark/core/utils/app_styles.dart';
-import 'package:azkark/core/utils/helper/provider/app_provider.dart';
-import 'package:azkark/presentation/controller/home_controller.dart';
-import 'package:azkark/presentation/widgets/azkar_morning_widget/elzeker_section_container.dart';
-import 'package:azkark/presentation/widgets/customize_app_bar.dart';
-import 'package:azkark/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
+import 'package:azkark/Features/All_acts_of_worship/presentation/manager/azkar_provider.dart';
+import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
+import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/azkar_morning_widget/elzeker_section_container.dart';
+import 'package:azkark/Features/Home/presentation/widgets/customize_app_bar.dart';
+import 'package:azkark/Features/Home/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +12,7 @@ class AzkarPrayers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<AppProvider>();
+    final provider = context.read<AzkarProvider>();
     final azkarPrayers = provider.azkarPrayers;
     return Scaffold(
       appBar: PreferredSize(

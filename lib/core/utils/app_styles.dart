@@ -76,7 +76,7 @@ class AppStyles {
     letterSpacing: -0.30,
   );
   static const regular10 = TextStyle(
-    color:  Color(0xFF005773),
+    color: Color(0xFF005773),
     fontSize: 10,
     fontFamily: 'TE HAFS2 Tharwat Emara',
     fontWeight: FontWeight.w400,
@@ -88,6 +88,13 @@ class AppStyles {
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w400,
     letterSpacing: -0.30,
+  );
+  static const regular16 = TextStyle(
+    color: Color(0xFF1E1E1E),
+    fontSize: 18,
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w600,
+    // letterSpacing: -0.30,
   );
   static const regular14 = TextStyle(
     color: Color(0xFF1B617F),

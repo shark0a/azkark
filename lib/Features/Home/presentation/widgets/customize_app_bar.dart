@@ -22,7 +22,11 @@ class CustomizeAppBar extends StatelessWidget {
           color: AppStyles.appBarTitleColor,
         ),
       ),
-      title: Text(title, style: AppStyles.semiblod18.copyWith(fontSize: 20)),
+      title: Text(
+        textDirection: TextDirection.rtl,
+        title,
+        style: AppStyles.semiblod18.copyWith(fontSize: 20),
+      ),
     );
   }
 }

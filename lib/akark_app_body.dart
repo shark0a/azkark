@@ -14,7 +14,7 @@ class AkarkAppBody extends StatelessWidget {
       // useInheritedMediaQuery: true,
       builder: DevicePreview.appBuilder,
       supportedLocales: S.delegate.supportedLocales,
-      locale: Locale('ar', 'Eg'),
+      // locale: Locale('ar', 'egg'),
       localizationsDelegates: [
         S.delegate,
         GlobalMaterialLocalizations.delegate,

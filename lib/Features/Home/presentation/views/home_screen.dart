@@ -1,10 +1,10 @@
-import 'package:azkark/presentation/controller/home_controller.dart';
-import 'package:azkark/presentation/widgets/home_widgets/all_of_options.dart';
-import 'package:azkark/presentation/widgets/home_widgets/all_option_grid_view.dart';
-import 'package:azkark/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
-import 'package:azkark/presentation/widgets/home_widgets/date_and_location_details.dart';
-import 'package:azkark/presentation/widgets/home_widgets/prayer_time_banner.dart';
-import 'package:azkark/presentation/widgets/home_widgets/prayer_time_list_view.dart';
+import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
+import 'package:azkark/Features/Home/presentation/widgets/home_widgets/all_of_options.dart';
+import 'package:azkark/Features/Home/presentation/widgets/home_widgets/all_option_grid_view.dart';
+import 'package:azkark/Features/Home/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
+import 'package:azkark/Features/Home/presentation/widgets/home_widgets/date_and_location_details.dart';
+import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_time_banner.dart';
+import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_time_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';

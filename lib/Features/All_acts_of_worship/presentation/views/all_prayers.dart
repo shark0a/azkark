@@ -1,28 +1,25 @@
-import 'dart:developer';
-
 import 'package:azkark/core/utils/app_styles.dart';
-import 'package:azkark/core/utils/helper/provider/app_provider.dart';
-import 'package:azkark/presentation/controller/home_controller.dart';
-import 'package:azkark/presentation/widgets/azkar_morning_widget/elzeker_section_container.dart';
-import 'package:azkark/presentation/widgets/customize_app_bar.dart';
-import 'package:azkark/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
+import 'package:azkark/core/utils/helper/mehtod_helper.dart';
+import 'package:azkark/Features/All_acts_of_worship/presentation/manager/azkar_provider.dart';
+import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
+import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/azkar_morning_widget/elzeker_section_container.dart';
+import 'package:azkark/Features/Home/presentation/widgets/customize_app_bar.dart';
+import 'package:azkark/Features/Home/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AzkarMorning extends StatelessWidget {
-  const AzkarMorning({super.key});
-
+class AllPrayers extends StatelessWidget {
+  const AllPrayers({super.key});
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<AppProvider>();
-    final morningAZkar = provider.azkarMorning;
-    log("${morningAZkar.length}");
+    final provider = context.read<AzkarProvider>();
+    final allPrayers = provider.allPrayers;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 60),
-        child: CustomizeAppBar(title: 'أذكار الصباح'),
+        child: CustomizeAppBar(title: 'جميع الادعية'),
       ),
-      body: morningAZkar.isEmpty
+      body: allPrayers.isEmpty
           ? Center(
               child: CircularProgressIndicator(
                 backgroundColor: AppStyles.scaffoldBG,
@@ -30,12 +27,12 @@ class AzkarMorning extends StatelessWidget {
               ),
             )
           : ListView.builder(
-              itemCount: morningAZkar.length,
+              itemCount: allPrayers.length,
               padding: EdgeInsets.symmetric(vertical: 10),
               itemBuilder: (context, index) {
-                final zekrItem = morningAZkar[index];
+                final zekrItem = allPrayers[index];
                 ValueNotifier<int> zekrCountNotifier = ValueNotifier<int>(
-                  zekrItem.count,
+                  zekrItem.count == 0 ? 1 : zekrItem.count,
                 );
                 ValueNotifier<bool> isFavNotifier = ValueNotifier<bool>(
                   zekrItem.isFav,
@@ -53,7 +50,9 @@ class AzkarMorning extends StatelessWidget {
                           provider.toggleItemFavList(zekrItem);
                         },
                         elzekr: zekrItem.zekr,
-                        infoAboutzekr: zekrItem.description,
+                        infoAboutzekr: zekrItem.description.isEmpty
+                            ? MehtodHelper.cleanText(zekrItem.search)
+                            : zekrItem.description,
                         numOfZekr: index + 1,
                         numOfZekrcount: zekrCountNotifier,
                         isFav: isFav,

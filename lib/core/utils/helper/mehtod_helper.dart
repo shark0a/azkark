@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:azkark/data/all_azkar_model.dart';
+import 'package:azkark/Features/All_acts_of_worship/data/all_azkar_model.dart';
 import 'package:flutter/services.dart';
 
 class MehtodHelper {

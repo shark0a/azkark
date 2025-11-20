@@ -1,6 +1,6 @@
+import 'package:azkark/Features/All_acts_of_worship/data/all_options_models.dart';
 import 'package:azkark/core/utils/routes/app_routes.dart';
-import 'package:azkark/data/all_options_models.dart';
-import 'package:azkark/presentation/widgets/home_widgets/all_option_container.dart';
+import 'package:azkark/Features/Home/presentation/widgets/home_widgets/all_option_container.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,7 +13,7 @@ class AllOptionGridView extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 30),
       sliver: SliverGrid.builder(
         itemCount: allOtionsItems.length,
-        itemBuilder: (context, index) => GestureDetector(
+        itemBuilder: (context, index) => InkWell(
           onTap: () {
             switch (index) {
               case 0:
@@ -29,6 +29,7 @@ class AllOptionGridView extends StatelessWidget {
                 context.push(AppRoutes.kAllPrayers);
                 break;
               case 4:
+                context.push(AppRoutes.kPraiseSrceen);
                 break;
               case 5:
                 break;
@@ -38,6 +39,7 @@ class AllOptionGridView extends StatelessWidget {
               case 7:
                 break;
               case 8:
+                context.push(AppRoutes.kVariousAzkar);
                 break;
               default:
             }

@@ -1,6 +1,6 @@
-import 'package:azkark/data/prayer_icon_name_models.dart';
-import 'package:azkark/presentation/controller/home_controller.dart';
-import 'package:azkark/presentation/widgets/home_widgets/prayer_detail_container.dart';
+import 'package:azkark/Features/All_acts_of_worship/data/prayer_icon_name_models.dart';
+import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
+import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_detail_container.dart';
 import 'package:flutter/material.dart';
 
 class PrayerTimeListView extends StatelessWidget {

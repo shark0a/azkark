@@ -1,8 +1,9 @@
-import 'package:azkark/core/utils/helper/provider/app_provider.dart';
-import 'package:azkark/presentation/controller/home_controller.dart';
-import 'package:azkark/presentation/widgets/azkar_morning_widget/elzeker_section_container.dart';
-import 'package:azkark/presentation/widgets/customize_app_bar.dart';
-import 'package:azkark/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
+import 'package:azkark/core/utils/helper/mehtod_helper.dart';
+import 'package:azkark/Features/All_acts_of_worship/presentation/manager/azkar_provider.dart';
+import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
+import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/azkar_morning_widget/elzeker_section_container.dart';
+import 'package:azkark/Features/Home/presentation/widgets/customize_app_bar.dart';
+import 'package:azkark/Features/Home/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +12,7 @@ class FavouriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<AppProvider>();
+    final provider = context.watch<AzkarProvider>();
     final favList = provider.favList.values.toList();
     return Scaffold(
       appBar: const PreferredSize(
@@ -28,7 +29,7 @@ class FavouriteScreen extends StatelessWidget {
 
                 return KeyedSubtree(
                   key: ValueKey(zekrItem.id),
-                  child: Selector<AppProvider, bool>(
+                  child: Selector<AzkarProvider, bool>(
                     selector: (context, provider) =>
                         provider.favList.containsKey(zekrItem.id),
                     builder: (context, isFav, child) {
@@ -39,7 +40,9 @@ class FavouriteScreen extends StatelessWidget {
                             provider.toggleItemFavList(zekrItem);
                           },
                           elzekr: zekrItem.zekr,
-                          infoAboutzekr: zekrItem.description,
+                          infoAboutzekr: zekrItem.description.isEmpty
+                              ? MehtodHelper.cleanText(zekrItem.search)
+                              : zekrItem.description,
                           numOfZekr: index + 1,
                           numOfZekrcount: ValueNotifier(
                             zekrItem.count == 0 ? 1 : zekrItem.count,

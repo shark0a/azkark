@@ -1,15 +1,15 @@
 import 'dart:developer';
 
+import 'package:azkark/Features/All_acts_of_worship/data/all_azkar_model.dart';
 import 'package:azkark/core/services/service_locator.dart';
 import 'package:azkark/core/utils/helper/mehtod_helper.dart';
 import 'package:azkark/core/utils/helper/shared_pref_keys.dart';
 import 'package:azkark/core/utils/shared_pre.dart';
-import 'package:azkark/data/all_azkar_model.dart';
 import 'package:flutter/material.dart';
 
-class AppProvider extends ChangeNotifier {
+class AzkarProvider extends ChangeNotifier {
   final MehtodHelper mehtodHelper;
-  AppProvider({required this.mehtodHelper}) {
+  AzkarProvider({required this.mehtodHelper}) {
     _loadingLocal();
   }
   // first time open program
@@ -47,29 +47,49 @@ class AppProvider extends ChangeNotifier {
   List<AzkarModel> azkarEvening = [];
   List<AzkarModel> azkarPrayers = [];
   List<AzkarModel> allPrayers = [];
+  List<AzkarModel> praise = [];
+  List<AzkarModel> variousDoaa = [];
 
   void splitZekr(List<AzkarModel> allZekrList) {
     try {
       azkarMorning.clear();
       azkarEvening.clear();
       azkarPrayers.clear();
+      allPrayers.clear();
+      praise.clear();
       for (var element in allZekrList) {
         if (element.category.contains("أذكار الصباح")) {
           azkarMorning.add(element);
         } else if (element.category.contains("أذكار المساء")) {
           azkarEvening.add(element);
-        }
-
-        if (element.search.contains("الصلاة الصلاه") ||
+        } else if (element.search.contains("الصلاة الصلاه") ||
             element.search.contains("الصلاه")) {
           azkarPrayers.add(element);
-        }
-        if (element.search.contains('دعاء')) {
+        } else if (element.search.contains('دعاء') ||
+            element.search.contains('الدعاء ')) {
           allPrayers.add(element);
+        } else if (element.search.contains("كيف كان النبي يسبح؟") ||
+            element.search.contains("التسبيح، التحميد، التهليل، التكبير") ||
+            element.search.contains("الاستغفار و التوبة")) {
+          praise.add(element);
+        } else {
+          variousDoaa.add(element);
         }
       }
     } catch (e) {
       throw "error in split this category $e";
+    }
+  }
+
+  //search by specific zekr
+  List<AzkarModel> specificZekr = [];
+  void searcBySpecific(String zekrtTitle) {
+    specificZekr.clear();
+    for (var element in variousDoaa) {
+      if (element.category.contains(zekrtTitle)) {
+        log(element.zekr);
+        specificZekr.add(element);
+      }
     }
   }
 
