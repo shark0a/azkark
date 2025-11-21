@@ -51,9 +51,9 @@ class ElzekrContainer extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: const Color(0xFF005773),
-                fontSize: 13,
+                fontSize: 15,
                 fontFamily: 'Emara',
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w800,
                 height: 1.74,
               ),
             ),

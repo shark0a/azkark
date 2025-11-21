@@ -47,7 +47,8 @@ class VariousAzkarScreen extends StatelessWidget {
                     title: index == variusAzkarItem.length - 1
                         ? "${variusAzkarItem[index].title}الدعاء"
                         : variusAzkarItem[index].title,
-                    icon: Icons.arrow_back,
+                    leading: Icon(Icons.arrow_back, color: Colors.black),
+                    active: false,
                   ),
                 ),
               ),

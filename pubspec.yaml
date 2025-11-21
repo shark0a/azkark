@@ -42,13 +42,12 @@ dependencies:
   hive: ^2.2.3
   get_it: ^9.0.5
   hive_flutter: ^1.1.0
-  csv: ^6.0.0
   path_provider: ^2.1.1
   flutter_localizations:
         sdk: flutter
   intl: ^0.20.2
-  shared_preferences: ^2.5.3
-
+  table_calendar: ^3.0.9
+  hijri_date: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

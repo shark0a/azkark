@@ -27,7 +27,8 @@ class PraiseSrceen extends StatelessWidget {
             },
             child: CustomizeListTile(
               title: "أذكار التسبيح والاستغفار",
-              icon: Icons.arrow_back,
+              leading: Icon(Icons.arrow_back, color: Colors.black),
+              active: false,
             ),
           ),
           const SizedBox(height: 20),
@@ -37,7 +38,8 @@ class PraiseSrceen extends StatelessWidget {
             },
             child: CustomizeListTile(
               title: "المسبحه الالكترونيه",
-              icon: Icons.arrow_back,
+              leading: Icon(Icons.arrow_back, color: Colors.black),
+              active: false,
             ),
           ),
         ],

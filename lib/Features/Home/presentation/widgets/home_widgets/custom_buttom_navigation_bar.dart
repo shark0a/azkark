@@ -26,7 +26,7 @@ class CustomButtomNavigationBar extends StatelessWidget {
           context.go(AppRoutes.kHomeScreen);
         }
         if (value == 1) {
-          context.go(AppRoutes.kPrayerTimeScreen);
+          context.go(AppRoutes.kHomeScreen);
         }
         if (value == 2) {
           context.go(AppRoutes.kSettingScreen);

@@ -1,47 +1,99 @@
+import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/prasise_widget/customize_list_tile.dart';
+import 'package:azkark/Features/Home/data/setting_items_models.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
+import 'package:azkark/Features/Home/presentation/views/setting_screen.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/all_of_options.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/all_option_grid_view.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/date_and_location_details.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_time_banner.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_time_list_view.dart';
+import 'package:azkark/Features/Home/presentation/widgets/prayer_time_widget/customize_list_tile_version.dart';
+import 'package:azkark/Features/Home/presentation/widgets/prayer_time_widget/left_time_widget.dart';
+import 'package:azkark/Features/Home/presentation/widgets/prayer_time_widget/prayer_time_vertical_list_view.dart';
+import 'package:azkark/core/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     final provider = context.watch<HomeController>();
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(top: 60),
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(child: DateAndLocationDetails()),
-            SliverToBoxAdapter(child: const SizedBox(height: 8)),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 90,
-                child: PrayerTimeListView(provider: provider),
+      appBar: provider.bottomNavigationIndex == 0
+          ? null
+          : PreferredSize(
+              preferredSize: Size(double.infinity, 60),
+              child: CustomizeHomeAppBar(
+                title: "وقت الصلاة",
+
+                icon: Icon(
+                  Icons.watch_later_outlined,
+                  color: AppStyles.appBarTitleColor,
+                ),
               ),
             ),
-            SliverToBoxAdapter(child: const SizedBox(height: 14)),
-            SliverToBoxAdapter(child: PrayerTimeBanner()),
-            SliverToBoxAdapter(child: const SizedBox(height: 18)),
-            SliverToBoxAdapter(child: AllOfOptions()),
-            SliverToBoxAdapter(child: const SizedBox(height: 18)),
-            AllOptionGridView(),
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: const SizedBox(height: 18),
-            ),
-          ],
+      body: SafeArea(
+        top: false,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: provider.bottomNavigationIndex == 0 ? 60 : 0,
+          ),
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(child: DateAndLocationDetails()),
+              ..._buildHomeSlivers(provider),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: CustomButtomNavigationBar(provider: provider),
     );
+  }
+}
+
+List<Widget> _buildHomeSlivers(HomeController provider) {
+  switch (provider.bottomNavigationIndex) {
+    case 0:
+      return [
+        const SliverToBoxAdapter(child: SizedBox(height: 8)),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: 90,
+            child: PrayerTimeHorezontalListView(provider: provider),
+          ),
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 14)),
+        SliverToBoxAdapter(child: PrayerTimeBanner()),
+        const SliverToBoxAdapter(child: SizedBox(height: 18)),
+        SliverToBoxAdapter(child: AllOfOptions()),
+        const SliverToBoxAdapter(child: SizedBox(height: 18)),
+        AllOptionGridView(),
+        const SliverFillRemaining(
+          hasScrollBody: false,
+          child: SizedBox(height: 18),
+        ),
+      ];
+    // break;
+    case 1:
+      return [
+        const SliverToBoxAdapter(child: SizedBox(height: 20)),
+        SliverToBoxAdapter(child: SvgPicture.asset('assets/stopwatch.svg')),
+        const SliverToBoxAdapter(child: SizedBox(height: 20)),
+        SliverToBoxAdapter(child: LeftTimeWidget()),
+        const SliverToBoxAdapter(child: SizedBox(height: 20)),
+        SliverToBoxAdapter(child: PrayerTimeVerticalListView()),
+      ];
+    default:
+      return [
+        const SliverToBoxAdapter(
+          child: Center(child: Text("Page not implemented")),
+        ),
+      ];
   }
 }

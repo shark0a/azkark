@@ -84,7 +84,7 @@ class AppStyles {
   );
   static const regular12 = TextStyle(
     color: Color(0xFFA1A1A1),
-    fontSize: 12,
+    fontSize: 15,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w400,
     letterSpacing: -0.30,
@@ -105,7 +105,7 @@ class AppStyles {
   );
   static const light15 = TextStyle(
     color: Color(0xFF1E1E1E),
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w300,
     letterSpacing: -0.30,

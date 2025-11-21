@@ -3,8 +3,8 @@ import 'package:azkark/Features/Home/presentation/controller/home_controller.dar
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_detail_container.dart';
 import 'package:flutter/material.dart';
 
-class PrayerTimeListView extends StatelessWidget {
-  const PrayerTimeListView({super.key, required this.provider});
+class PrayerTimeHorezontalListView extends StatelessWidget {
+  const PrayerTimeHorezontalListView({super.key, required this.provider});
 
   final HomeController provider;
 

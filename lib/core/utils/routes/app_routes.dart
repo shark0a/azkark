@@ -5,11 +5,11 @@ import 'package:azkark/Features/All_acts_of_worship/presentation/views/azkar_pra
 import 'package:azkark/Features/All_acts_of_worship/presentation/views/azkar_prayers.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/views/electronic.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/views/favourite_screen.dart';
+import 'package:azkark/Features/All_acts_of_worship/presentation/views/islamic_calendar.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/views/praise_srceen.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/views/various_azkar_screen.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/various_azkr_widgets/various_zekr.dart';
 import 'package:azkark/Features/Home/presentation/views/home_screen.dart';
-import 'package:azkark/Features/Home/presentation/views/prayer_time_screen.dart';
 import 'package:azkark/Features/Home/presentation/views/seconde_splash_screen.dart';
 import 'package:azkark/Features/Home/presentation/views/setting_screen.dart';
 import 'package:azkark/Features/Home/presentation/views/splash_screen.dart';
@@ -18,7 +18,6 @@ import 'package:go_router/go_router.dart';
 
 class AppRoutes {
   static const kHomeScreen = "/homescreen";
-  static const kPrayerTimeScreen = "/PrayerTimeScreen";
   static const kSettingScreen = "/SettingScreen";
 
   static const kSecondeSplashScreen = "/secondesplashscreen";
@@ -28,6 +27,7 @@ class AppRoutes {
   static const kAllPrayers = "/allPrayers";
   static const kPraiseSrceen = "/PraiseSrceen";
   static const kElectronic = "/Electronic";
+  static const kIslamicCalendar = "/IslamicCalendar";
   static const kAzkarPraiseEst = "/AzkarPraiseEst";
   static const kFavouriteScreen = "/favouriteScreen";
   static const kVariousAzkar = "/VariousAzkar";
@@ -83,6 +83,10 @@ class AppRoutes {
         builder: (context, state) => const Electronic(),
       ),
       GoRoute(
+        path: kIslamicCalendar,
+        builder: (context, state) => IslamicCalendar(),
+      ),
+      GoRoute(
         path: kAzkarPraiseEst,
         builder: (context, state) => const AzkarPraiseEst(),
       ),
@@ -97,10 +101,6 @@ class AppRoutes {
       GoRoute(
         path: kSettingScreen,
         builder: (context, state) => const SettingScreen(),
-      ),
-      GoRoute(
-        path: kPrayerTimeScreen,
-        builder: (context, state) => const PrayerTimeScreen(),
       ),
     ],
   );

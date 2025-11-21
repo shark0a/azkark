@@ -32,6 +32,7 @@ class AllOptionGridView extends StatelessWidget {
                 context.push(AppRoutes.kPraiseSrceen);
                 break;
               case 5:
+                context.push(AppRoutes.kIslamicCalendar);
                 break;
               case 6:
                 context.push(AppRoutes.kFavouriteScreen);
