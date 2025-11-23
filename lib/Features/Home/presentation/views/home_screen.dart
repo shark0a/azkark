@@ -1,5 +1,3 @@
-import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/prasise_widget/customize_list_tile.dart';
-import 'package:azkark/Features/Home/data/setting_items_models.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:azkark/Features/Home/presentation/views/setting_screen.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/all_of_options.dart';
@@ -8,10 +6,9 @@ import 'package:azkark/Features/Home/presentation/widgets/home_widgets/custom_bu
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/date_and_location_details.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_time_banner.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_time_list_view.dart';
-import 'package:azkark/Features/Home/presentation/widgets/prayer_time_widget/customize_list_tile_version.dart';
 import 'package:azkark/Features/Home/presentation/widgets/prayer_time_widget/left_time_widget.dart';
 import 'package:azkark/Features/Home/presentation/widgets/prayer_time_widget/prayer_time_vertical_list_view.dart';
-import 'package:azkark/core/utils/app_styles.dart';
+import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -45,8 +42,11 @@ class HomeScreen extends StatelessWidget {
             top: provider.bottomNavigationIndex == 0 ? 60 : 0,
           ),
           child: CustomScrollView(
+            physics: BouncingScrollPhysics(),
             slivers: [
-              SliverToBoxAdapter(child: DateAndLocationDetails()),
+              SliverToBoxAdapter(
+                child: DateAndLocationDetails(provider: provider),
+              ),
               ..._buildHomeSlivers(provider),
             ],
           ),

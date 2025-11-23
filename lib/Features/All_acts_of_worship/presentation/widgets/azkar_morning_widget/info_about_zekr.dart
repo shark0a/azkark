@@ -1,4 +1,4 @@
-import 'package:azkark/core/utils/app_styles.dart';
+import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/azkar_morning_widget/number_of_count_container.dart';
 import 'package:flutter/material.dart';
 

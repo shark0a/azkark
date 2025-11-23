@@ -7,17 +7,17 @@ class HijriCalendarWidget extends StatefulWidget {
   final bool isSmallScreen;
 
   const HijriCalendarWidget({
-    Key? key,
+    super.key,
     this.selectedDate,
     required this.onDateSelected,
     this.isSmallScreen = false,
-  }) : super(key: key);
+  });
 
   @override
-  _HijriCalendarWidgetState createState() => _HijriCalendarWidgetState();
+  HijriCalendarWidgetState createState() => HijriCalendarWidgetState();
 }
 
-class _HijriCalendarWidgetState extends State<HijriCalendarWidget> {
+class HijriCalendarWidgetState extends State<HijriCalendarWidget> {
   int _currentYear = HijriDate.now().hYear;
   int _currentMonth = HijriDate.now().hMonth;
 
@@ -147,7 +147,7 @@ class _HijriCalendarWidgetState extends State<HijriCalendarWidget> {
             ),
             Text(
               textDirection: TextDirection.rtl,
-              '${_currentYear} هـ',
+              '$_currentYear هـ',
               style: TextStyle(
                 fontSize: widget.isSmallScreen ? 12 : 14,
                 color: Colors.green[600],

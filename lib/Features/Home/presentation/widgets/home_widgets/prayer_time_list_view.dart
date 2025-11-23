@@ -1,6 +1,7 @@
 import 'package:azkark/Features/All_acts_of_worship/data/prayer_icon_name_models.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_detail_container.dart';
+import 'package:azkark/core/utils/helper/mehtod_helper.dart';
 import 'package:flutter/material.dart';
 
 class PrayerTimeHorezontalListView extends StatelessWidget {
@@ -10,6 +11,22 @@ class PrayerTimeHorezontalListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> times = [
+      provider.prayerTimes!.timings.isha,
+      provider.prayerTimes!.timings.maghrib,
+      provider.prayerTimes!.timings.asr,
+      provider.prayerTimes!.timings.dhuhr,
+      provider.prayerTimes!.timings.sunrise,
+      provider.prayerTimes!.timings.fajr,
+    ];
+    // List<String> times = [
+    //   provider.prayerTimesHive!.timings.isha,
+    //   provider.prayerTimesHive!.timings.maghrib,
+    //   provider.prayerTimesHive!.timings.asr,
+    //   provider.prayerTimesHive!.timings.dhuhr,
+    //   provider.prayerTimesHive!.timings.sunrise,
+    //   provider.prayerTimesHive!.timings.fajr,
+    // ];
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8),
       color: Color(0xffEDFBFF),
@@ -34,7 +51,7 @@ class PrayerTimeHorezontalListView extends StatelessWidget {
                 child: PrayerDetailContainer(
                   active: index == provider.nextprayerTimeIndex,
                   prayerName: prayerIconAndTime[index].name,
-                  prayerTime: prayerIconAndTime[index].prayerYime,
+                  prayerTime: MehtodHelper.convertTimeTo12H(times[index]),
                   prayerIcon: prayerIconAndTime[index].prayerIcon,
                 ),
               ),

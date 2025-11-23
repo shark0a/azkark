@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:azkark/Features/All_acts_of_worship/data/all_options_models.dart';
+import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
+import 'package:azkark/core/utils/helper/mehtod_helper.dart';
 import 'package:azkark/core/utils/routes/app_routes.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/all_option_container.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class AllOptionGridView extends StatelessWidget {
   const AllOptionGridView({super.key});
@@ -24,6 +29,9 @@ class AllOptionGridView extends StatelessWidget {
                 break;
               case 2:
                 context.push(AppRoutes.kAzkarPrayers);
+                log(
+                  "tihs 🚑🚑🚑🚑🚑🚑🚑 ${MehtodHelper.convertTimeTo12H(context.read<HomeController>().prayerTimes!.timings.asr)}",
+                );
                 break;
               case 3:
                 context.push(AppRoutes.kAllPrayers);

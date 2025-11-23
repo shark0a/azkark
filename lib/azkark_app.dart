@@ -1,3 +1,4 @@
+import 'package:azkark/Features/Home/domain/home_repo.dart';
 import 'package:azkark/akark_app_body.dart';
 import 'package:azkark/core/services/service_locator.dart';
 import 'package:azkark/core/utils/helper/mehtod_helper.dart';
@@ -13,7 +14,7 @@ class AzkarkApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => HomeController()),
+        ChangeNotifierProvider(create: (context) => HomeController(homeRepo: sl.get<HomeRepo>())),
         ChangeNotifierProvider(
           create: (context) =>
               AzkarProvider(mehtodHelper: sl.get<MehtodHelper>()),

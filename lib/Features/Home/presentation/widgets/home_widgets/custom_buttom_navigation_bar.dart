@@ -1,4 +1,4 @@
-import 'package:azkark/core/utils/app_styles.dart';
+import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/core/utils/routes/app_routes.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:flutter/material.dart';
@@ -36,12 +36,18 @@ class CustomButtomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
             "assets/bottom1.svg",
-            color: AppStyles.inActiveColor,
+            colorFilter: ColorFilter.mode(
+              AppStyles.inActiveColor,
+              BlendMode.srcIn,
+            ),
           ),
           label: "الصفحة \nالرئيسية",
           activeIcon: SvgPicture.asset(
             "assets/bottom1.svg",
-            color: AppStyles.activeColor,
+            colorFilter: ColorFilter.mode(
+              AppStyles.activeColor,
+              BlendMode.srcIn,
+            ),
           ),
         ),
         BottomNavigationBarItem(

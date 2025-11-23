@@ -1,10 +1,15 @@
-import 'package:azkark/core/utils/app_styles.dart';
+import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomizeListTileVersion extends StatelessWidget {
-  const CustomizeListTileVersion({super.key});
-
+  const CustomizeListTileVersion({
+    super.key,
+    required this.prayerTime,
+    required this.prayerName,
+  });
+  final String prayerTime;
+  final String prayerName;
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -16,7 +21,7 @@ class CustomizeListTileVersion extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            '04:55',
+            prayerTime,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: const Color(0x7F1E1E1E),
@@ -35,7 +40,7 @@ class CustomizeListTileVersion extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'الفجر',
+            prayerName,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: const Color(0x7F1E1E1E),
@@ -49,17 +54,15 @@ class CustomizeListTileVersion extends StatelessWidget {
           const SizedBox(width: 19.5),
           SvgPicture.asset(
             "assets/m6.svg",
-            color: AppStyles.inActiveColor,
+            colorFilter: ColorFilter.mode(
+              AppStyles.inActiveColor,
+              BlendMode.srcIn,
+            ),
             width: 25.5,
             height: 25.5,
           ),
         ],
       ),
-      // leading: Row(
-      //   mainAxisSize: MainAxisSize.min,
-
-      //   children: [],
-      // ),
     );
   }
 }

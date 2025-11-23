@@ -1,2 +1,0 @@
-- [ ] Modify home_screen.dart: Wrap Column in SingleChildScrollView and change Expanded to Flexible for AllOptionGridView
-- [ ] Modify all_option_grid_view.dart: Add shrinkWrap: true to GridView.builder

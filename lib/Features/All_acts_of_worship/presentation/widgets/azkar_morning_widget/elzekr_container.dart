@@ -1,4 +1,4 @@
-import 'package:azkark/core/utils/app_styles.dart';
+import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

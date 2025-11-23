@@ -1,203 +1,21 @@
-// import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/islamic_clrander_widget/calendar_buttons.dart';
-// import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/islamic_clrander_widget/current_date_display.dart';
-// import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/islamic_clrander_widget/date_conversion_card.dart';
-// import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/islamic_clrander_widget/hijri_calendar_widget.dart';
-// import 'package:azkark/Features/Home/presentation/widgets/customize_app_bar.dart';
-// import 'package:azkark/core/utils/app_styles.dart';
-// import 'package:flutter/material.dart';
-// import 'package:table_calendar/table_calendar.dart';
-// import 'package:hijri_date/hijri_date.dart';
-
-// class IslamicCalendar extends StatefulWidget {
-//   @override
-//   _IslamicCalendarState createState() => _IslamicCalendarState();
-// }
-
-// class _IslamicCalendarState extends State<IslamicCalendar> {
-//   CalendarFormat _calendarFormat = CalendarFormat.month;
-//   DateTime _focusedDay = DateTime.now();
-//   DateTime? _selectedDay;
-//   bool _showHijri = false;
-//   HijriDate? _hijriSelectedDay;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _selectedDay = _focusedDay;
-//     _hijriSelectedDay = HijriDate.now();
-//   }
-
-//   String _getHijriDate(DateTime date) {
-//     try {
-//       HijriDate hijriDate = HijriDate.fromDate(date);
-//       return '${hijriDate.hDay} ${_getHijriMonthName(hijriDate.hMonth)} ${hijriDate.hYear} هـ';
-//     } catch (e) {
-//       return 'خطأ في التحويل';
-//     }
-//   }
-
-//   String _getGregorianDateFromHijri(HijriDate hijriDate) {
-//     try {
-//       DateTime tempDate = DateTime.now();
-//       HijriDate tempHijri = HijriDate.fromDate(tempDate);
-//       int totalDaysDifference =
-//           ((hijriDate.hYear - tempHijri.hYear) * 354) +
-//           ((hijriDate.hMonth - tempHijri.hMonth) * 29) +
-//           (hijriDate.hDay - tempHijri.hDay);
-//       DateTime resultDate = tempDate.add(Duration(days: totalDaysDifference));
-//       return '${resultDate.day}/${resultDate.month}/${resultDate.year}';
-//     } catch (e) {
-//       return 'خطأ في التحويل';
-//     }
-//   }
-
-//   String _getHijriMonthName(int month) {
-//     List<String> hijriMonths = [
-//       'محرم',
-//       'صفر',
-//       'ربيع الأول',
-//       'ربيع الثاني',
-//       'جمادى الأول',
-//       'جمادى الثاني',
-//       'رجب',
-//       'شعبان',
-//       'رمضان',
-//       'شوال',
-//       'ذو القعدة',
-//       'ذو الحجة',
-//     ];
-//     return hijriMonths[month - 1];
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: PreferredSize(
-//         preferredSize: Size(double.infinity, 60),
-//         child: CustomizeAppBar(title: "التقويم الهجري"),
-//       ),
-//       body: Column(
-//         children: [
-//           CalendarButtons(
-//             isHijri: _showHijri,
-//             onChanged: (value) => setState(() => _showHijri = value),
-//           ),
-//           CurrentDateDisplay(
-//             isHijri: _showHijri,
-//             gregorianDate: _selectedDay,
-//             hijriDate: _hijriSelectedDay,
-//           ),
-//           SizedBox(height: 16),
-//           Expanded(
-//             child: _showHijri ? _buildHijriView() : _buildGregorianView(),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildGregorianView() {
-//     return Column(
-//       children: [
-//         DateConversionCard(
-//           title: 'التاريخ الهجري:',
-//           date: _getHijriDate(_selectedDay ?? DateTime.now()),
-//           color: Colors.green,
-//         ),
-//         SizedBox(height: 8),
-//         Expanded(
-//           child: Card(
-//             margin: EdgeInsets.all(16),
-//             elevation: 4,
-//             child: Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: TableCalendar(
-//                 firstDay: DateTime.utc(2010, 1, 1),
-//                 lastDay: DateTime.utc(2030, 12, 31),
-//                 focusedDay: _focusedDay,
-//                 calendarFormat: _calendarFormat,
-//                 selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-//                 onDaySelected: (selectedDay, focusedDay) {
-//                   setState(() {
-//                     _selectedDay = selectedDay;
-//                     _focusedDay = focusedDay;
-//                   });
-//                 },
-//                 onFormatChanged: (format) =>
-//                     setState(() => _calendarFormat = format),
-//                 onPageChanged: (focusedDay) =>
-//                     setState(() => _focusedDay = focusedDay),
-//                 calendarStyle: CalendarStyle(
-//                   selectedDecoration: BoxDecoration(
-//                     color: Colors.blue,
-//                     shape: BoxShape.circle,
-//                   ),
-//                   todayDecoration: BoxDecoration(
-//                     color: Colors.blue.shade200,
-//                     shape: BoxShape.circle,
-//                   ),
-//                 ),
-//                 headerStyle: HeaderStyle(
-//                   formatButtonVisible: true,
-//                   titleCentered: true,
-//                   formatButtonShowsNext: false,
-//                   formatButtonDecoration: BoxDecoration(
-//                     color: Colors.blue,
-//                     borderRadius: BorderRadius.circular(8),
-//                   ),
-//                   formatButtonTextStyle: TextStyle(color: Colors.white),
-//                 ),
-//                 availableCalendarFormats: const {
-//                   CalendarFormat.month: 'شهري',
-//                   CalendarFormat.week: 'أسبوعي',
-//                 },
-//                 locale: 'ar',
-//               ),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-
-//   Widget _buildHijriView() {
-//     return Column(
-//       children: [
-//         DateConversionCard(
-//           title: 'التاريخ الميلادي:',
-//           date: _hijriSelectedDay != null
-//               ? _getGregorianDateFromHijri(_hijriSelectedDay!)
-//               : _getGregorianDateFromHijri(HijriDate.now()),
-//           color: Colors.blue,
-//         ),
-//         SizedBox(height: 8),
-//         Expanded(
-//           child: HijriCalendarWidget(
-//             selectedDate: _hijriSelectedDay,
-//             onDateSelected: (date) => setState(() => _hijriSelectedDay = date),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/islamic_clrander_widget/calendar_buttons.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/islamic_clrander_widget/current_date_display.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/islamic_clrander_widget/date_conversion_card.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/islamic_clrander_widget/hijri_calendar_widget.dart';
 import 'package:azkark/Features/Home/presentation/widgets/customize_app_bar.dart';
-import 'package:azkark/core/utils/app_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:hijri_date/hijri_date.dart';
 
 class IslamicCalendar extends StatefulWidget {
+  const IslamicCalendar({super.key});
+
   @override
-  _IslamicCalendarState createState() => _IslamicCalendarState();
+  IslamicCalendarState createState() => IslamicCalendarState();
 }
 
-class _IslamicCalendarState extends State<IslamicCalendar> {
+class IslamicCalendarState extends State<IslamicCalendar> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -229,7 +47,7 @@ class _IslamicCalendarState extends State<IslamicCalendar> {
           ((hijriDate.hMonth - tempHijri.hMonth) * 29) +
           (hijriDate.hDay - tempHijri.hDay);
       DateTime resultDate = tempDate.add(Duration(days: totalDaysDifference));
-      return '${resultDate.day}/${resultDate.month}/${resultDate.year}';
+      return ' ${DateFormat.yMMMMEEEEd('ar').format(resultDate)}';
     } catch (e) {
       return 'خطأ في التحويل';
     }
@@ -324,7 +142,7 @@ class _IslamicCalendarState extends State<IslamicCalendar> {
       children: [
         // بطاقة التحويل - حجم أصغر في الشاشات الصغيرة
         DateConversionCard(
-          title: ': التاريخ الميلادي',
+          title: 'التاريخ الميلادي :',
 
           date: _hijriSelectedDay != null
               ? _getGregorianDateFromHijri(_hijriSelectedDay!)

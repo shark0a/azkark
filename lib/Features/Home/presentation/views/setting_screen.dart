@@ -2,7 +2,7 @@ import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/prasise
 import 'package:azkark/Features/Home/data/setting_items_models.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
-import 'package:azkark/core/utils/app_styles.dart';
+import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,13 +16,11 @@ class SettingScreen extends StatelessWidget {
         preferredSize: Size(double.infinity, 60),
         child: CustomizeHomeAppBar(
           title: "الاعدادات",
-          icon: Icon(
-            Icons.settings,
-            color: AppStyles.appBarTitleColor,
-          ),
+          icon: Icon(Icons.settings, color: AppStyles.appBarTitleColor),
         ),
       ),
       body: ListView.builder(
+        physics: BouncingScrollPhysics(),
         itemCount: settingItemsModel.length,
         itemBuilder: (context, index) => Padding(
           padding: EdgeInsets.only(top: 24),

@@ -1,4 +1,4 @@
-import 'package:azkark/core/utils/app_styles.dart';
+import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -12,7 +12,7 @@ class PrayerDetailContainer extends StatelessWidget {
   });
   final String prayerName;
   final String prayerIcon;
-  final TimeOfDay prayerTime;
+  final String prayerTime;
   final bool active;
   @override
   Widget build(BuildContext context) {
@@ -27,9 +27,10 @@ class PrayerDetailContainer extends StatelessWidget {
         children: [
           SvgPicture.asset(
             prayerIcon,
-            color: active
-                ? Colors.white
-                : Color(0xff005773).withValues(alpha: 0.56),
+            colorFilter: ColorFilter.mode(
+              active ? Colors.white : Color(0xff005773).withValues(alpha: 0.56),
+              BlendMode.srcIn,
+            ),
           ),
           const SizedBox(height: 2),
           Text(
@@ -38,7 +39,7 @@ class PrayerDetailContainer extends StatelessWidget {
           ),
           const SizedBox(height: 1),
           Text(
-            "${prayerTime.hour}:${prayerTime.minute}",
+            prayerTime,
             style: active
                 ? AppStyles.semiblod14.copyWith(fontSize: 9)
                 : AppStyles.light14.copyWith(fontSize: 9),

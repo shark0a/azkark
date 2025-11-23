@@ -1,4 +1,4 @@
-import 'package:azkark/core/utils/app_styles.dart';
+import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/core/utils/helper/mehtod_helper.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/manager/azkar_provider.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';

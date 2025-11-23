@@ -1,9 +1,10 @@
+import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:azkark/core/services/service_locator.dart';
-import 'package:azkark/core/utils/app_styles.dart';
+import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/manager/azkar_provider.dart';
-import 'package:azkark/core/utils/helper/shared_pref_keys.dart';
+import 'package:azkark/core/utils/cache/shared_pref_keys.dart';
 import 'package:azkark/core/utils/routes/app_routes.dart';
-import 'package:azkark/core/utils/shared_pre.dart';
+import 'package:azkark/core/utils/cache/shared_pre.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -23,6 +24,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+       context.read<HomeController>().initLocation();
+       context.read<HomeController>().fetchPrayersTimes();
 
     first = sl.get<SharedPref>().getBool(SharedPrefKeys.firstTimeOpen);
 

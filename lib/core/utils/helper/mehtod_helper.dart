@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:azkark/Features/All_acts_of_worship/data/all_azkar_model.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class MehtodHelper {
   Future<List<AzkarModel>> loadAzkar() async {
@@ -16,9 +17,14 @@ class MehtodHelper {
         .map((entry) => AzkarModel.fromRow(entry.value, entry.key + 1))
         .toList();
   }
- static String cleanText(String text) {
-  if (!text.contains('-')) return text;
 
-  return text.split('-').first.trim();
-}
+  static String cleanText(String text) {
+    if (!text.contains('-')) return text;
+
+    return text.split('-').first.trim();
+  }
+
+  static String convertTimeTo12H(String time) {
+    return DateFormat("hh:mm a").format(DateFormat("hh:mm").parse(time));
+  }
 }

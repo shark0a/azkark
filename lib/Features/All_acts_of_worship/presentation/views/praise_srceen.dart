@@ -1,4 +1,3 @@
-import 'package:azkark/core/utils/app_styles.dart';
 import 'package:azkark/core/utils/routes/app_routes.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:azkark/Features/Home/presentation/widgets/customize_app_bar.dart';

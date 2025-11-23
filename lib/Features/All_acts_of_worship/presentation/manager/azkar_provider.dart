@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:azkark/Features/All_acts_of_worship/data/all_azkar_model.dart';
 import 'package:azkark/core/services/service_locator.dart';
 import 'package:azkark/core/utils/helper/mehtod_helper.dart';
-import 'package:azkark/core/utils/helper/shared_pref_keys.dart';
-import 'package:azkark/core/utils/shared_pre.dart';
+import 'package:azkark/core/utils/cache/shared_pref_keys.dart';
+import 'package:azkark/core/utils/cache/shared_pre.dart';
 import 'package:flutter/material.dart';
 
 class AzkarProvider extends ChangeNotifier {
