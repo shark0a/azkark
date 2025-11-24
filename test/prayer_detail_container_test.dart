@@ -7,7 +7,6 @@ void main() {
     WidgetTester tester,
   ) async {
     const prayerName = 'Fajr';
-    const prayerTime = TimeOfDay(hour: 5, minute: 30);
     const active = true;
 
     await tester.pumpWidget(
@@ -16,7 +15,7 @@ void main() {
           body: PrayerDetailContainer(
             prayerName: prayerName,
             prayerIcon: 'assets/m1.svg',
-            prayerTime: prayerTime,
+            prayerTime: "prayerTime",
             active: active,
           ),
         ),
@@ -38,7 +37,7 @@ void main() {
           body: PrayerDetailContainer(
             prayerName: 'Fajr',
             prayerIcon: 'assets/m1.svg',
-            prayerTime: const TimeOfDay(hour: 5, minute: 30),
+            prayerTime: "",
             active: active,
           ),
         ),
@@ -61,7 +60,7 @@ void main() {
           body: PrayerDetailContainer(
             prayerName: 'Fajr',
             prayerIcon: 'assets/m1.svg',
-            prayerTime: const TimeOfDay(hour: 5, minute: 30),
+            prayerTime: "const TimeOfDay(hour: 5, minute: 30)",
             active: active,
           ),
         ),

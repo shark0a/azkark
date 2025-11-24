@@ -11,54 +11,86 @@ class PrayerTimeHorezontalListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> times = [
-      provider.prayerTimes!.timings.isha,
-      provider.prayerTimes!.timings.maghrib,
-      provider.prayerTimes!.timings.asr,
-      provider.prayerTimes!.timings.dhuhr,
-      provider.prayerTimes!.timings.sunrise,
-      provider.prayerTimes!.timings.fajr,
+    List<String> timesApi = [
+      provider.prayerTimes?.timings.isha ?? "00:00",
+      provider.prayerTimes?.timings.maghrib ?? "00:00",
+      provider.prayerTimes?.timings.asr ?? "00:00",
+      provider.prayerTimes?.timings.dhuhr ?? "00:00",
+      provider.prayerTimes?.timings.sunrise ?? "00:00",
+      provider.prayerTimes?.timings.fajr ?? "00:00",
     ];
-    // List<String> times = [
-    //   provider.prayerTimesHive!.timings.isha,
-    //   provider.prayerTimesHive!.timings.maghrib,
-    //   provider.prayerTimesHive!.timings.asr,
-    //   provider.prayerTimesHive!.timings.dhuhr,
-    //   provider.prayerTimesHive!.timings.sunrise,
-    //   provider.prayerTimesHive!.timings.fajr,
-    // ];
+    List<String> timesLocal = [
+      provider.prayerTimesHive?.timings.isha ?? "00:00",
+      provider.prayerTimesHive?.timings.maghrib ?? "00:00",
+      provider.prayerTimesHive?.timings.asr ?? "00:00",
+      provider.prayerTimesHive?.timings.dhuhr ?? "00:00",
+      provider.prayerTimesHive?.timings.sunrise ?? "00:00",
+      provider.prayerTimesHive?.timings.fajr ?? "00:00",
+    ];
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8),
       color: Color(0xffEDFBFF),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 18),
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          physics: BouncingScrollPhysics(),
-          itemBuilder: (context, index) => GestureDetector(
-            onTap: () {
-              provider.toggleNextPrayerTimeIndex(index);
-            },
-            child: Padding(
-              padding: EdgeInsets.only(
-                right: index == 0
-                    ? 0
-                    : index == prayerIconAndTime.length - 1
-                    ? 0
-                    : 14,
-              ),
-              child: Center(
-                child: PrayerDetailContainer(
-                  active: index == provider.nextprayerTimeIndex,
-                  prayerName: prayerIconAndTime[index].name,
-                  prayerTime: MehtodHelper.convertTimeTo12H(times[index]),
-                  prayerIcon: prayerIconAndTime[index].prayerIcon,
+        child: provider.prayerTimesHive != null
+            ? ListView.builder(
+                scrollDirection: Axis.horizontal,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    provider.toggleNextPrayerTimeIndex(index);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      right: index == 0
+                          ? 0
+                          : index == prayerIconAndTime.length - 1
+                          ? 0
+                          : 14,
+                    ),
+                    child: Center(
+                      child: PrayerDetailContainer(
+                        active: index == provider.nextprayerTimeIndex,
+                        prayerName: prayerIconAndTime[index].name,
+                        prayerTime: MehtodHelper.convertTimeTo12H(
+                          timesLocal[index],
+                        ),
+                        prayerIcon: prayerIconAndTime[index].prayerIcon,
+                      ),
+                    ),
+                  ),
                 ),
+                itemCount: prayerIconAndTime.length,
+              )
+            : ListView.builder(
+                scrollDirection: Axis.horizontal,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    provider.toggleNextPrayerTimeIndex(index);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      right: index == 0
+                          ? 0
+                          : index == prayerIconAndTime.length - 1
+                          ? 0
+                          : 14,
+                    ),
+                    child: Center(
+                      child: PrayerDetailContainer(
+                        active: index == provider.nextprayerTimeIndex,
+                        prayerName: prayerIconAndTime[index].name,
+                        prayerTime: MehtodHelper.convertTimeTo12H(
+                          timesApi[index],
+                        ),
+                        prayerIcon: prayerIconAndTime[index].prayerIcon,
+                      ),
+                    ),
+                  ),
+                ),
+                itemCount: prayerIconAndTime.length,
               ),
-            ),
-          ),
-          itemCount: prayerIconAndTime.length,
-        ),
       ),
     );
   }

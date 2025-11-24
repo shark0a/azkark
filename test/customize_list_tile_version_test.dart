@@ -7,7 +7,11 @@ void main() {
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(
-      const MaterialApp(home: Scaffold(body: CustomizeListTileVersion())),
+      const MaterialApp(
+        home: Scaffold(
+          body: CustomizeListTileVersion(active: true,prayerName: " s ", prayerTime: " s"),
+        ),
+      ),
     );
 
     expect(find.text('04:55'), findsOneWidget);
@@ -18,7 +22,11 @@ void main() {
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(
-      const MaterialApp(home: Scaffold(body: CustomizeListTileVersion())),
+      const MaterialApp(
+        home: Scaffold(
+          body: CustomizeListTileVersion(active: true,prayerName: "  ", prayerTime: ""),
+        ),
+      ),
     );
 
     final listTile = tester.widget<ListTile>(find.byType(ListTile));

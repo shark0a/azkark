@@ -10,22 +10,22 @@ class PrayerTimeVerticalListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeController = context.read<HomeController>();
-    final List<String> times = [
-      homeController.prayerTimes!.timings.isha,
-      homeController.prayerTimes!.timings.maghrib,
-      homeController.prayerTimes!.timings.asr,
-      homeController.prayerTimes!.timings.dhuhr,
-      homeController.prayerTimes!.timings.sunrise,
-      homeController.prayerTimes!.timings.fajr,
+    List<String> timesApi = [
+      homeController.prayerTimes?.timings.isha ?? "00:00",
+      homeController.prayerTimes?.timings.maghrib ?? "00:00",
+      homeController.prayerTimes?.timings.asr ?? "00:00",
+      homeController.prayerTimes?.timings.dhuhr ?? "00:00",
+      homeController.prayerTimes?.timings.sunrise ?? "00:00",
+      homeController.prayerTimes?.timings.fajr ?? "00:00",
     ];
-    // final List<String> times = [
-    //   homeController.prayerTimesHive!.timings.isha,
-    //   homeController.prayerTimesHive!.timings.maghrib,
-    //   homeController.prayerTimesHive!.timings.asr,
-    //   homeController.prayerTimesHive!.timings.dhuhr,
-    //   homeController.prayerTimesHive!.timings.sunrise,
-    //   homeController.prayerTimesHive!.timings.fajr,
-    // ];
+    List<String> timesLocal = [
+      homeController.prayerTimesHive?.timings.isha ?? "00:00",
+      homeController.prayerTimesHive?.timings.maghrib ?? "00:00",
+      homeController.prayerTimesHive?.timings.asr ?? "00:00",
+      homeController.prayerTimesHive?.timings.dhuhr ?? "00:00",
+      homeController.prayerTimesHive?.timings.sunrise ?? "00:00",
+      homeController.prayerTimesHive?.timings.fajr ?? "00:00",
+    ];
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -33,18 +33,56 @@ class PrayerTimeVerticalListView extends StatelessWidget {
           image: AssetImage("assets/home2BG.png"),
         ),
       ),
-      child: ListView.builder(
-        itemCount: prayersTimePageItems.length,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.only(top: index == 0 ? 0 : 24),
-          child: CustomizeListTileVersion(
-            prayerName: prayersTimePageItems[index].name,
-            prayerTime: MehtodHelper.convertTimeTo12H(times[index]),
-          ),
-        ),
-      ),
+      child: homeController.prayerTimesHive != null
+          ? ListView.builder(
+              itemCount: prayersTimePageItems.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                // Map index to prayer keys to match activePrayers keys
+                final prayerKeys = ['isha', 'maghrib', 'asr', 'dhuhr', 'sunrise', 'fajr'];
+                final prayerKey = prayerKeys[index];
+                final isActive = homeController.prayerTimesHive?.activePrayers[prayerKey] ?? true;
+
+                return Padding(
+                  padding: EdgeInsets.only(top: index == 0 ? 0 : 24),
+                  child: GestureDetector(
+                    onTap: () {
+                      homeController.toggleActive(prayerKey: prayerKey);
+                    },
+                    child: CustomizeListTileVersion(
+                      prayerName: prayersTimePageItems[index].name,
+                      prayerTime: MehtodHelper.convertTimeTo12H(
+                        timesLocal[index],
+                      ),
+                      active: isActive,
+                    ),
+                  ),
+                );
+              },
+            )
+          : ListView.builder(
+              itemCount: prayersTimePageItems.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final prayerKeys = ['isha', 'maghrib', 'asr', 'dhuhr', 'sunrise', 'fajr'];
+                final prayerKey = prayerKeys[index];
+                return Padding(
+                  padding: EdgeInsets.only(top: index == 0 ? 0 : 24),
+                  child: GestureDetector(
+                    onTap: () {
+                      homeController.toggleActive(prayerKey: prayerKey);
+                    },
+                    child: CustomizeListTileVersion(
+                      active: true,
+                      prayerName: prayersTimePageItems[index].name,
+                      prayerTime: MehtodHelper.convertTimeTo12H(timesApi[index]),
+                    ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }

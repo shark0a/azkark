@@ -20,6 +20,7 @@ class AppRoutes {
   static const kHomeScreen = "/homescreen";
   static const kSettingScreen = "/SettingScreen";
 
+  static const kSplashScreen = "/SplashScreen";
   static const kSecondeSplashScreen = "/secondesplashscreen";
   static const kAzkarMorning = "/azkarMorning";
   static const kAzkarEvening = "/azkarEvening";
@@ -34,7 +35,7 @@ class AppRoutes {
   static const kVariousZekr = "/VariousZekr";
   static final route = GoRouter(
     routes: [
-      GoRoute(path: "/", builder: (context, state) => SplashScreen()),
+      GoRoute(path: "/", builder: (context, state) => SecondeSplashScreen()),
       GoRoute(
         path: kSecondeSplashScreen,
         pageBuilder: (context, state) {
@@ -57,6 +58,10 @@ class AppRoutes {
       GoRoute(
         path: kAzkarMorning,
         builder: (context, state) => const AzkarMorning(),
+      ),
+      GoRoute(
+        path: kSplashScreen,
+        builder: (context, state) => const SplashScreen(),
       ),
       GoRoute(
         path: kAzkarEvening,

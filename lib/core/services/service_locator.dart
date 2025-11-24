@@ -1,3 +1,6 @@
+import 'package:azkark/Features/All_acts_of_worship/data/all_azkar_model.dart';
+import 'package:azkark/Features/All_acts_of_worship/data/fav_items_model.dart';
+import 'package:azkark/Features/Home/data/current_location_model.dart';
 import 'package:azkark/Features/Home/data/prayers_time_hive_models.dart';
 import 'package:azkark/Features/Home/domain/home_repo.dart';
 import 'package:azkark/Features/Home/domain/home_repo_imple.dart';
@@ -37,6 +40,7 @@ Future<void> setupServiceLocator({
   sl.registerLazySingleton<HomeRepo>(
     () => HomeRepoImple(apiServices: sl<ApiServices>()),
   );
+
   //register api Service
   sl.registerLazySingleton<ApiServices>(() => ApiServices(dio: sl<Dio>()));
   // Register Hive service as singleton
@@ -44,7 +48,11 @@ Future<void> setupServiceLocator({
   final hiveServices = sl<HiveService>();
   await hiveServices.init();
   registerAdapters();
+
   await hiveServices.openBox<PrayerDataHiveModel>(HiveKeys.prayersBox);
+  await hiveServices.openBox<CurrentLocationModel>(HiveKeys.locationBox);
+
+  await hiveServices.openBox<FavItemsModel>("favBox");
   // Register SharedPref service as singleton
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);

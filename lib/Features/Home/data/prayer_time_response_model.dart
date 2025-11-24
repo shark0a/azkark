@@ -408,6 +408,14 @@ extension PrayerDataExtension on PrayerData {
           lunarSighting: date.gregorian.lunarSighting,
         ),
       ),
+      activePrayers: {
+        'fajr': true,
+        'sunrise': true,
+        'dhuhr': true,
+        'asr': true,
+        'maghrib': true,
+        'isha': true,
+      },
     );
   }
 }

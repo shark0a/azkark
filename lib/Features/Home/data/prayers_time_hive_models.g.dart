@@ -463,17 +463,20 @@ class PrayerDataHiveModelAdapter extends TypeAdapter<PrayerDataHiveModel> {
     return PrayerDataHiveModel(
       timings: fields[0] as TimingsHiveModel,
       date: fields[1] as DateModelHiveModel,
+      activePrayers: (fields[2] as Map).cast<String, bool>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, PrayerDataHiveModel obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.timings)
       ..writeByte(1)
-      ..write(obj.date);
+      ..write(obj.date)
+      ..writeByte(2)
+      ..write(obj.activePrayers);
   }
 
   @override

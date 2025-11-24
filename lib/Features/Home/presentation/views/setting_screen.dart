@@ -1,3 +1,4 @@
+import 'package:azkark/Features/All_acts_of_worship/presentation/manager/azkar_provider.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/prasise_widget/customize_list_tile.dart';
 import 'package:azkark/Features/Home/data/setting_items_models.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
@@ -36,10 +37,22 @@ class SettingScreen extends StatelessWidget {
                     color: AppStyles.appBarTitleColor,
                   )
                 : index == 2
-                ? Icon(
-                    size: 30,
-                    Icons.repeat_outlined,
-                    color: const Color.fromARGB(255, 118, 12, 255),
+                ? GestureDetector(
+                    onTap: () async {
+                      if (context.read<HomeController>().currentLocation !=
+                          null) {
+                        await context
+                            .read<HomeController>()
+                            .fetchPrayersTimes();
+                      } else {
+                        await context.read<HomeController>().initLocation();
+                      }
+                    },
+                    child: Icon(
+                      size: 30,
+                      Icons.repeat_outlined,
+                      color: const Color.fromARGB(255, 118, 12, 255),
+                    ),
                   )
                 : Text(
                     textDirection: TextDirection.rtl,

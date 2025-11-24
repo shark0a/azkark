@@ -6,6 +6,14 @@ class SharedPref {
   SharedPref({required SharedPreferences sharedPref})
     : _sharedPref = sharedPref;
 
+  Future<bool> setInt(String key, int value) async {
+    return await _sharedPref.setInt(key, value);
+  }
+
+  int? getInt(String key) {
+    return _sharedPref.getInt(key);
+  }
+
   Future<bool> setString(String key, String value) async {
     return await _sharedPref.setString(key, value);
   }

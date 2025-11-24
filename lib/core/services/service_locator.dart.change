@@ -1,0 +1,2 @@
+=======
+  await hiveServices.openBox<dynamic>(HiveKeys.allAzkarBox);

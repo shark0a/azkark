@@ -7,8 +7,10 @@ class CustomizeListTileVersion extends StatelessWidget {
     super.key,
     required this.prayerTime,
     required this.prayerName,
+    required this.active,
   });
   final String prayerTime;
+  final bool active;
   final String prayerName;
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,12 @@ class CustomizeListTileVersion extends StatelessWidget {
           ),
 
           const SizedBox(width: 10),
-          Icon(Icons.volume_up_sharp, color: AppStyles.inActiveColor),
+          Icon(
+            active ? Icons.volume_up_sharp : Icons.volume_off_rounded,
+            color: active
+                ? AppStyles.inActiveColor
+                : AppStyles.appBarTitleColor,
+          ),
         ],
       ),
       trailing: Row(

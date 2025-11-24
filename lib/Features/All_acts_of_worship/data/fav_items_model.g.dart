@@ -1,35 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'current_location_model.dart';
+part of 'fav_items_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class CurrentLocationModelAdapter extends TypeAdapter<CurrentLocationModel> {
+class FavItemsModelAdapter extends TypeAdapter<FavItemsModel> {
   @override
-  final int typeId = 11;
+  final int typeId = 13;
 
   @override
-  CurrentLocationModel read(BinaryReader reader) {
+  FavItemsModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return CurrentLocationModel(
-      fields[0] as String,
-      fields[1] as String,
+    return FavItemsModel(
+      id: fields[0] as int,
+      azkarModel: fields[1] as AzkarModel,
     );
   }
 
   @override
-  void write(BinaryWriter writer, CurrentLocationModel obj) {
+  void write(BinaryWriter writer, FavItemsModel obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.lat)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.long);
+      ..write(obj.azkarModel);
   }
 
   @override
@@ -38,7 +38,7 @@ class CurrentLocationModelAdapter extends TypeAdapter<CurrentLocationModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CurrentLocationModelAdapter &&
+      other is FavItemsModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

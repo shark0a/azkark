@@ -65,7 +65,12 @@ class HijriMonthHiveModel extends HiveObject {
   @HiveField(3)
   final int days;
 
-  HijriMonthHiveModel({required this.number, required this.en, required this.ar, required this.days});
+  HijriMonthHiveModel({
+    required this.number,
+    required this.en,
+    required this.ar,
+    required this.days,
+  });
 }
 
 @HiveType(typeId: 3)
@@ -75,7 +80,10 @@ class HijriDesignationHiveModel extends HiveObject {
   @HiveField(1)
   final String expanded;
 
-  HijriDesignationHiveModel({required this.abbreviated, required this.expanded});
+  HijriDesignationHiveModel({
+    required this.abbreviated,
+    required this.expanded,
+  });
 }
 
 @HiveType(typeId: 4)
@@ -132,7 +140,10 @@ class GregorianDesignationHiveModel extends HiveObject {
   @HiveField(1)
   final String expanded;
 
-  GregorianDesignationHiveModel({required this.abbreviated, required this.expanded});
+  GregorianDesignationHiveModel({
+    required this.abbreviated,
+    required this.expanded,
+  });
 }
 
 @HiveType(typeId: 8)
@@ -193,6 +204,12 @@ class PrayerDataHiveModel extends HiveObject {
   final TimingsHiveModel timings;
   @HiveField(1)
   final DateModelHiveModel date;
+  @HiveField(2)
+  final Map<String, bool> activePrayers;
 
-  PrayerDataHiveModel({required this.timings, required this.date});
+  PrayerDataHiveModel({
+    required this.timings,
+    required this.date,
+    required this.activePrayers,
+  });
 }
