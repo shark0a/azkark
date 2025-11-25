@@ -64,7 +64,7 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
       });
       await Future.delayed(const Duration(milliseconds: 850));
       if (!mounted) return;
-      context.go(AppRoutes.kSplashScreen);
+      context.go(AppRoutes.kHomeScreen);
     }
   }
 
@@ -83,46 +83,47 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
           ),
         ),
         child: Center(
-          child: AnimatedOpacity(
-            opacity: _isLoading ? 1.0 : 0.0,
-            duration: const Duration(milliseconds: 800),
-            onEnd: () {
-              if (!_isLoading && mounted) {}
-            },
-            child: _isLoading
-                ? Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset("assets/seconde_Logo.svg")
-                          .animate(delay: 850.ms)
-                          .fadeIn(curve: Curves.easeIn, duration: 1000.ms)
-                          .scale(curve: Curves.easeInBack, duration: 1000.ms),
-                      const SizedBox(height: 30),
-                      // Animated loading spinner with pulse effect
-                      CircularProgressIndicator(
-                            color: Colors.white,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.white.withOpacity(0.9),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset("assets/seconde_Logo.svg")
+                  .animate(delay: 200.ms)
+                  .fadeIn(delay: 200.ms, curve: Curves.easeIn, duration: 800.ms)
+                  .scale(
+                    delay: 300.ms,
+                    curve: Curves.easeInBack,
+                    duration: 850.ms,
+                  ),
+              const SizedBox(height: 30),
+              // Animated loading spinner with pulse effect
+              _isLoading
+                  ? Column(
+                      children: [
+                        CircularProgressIndicator(
+                              color: Colors.white,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white.withValues(alpha: 0.9),
+                              ),
+                            )
+                            .animate(
+                              onPlay: (controller) => controller.repeat(),
+                            )
+                            .scale(
+                              begin: const Offset(1.0, 1.0),
+                              end: const Offset(1.1, 1.1),
+                              duration: 1500.ms,
+                              curve: Curves.easeInOut,
                             ),
-                          )
-                          .animate(onPlay: (controller) => controller.repeat())
-                          .scale(
-                            begin: const Offset(1.0, 1.0),
-                            end: const Offset(1.1, 1.1),
-                            duration: 1500.ms,
-                            curve: Curves.easeInOut,
-                          ),
-                      const SizedBox(height: 20),
-                      Text(
-                        'جاري التحميل...',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.white70,
-                          fontSize: 16,
-                        ),
-                      ).animate().fadeIn(delay: 600.ms, duration: 600.ms),
-                    ],
-                  )
-                : const SizedBox.shrink(),
+                        const SizedBox(height: 20),
+                        Text(
+                          'جاري التحميل...',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Colors.white70, fontSize: 16),
+                        ).animate().fadeIn(delay: 600.ms, duration: 600.ms),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
+            ],
           ),
         ),
       ),

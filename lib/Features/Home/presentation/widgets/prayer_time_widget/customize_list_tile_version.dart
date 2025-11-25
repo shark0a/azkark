@@ -20,6 +20,8 @@ class CustomizeListTileVersion extends StatelessWidget {
       contentPadding: EdgeInsets.symmetric(horizontal: 8),
       titleAlignment: ListTileTitleAlignment.center,
       leading: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
@@ -30,7 +32,7 @@ class CustomizeListTileVersion extends StatelessWidget {
               fontSize: 18,
               fontFamily: 'Poppins',
               fontWeight: FontWeight.w300,
-              letterSpacing: -0.30,
+              // letterSpacing: -0.30,
             ),
           ),
 

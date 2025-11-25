@@ -1,6 +1,8 @@
 class HiveKeys {
   static const prayersBox = "prayer_times";
   static const prayersTimesTodayKey = "today";
+  static const nextPrayerBox = "next_Prayer";
+  static const nextPrayerTimesTodayKey = "nextPrayer";
   static const locationBox = "Locations";
   static const locationKey = "c_location";
   static const allAzkarBox = "Azkark";

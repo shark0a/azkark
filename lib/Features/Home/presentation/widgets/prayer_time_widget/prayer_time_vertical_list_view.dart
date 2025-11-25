@@ -40,9 +40,18 @@ class PrayerTimeVerticalListView extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 // Map index to prayer keys to match activePrayers keys
-                final prayerKeys = ['isha', 'maghrib', 'asr', 'dhuhr', 'sunrise', 'fajr'];
+                final prayerKeys = [
+                  'isha',
+                  'maghrib',
+                  'asr',
+                  'dhuhr',
+                  'sunrise',
+                  'fajr',
+                ];
                 final prayerKey = prayerKeys[index];
-                final isActive = homeController.prayerTimesHive?.activePrayers[prayerKey] ?? true;
+                final isActive =
+                    homeController.prayerTimesHive?.activePrayers[prayerKey] ??
+                    true;
 
                 return Padding(
                   padding: EdgeInsets.only(top: index == 0 ? 0 : 24),
@@ -52,6 +61,7 @@ class PrayerTimeVerticalListView extends StatelessWidget {
                     },
                     child: CustomizeListTileVersion(
                       prayerName: prayersTimePageItems[index].name,
+                      // prayerTime: timesLocal[index],
                       prayerTime: MehtodHelper.convertTimeTo12H(
                         timesLocal[index],
                       ),
@@ -66,7 +76,14 @@ class PrayerTimeVerticalListView extends StatelessWidget {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                final prayerKeys = ['isha', 'maghrib', 'asr', 'dhuhr', 'sunrise', 'fajr'];
+                final prayerKeys = [
+                  'isha',
+                  'maghrib',
+                  'asr',
+                  'dhuhr',
+                  'sunrise',
+                  'fajr',
+                ];
                 final prayerKey = prayerKeys[index];
                 return Padding(
                   padding: EdgeInsets.only(top: index == 0 ? 0 : 24),
@@ -77,7 +94,10 @@ class PrayerTimeVerticalListView extends StatelessWidget {
                     child: CustomizeListTileVersion(
                       active: true,
                       prayerName: prayersTimePageItems[index].name,
-                      prayerTime: MehtodHelper.convertTimeTo12H(timesApi[index]),
+                      // prayerTime: timesApi[index],
+                      prayerTime: MehtodHelper.convertTimeTo12H(
+                        timesApi[index],
+                      ),
                     ),
                   ),
                 );

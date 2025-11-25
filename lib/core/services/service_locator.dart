@@ -1,6 +1,6 @@
-import 'package:azkark/Features/All_acts_of_worship/data/all_azkar_model.dart';
 import 'package:azkark/Features/All_acts_of_worship/data/fav_items_model.dart';
 import 'package:azkark/Features/Home/data/current_location_model.dart';
+import 'package:azkark/Features/Home/data/prayers_responses/next_prayer_reposne.dart';
 import 'package:azkark/Features/Home/data/prayers_time_hive_models.dart';
 import 'package:azkark/Features/Home/domain/home_repo.dart';
 import 'package:azkark/Features/Home/domain/home_repo_imple.dart';
@@ -51,7 +51,7 @@ Future<void> setupServiceLocator({
 
   await hiveServices.openBox<PrayerDataHiveModel>(HiveKeys.prayersBox);
   await hiveServices.openBox<CurrentLocationModel>(HiveKeys.locationBox);
-
+  await hiveServices.openBox<NextPrayerResponse>(HiveKeys.nextPrayerBox);
   await hiveServices.openBox<FavItemsModel>("favBox");
   // Register SharedPref service as singleton
   final sharedPreferences = await SharedPreferences.getInstance();

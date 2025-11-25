@@ -1,4 +1,3 @@
-import 'package:azkark/Features/All_acts_of_worship/presentation/manager/azkar_provider.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/prasise_widget/customize_list_tile.dart';
 import 'package:azkark/Features/Home/data/setting_items_models.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';

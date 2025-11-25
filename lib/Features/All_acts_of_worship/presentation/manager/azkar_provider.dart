@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:azkark/Features/All_acts_of_worship/data/all_azkar_model.dart';
 import 'package:azkark/Features/All_acts_of_worship/data/fav_items_model.dart';
 import 'package:azkark/core/services/service_locator.dart';
-import 'package:azkark/core/utils/cache/hive_keys.dart';
 import 'package:azkark/core/utils/cache/hive_service.dart';
 import 'package:azkark/core/utils/helper/mehtod_helper.dart';
 import 'package:azkark/core/utils/cache/shared_pref_keys.dart';
@@ -189,7 +188,7 @@ class AzkarProvider extends ChangeNotifier {
   //loading  FavItem in hive
   Future<void> loadFavList() async {
     favList = Map.fromEntries(
-      await sl
+      sl
           .get<HiveService>()
           .getAllData<FavItemsModel>('favBox')
           .map((favItem) => MapEntry(favItem.id, favItem.azkarModel)),

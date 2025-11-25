@@ -1,4 +1,5 @@
 import 'package:azkark/core/utils/helper/app_styles.dart';
+import 'package:azkark/core/utils/helper/mehtod_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -39,10 +40,17 @@ class PrayerDetailContainer extends StatelessWidget {
           ),
           const SizedBox(height: 1),
           Text(
-            prayerTime,
+            MehtodHelper.convertTimeTo12H(prayerTime),
+            // prayerTime,
             style: active
-                ? AppStyles.semiblod14.copyWith(fontSize: 9)
-                : AppStyles.light14.copyWith(fontSize: 9),
+                ? AppStyles.semiblod14.copyWith(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  )
+                : AppStyles.light14.copyWith(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                  ),
           ),
         ],
       ),

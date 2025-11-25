@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:azkark/Features/Home/data/current_location_model.dart';
-import 'package:azkark/Features/Home/data/prayer_time_response_model.dart';
+import 'package:azkark/Features/Home/data/prayers_responses/next_prayer_reposne.dart';
+import 'package:azkark/Features/Home/data/prayers_responses/prayer_time_response_model.dart';
 import 'package:azkark/Features/Home/data/prayers_time_hive_models.dart';
 import 'package:azkark/Features/Home/domain/home_repo.dart';
 import 'package:azkark/core/services/service_locator.dart';
@@ -13,6 +14,30 @@ import 'package:flutter/material.dart';
 
 class HomeController extends ChangeNotifier {
   HomeController({required HomeRepo homeRepo}) : _homeRepo = homeRepo;
+  //localization controller and them controlelr
+  Locale _locale = const Locale('en', 'US');
+  ThemeMode _themeMode = ThemeMode.light;
+
+  Locale get locale => _locale;
+  ThemeMode get themeMode => _themeMode;
+
+  void toggleLocale() async {
+    _locale = _locale.languageCode == 'en'
+        ? const Locale('ar', 'EG')
+        : const Locale('en', 'US');
+    await sl.get<SharedPref>().setString(
+      SharedPrefKeys.langKey,
+      _locale.languageCode,
+    );
+    notifyListeners();
+  }
+
+  void toggleTheme() {
+    _themeMode = _themeMode == ThemeMode.light
+        ? ThemeMode.dark
+        : ThemeMode.light;
+    notifyListeners();
+  }
 
   // next prayer Time controller
   int _nextprayerTimeIndex = 0;
@@ -130,6 +155,50 @@ class HomeController extends ChangeNotifier {
         );
       }
       _isFetchingPrayerTimes = false;
+      notifyListeners();
+    }
+  }
+
+  NextPrayerResponse? nextPrayer;
+  NextPrayerResponse? nextPrayerLocal;
+  Future<void> fetchNextTime() async {
+    try {
+      var result = await _homeRepo.nextPrayerTime(
+        currentLocation!.lat,
+        currentLocation!.long,
+      );
+      nextPrayer = result;
+    } catch (e) {
+      log("filed to fetch next prayes ${e.toString()}");
+    } finally {
+      log("from api  ${nextPrayer?.nextTimingValue} 👌👌👌👌👌👌👌👌👌👌");
+      if (nextPrayer != null) {
+        await sl.get<HiveService>().putData<NextPrayerResponse>(
+          HiveKeys.nextPrayerBox,
+          HiveKeys.nextPrayerTimesTodayKey,
+          nextPrayer!,
+        );
+      }
+      log(
+        "from api  current value  ${nextPrayer?.currentPrayersValue} 👌👌👌👌👌👌👌👌👌👌",
+      );
+      log(
+        "from api  current value  ${nextPrayer?.currentPrayersValue} 👌👌👌👌👌👌👌👌👌👌",
+      );
+      notifyListeners();
+    }
+  }
+
+  Future<void> loadNextTimeFromHive() async {
+    try {
+      nextPrayerLocal = sl.get<HiveService>().getData<NextPrayerResponse>(
+        HiveKeys.nextPrayerBox,
+        HiveKeys.nextPrayerTimesTodayKey,
+      );
+    } catch (e) {
+      log("filed to Loadfrom Hive next prayes ${e.toString()}");
+    } finally {
+      log("Hive : ${nextPrayerLocal?.nextTimingkey}");
       notifyListeners();
     }
   }

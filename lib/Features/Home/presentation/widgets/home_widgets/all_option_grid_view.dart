@@ -1,9 +1,6 @@
-import 'dart:developer';
 
 import 'package:azkark/Features/All_acts_of_worship/data/all_options_models.dart';
-import 'package:azkark/Features/All_acts_of_worship/presentation/manager/azkar_provider.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
-import 'package:azkark/core/utils/helper/mehtod_helper.dart';
 import 'package:azkark/core/utils/routes/app_routes.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/all_option_container.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +21,8 @@ class AllOptionGridView extends StatelessWidget {
             switch (index) {
               case 0:
                 context.push(AppRoutes.kAzkarEvening);
+                context.read<HomeController>().fetchNextTime();
+                context.read<HomeController>().loadNextTimeFromHive();
                 break;
               case 1:
                 context.push(AppRoutes.kAzkarMorning);

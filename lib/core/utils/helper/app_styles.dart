@@ -45,7 +45,6 @@ class AppStyles {
     fontSize: 14,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w600,
-    letterSpacing: -0.30,
   );
   static const semiblod36 = TextStyle(
     color: Color(0xFF1B617F),
@@ -115,6 +114,5 @@ class AppStyles {
     fontSize: 14,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w300,
-    letterSpacing: -0.30,
   );
 }
