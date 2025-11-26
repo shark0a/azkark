@@ -2,6 +2,7 @@ import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/azkar_morning_widget/elzekr_container.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/azkar_morning_widget/info_about_zekr.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ElzekerSectionContainer extends StatelessWidget {
   const ElzekerSectionContainer({
@@ -22,7 +23,7 @@ class ElzekerSectionContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18),
+      padding: EdgeInsets.symmetric(horizontal: 18.w),
       child: Container(
         width: double.infinity,
 
@@ -30,19 +31,19 @@ class ElzekerSectionContainer extends StatelessWidget {
           color: AppStyles.scaffoldBG,
           boxShadow: [
             BoxShadow(
-              offset: Offset(2, 2),
-              blurRadius: 8,
+              offset: Offset(2.w, 2.h),
+              blurRadius: 8.r,
               blurStyle: BlurStyle.inner,
               color: Color.fromRGBO(0, 0, 0, 10),
             ),
           ],
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.r),
           shape: BoxShape.rectangle,
         ),
         child: Column(
           children: [
             ElzekrContainer(elzekr: elzekr, numOfZeker: numOfZekr),
-            const SizedBox(height: 22.93),
+            SizedBox(height: 22.93.h),
             InfoAboutZekr(
               isFav: isFav,
               onTap: onTap,

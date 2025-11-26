@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hijri_date/hijri_date.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HijriCalendarWidget extends StatefulWidget {
   final HijriDate? selectedDate;
@@ -99,17 +100,17 @@ class HijriCalendarWidgetState extends State<HijriCalendarWidget> {
 
     return Card(
       margin: EdgeInsets.zero,
-      elevation: 4,
+      elevation: 4.r,
       child: Container(
-        padding: EdgeInsets.all(widget.isSmallScreen ? 4.0 : 8.0),
+        padding: EdgeInsets.all((widget.isSmallScreen ? 4 : 8).r),
         child: Column(
           children: [
             // Header - حجم أصغر
             _buildHeader(),
-            SizedBox(height: widget.isSmallScreen ? 8 : 12),
+            SizedBox(height: (widget.isSmallScreen ? 8 : 12).h),
             // Week Days - حجم أصغر
             _buildWeekDays(),
-            SizedBox(height: widget.isSmallScreen ? 4 : 6),
+            SizedBox(height: (widget.isSmallScreen ? 4 : 6).h),
             // Days Grid - يستخدم المساحة المتبقية
             Expanded(child: _buildDaysGrid(daysInMonth, startingWeekday)),
           ],
@@ -126,13 +127,13 @@ class HijriCalendarWidgetState extends State<HijriCalendarWidget> {
           icon: Icon(
             Icons.chevron_left,
             color: Colors.green,
-            size: widget.isSmallScreen ? 18 : 24,
+            size: (widget.isSmallScreen ? 18 : 24).r,
           ),
           onPressed: () => _changeMonth(-1),
-          padding: EdgeInsets.all(widget.isSmallScreen ? 4 : 8),
+          padding: EdgeInsets.all((widget.isSmallScreen ? 4 : 8).r),
           constraints: BoxConstraints(
-            minWidth: widget.isSmallScreen ? 32 : 48,
-            minHeight: widget.isSmallScreen ? 32 : 48,
+            minWidth: (widget.isSmallScreen ? 32 : 48).w,
+            minHeight: (widget.isSmallScreen ? 32 : 48).h,
           ),
         ),
         Column(
@@ -140,7 +141,7 @@ class HijriCalendarWidgetState extends State<HijriCalendarWidget> {
             Text(
               _getHijriMonthName(_currentMonth),
               style: TextStyle(
-                fontSize: widget.isSmallScreen ? 14 : 18,
+                fontSize: (widget.isSmallScreen ? 14 : 18).sp,
                 fontWeight: FontWeight.bold,
                 color: Colors.green[800],
               ),
@@ -149,7 +150,7 @@ class HijriCalendarWidgetState extends State<HijriCalendarWidget> {
               textDirection: TextDirection.rtl,
               '$_currentYear هـ',
               style: TextStyle(
-                fontSize: widget.isSmallScreen ? 12 : 14,
+                fontSize: (widget.isSmallScreen ? 12 : 14).sp,
                 color: Colors.green[600],
               ),
             ),
@@ -159,13 +160,13 @@ class HijriCalendarWidgetState extends State<HijriCalendarWidget> {
           icon: Icon(
             Icons.chevron_right,
             color: Colors.green,
-            size: widget.isSmallScreen ? 18 : 24,
+            size: (widget.isSmallScreen ? 18 : 24).r,
           ),
           onPressed: () => _changeMonth(1),
-          padding: EdgeInsets.all(widget.isSmallScreen ? 4 : 8),
+          padding: EdgeInsets.all((widget.isSmallScreen ? 4 : 8).r),
           constraints: BoxConstraints(
-            minWidth: widget.isSmallScreen ? 32 : 48,
-            minHeight: widget.isSmallScreen ? 32 : 48,
+            minWidth: (widget.isSmallScreen ? 32 : 48).w,
+            minHeight: (widget.isSmallScreen ? 32 : 48).h,
           ),
         ),
       ],
@@ -188,13 +189,13 @@ class HijriCalendarWidgetState extends State<HijriCalendarWidget> {
         return Expanded(
           child: Container(
             padding: EdgeInsets.symmetric(
-              vertical: widget.isSmallScreen ? 6 : 8,
+              vertical: (widget.isSmallScreen ? 6 : 8).h,
             ),
             child: Center(
               child: Text(
                 day,
                 style: TextStyle(
-                  fontSize: widget.isSmallScreen ? 10 : 12,
+                  fontSize: (widget.isSmallScreen ? 10 : 12).sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.green[700],
                 ),
@@ -236,7 +237,7 @@ class HijriCalendarWidgetState extends State<HijriCalendarWidget> {
         GestureDetector(
           onTap: () => widget.onDateSelected(currentDate),
           child: Container(
-            margin: EdgeInsets.all(widget.isSmallScreen ? 0.5 : 1),
+            margin: EdgeInsets.all((widget.isSmallScreen ? 0.5 : 1).r),
             decoration: BoxDecoration(
               color: isSelected
                   ? Colors.green
@@ -252,7 +253,7 @@ class HijriCalendarWidgetState extends State<HijriCalendarWidget> {
               child: Text(
                 '$day',
                 style: TextStyle(
-                  fontSize: widget.isSmallScreen ? 10 : 12,
+                  fontSize: widget.isSmallScreen ? 10.sp : 12.sp,
                   fontWeight: isSelected || isToday
                       ? FontWeight.bold
                       : FontWeight.normal,
@@ -269,9 +270,9 @@ class HijriCalendarWidgetState extends State<HijriCalendarWidget> {
       crossAxisCount: 7,
       physics: NeverScrollableScrollPhysics(),
       childAspectRatio: 1.0, // تأكد أن المربعات مربعة
-      mainAxisSpacing: widget.isSmallScreen ? 0.5 : 1,
-      crossAxisSpacing: widget.isSmallScreen ? 0.5 : 1,
-      padding: EdgeInsets.all(widget.isSmallScreen ? 1 : 2),
+      mainAxisSpacing: (widget.isSmallScreen ? 0.5 : 1).h,
+      crossAxisSpacing: (widget.isSmallScreen ? 0.5 : 1).w,
+      padding: EdgeInsets.all((widget.isSmallScreen ? 1 : 2).r),
       children: dayWidgets,
     );
   }

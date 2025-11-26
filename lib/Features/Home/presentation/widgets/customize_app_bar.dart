@@ -1,5 +1,6 @@
 import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomizeAppBar extends StatelessWidget {
@@ -25,7 +26,7 @@ class CustomizeAppBar extends StatelessWidget {
       title: Text(
         textDirection: TextDirection.rtl,
         title,
-        style: AppStyles.semiblod18.copyWith(fontSize: 20),
+        style: AppStyles.semiblod18.copyWith(fontSize: 20.sp),
       ),
     );
   }

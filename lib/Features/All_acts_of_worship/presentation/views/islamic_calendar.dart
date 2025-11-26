@@ -3,6 +3,7 @@ import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/islamic
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/islamic_clrander_widget/date_conversion_card.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/islamic_clrander_widget/hijri_calendar_widget.dart';
 import 'package:azkark/Features/Home/presentation/widgets/customize_app_bar.dart';
+import 'package:azkark/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -34,7 +35,7 @@ class IslamicCalendarState extends State<IslamicCalendar> {
       HijriDate hijriDate = HijriDate.fromDate(date);
       return '${hijriDate.hDay} ${_getHijriMonthName(hijriDate.hMonth)} ${hijriDate.hYear} هـ';
     } catch (e) {
-      return 'خطأ في التحويل';
+      return S.current.error_converting;
     }
   }
 
@@ -49,7 +50,7 @@ class IslamicCalendarState extends State<IslamicCalendar> {
       DateTime resultDate = tempDate.add(Duration(days: totalDaysDifference));
       return ' ${DateFormat.yMMMMEEEEd('ar').format(resultDate)}';
     } catch (e) {
-      return 'خطأ في التحويل';
+      return S.current.error_converting;
     }
   }
 
@@ -76,7 +77,7 @@ class IslamicCalendarState extends State<IslamicCalendar> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 60),
-        child: CustomizeAppBar(title: "التقويم الهجري"),
+        child: CustomizeAppBar(title: S.of(context).hijri_calendar),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {

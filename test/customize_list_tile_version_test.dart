@@ -9,7 +9,14 @@ void main() {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
-          body: CustomizeListTileVersion(active: true,prayerName: " s ", prayerTime: " s"),
+          body: CustomizeListTileVersion(
+            prayerImage: "assets/m6.svg",
+
+            localizationKey: 'prayer_fajr',
+            active: true,
+            prayerName: " s ",
+            prayerTime: " s",
+          ),
         ),
       ),
     );
@@ -24,7 +31,15 @@ void main() {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
-          body: CustomizeListTileVersion(active: true,prayerName: "  ", prayerTime: ""),
+          body: CustomizeListTileVersion(
+            prayerImage: "assets/m6.svg",
+
+            localizationKey: 'prayer_fajr',
+
+            active: true,
+            prayerName: "  ",
+            prayerTime: "",
+          ),
         ),
       ),
     );

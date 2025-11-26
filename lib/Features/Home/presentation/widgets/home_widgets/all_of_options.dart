@@ -1,5 +1,6 @@
 import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:azkark/generated/l10n.dart';
 
 class AllOfOptions extends StatelessWidget {
   const AllOfOptions({super.key});
@@ -17,7 +18,10 @@ class AllOfOptions extends StatelessWidget {
           ),
         ),
         child: Center(
-          child: Text("جميع العبادات", style: AppStyles.semiblod16),
+          child: Text(
+            S.of(context).all_worship_label,
+            style: AppStyles.semiblod16,
+          ),
         ),
       ),
     );

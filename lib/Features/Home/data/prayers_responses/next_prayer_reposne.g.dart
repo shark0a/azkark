@@ -19,23 +19,17 @@ class NextPrayerResponseAdapter extends TypeAdapter<NextPrayerResponse> {
     return NextPrayerResponse(
       nextTimingkey: fields[0] as String,
       nextTimingValue: fields[1] as String,
-      currentPrayersKey: fields[2] as String,
-      currentPrayersValue: fields[3] as double,
     );
   }
 
   @override
   void write(BinaryWriter writer, NextPrayerResponse obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(2)
       ..writeByte(0)
       ..write(obj.nextTimingkey)
       ..writeByte(1)
-      ..write(obj.nextTimingValue)
-      ..writeByte(2)
-      ..write(obj.currentPrayersKey)
-      ..writeByte(3)
-      ..write(obj.currentPrayersValue);
+      ..write(obj.nextTimingValue);
   }
 
   @override

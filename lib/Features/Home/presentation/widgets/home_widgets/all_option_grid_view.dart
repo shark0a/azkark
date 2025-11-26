@@ -1,9 +1,9 @@
-
 import 'package:azkark/Features/All_acts_of_worship/data/all_options_models.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:azkark/core/utils/routes/app_routes.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/all_option_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +13,7 @@ class AllOptionGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: EdgeInsets.symmetric(horizontal: 30.w),
       sliver: SliverGrid.builder(
         itemCount: allOtionsItems.length,
         itemBuilder: (context, index) => InkWell(
@@ -53,12 +53,13 @@ class AllOptionGridView extends StatelessWidget {
           child: AllOptionContainer(
             icon: allOtionsItems[index].icon,
             title: allOtionsItems[index].title,
+            localizationKey: allOtionsItems[index].localizationKey,
           ),
         ),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 15,
+          crossAxisSpacing: 20.w,
+          mainAxisSpacing: 15.h,
         ),
       ),
     );

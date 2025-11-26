@@ -2,7 +2,9 @@ import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/core/utils/routes/app_routes.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:azkark/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomButtomNavigationBar extends StatelessWidget {
@@ -17,8 +19,8 @@ class CustomButtomNavigationBar extends StatelessWidget {
       selectedItemColor: AppStyles.activeColor,
       unselectedItemColor: AppStyles.inActiveColor,
 
-      selectedLabelStyle: AppStyles.semiblod10.copyWith(fontSize: 13),
-      unselectedLabelStyle: AppStyles.medium10.copyWith(fontSize: 12),
+      selectedLabelStyle: AppStyles.semiblod10.copyWith(fontSize: 13.sp),
+      unselectedLabelStyle: AppStyles.medium10.copyWith(fontSize: 12.sp),
       currentIndex: provider.bottomNavigationIndex,
       onTap: (value) {
         provider.toggleBottomNavigationIndex(value);
@@ -41,7 +43,7 @@ class CustomButtomNavigationBar extends StatelessWidget {
               BlendMode.srcIn,
             ),
           ),
-          label: "الصفحة \nالرئيسية",
+          label: S.of(context).home_page_label,
           activeIcon: SvgPicture.asset(
             "assets/bottom1.svg",
             colorFilter: ColorFilter.mode(
@@ -52,9 +54,12 @@ class CustomButtomNavigationBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.watch_later_outlined),
-          label: "مواقيت الصلاة",
+          label: S.of(context).prayer_times_label,
         ),
-        BottomNavigationBarItem(icon: Icon(Icons.settings), label: "الإعدادات"),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.settings),
+          label: S.of(context).settings_label,
+        ),
       ],
     );
   }

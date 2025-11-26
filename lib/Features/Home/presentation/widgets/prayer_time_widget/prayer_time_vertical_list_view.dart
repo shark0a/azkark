@@ -3,6 +3,7 @@ import 'package:azkark/Features/Home/presentation/controller/home_controller.dar
 import 'package:azkark/Features/Home/presentation/widgets/prayer_time_widget/customize_list_tile_version.dart';
 import 'package:azkark/core/utils/helper/mehtod_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class PrayerTimeVerticalListView extends StatelessWidget {
@@ -54,18 +55,23 @@ class PrayerTimeVerticalListView extends StatelessWidget {
                     true;
 
                 return Padding(
-                  padding: EdgeInsets.only(top: index == 0 ? 0 : 24),
+                  padding: EdgeInsets.only(top: index == 0 ? 0 : 24.h),
                   child: GestureDetector(
                     onTap: () {
                       homeController.toggleActive(prayerKey: prayerKey);
                     },
                     child: CustomizeListTileVersion(
+                      prayerImage: prayersTimePageItems[index].prayerImage,
+
                       prayerName: prayersTimePageItems[index].name,
                       // prayerTime: timesLocal[index],
                       prayerTime: MehtodHelper.convertTimeTo12H(
                         timesLocal[index],
+                        // lang,
                       ),
                       active: isActive,
+                      localizationKey:
+                          prayersTimePageItems[index].localizationKey,
                     ),
                   ),
                 );
@@ -92,12 +98,16 @@ class PrayerTimeVerticalListView extends StatelessWidget {
                       homeController.toggleActive(prayerKey: prayerKey);
                     },
                     child: CustomizeListTileVersion(
+                      prayerImage: prayersTimePageItems[index].prayerImage,
                       active: true,
                       prayerName: prayersTimePageItems[index].name,
                       // prayerTime: timesApi[index],
                       prayerTime: MehtodHelper.convertTimeTo12H(
                         timesApi[index],
+                        // lang,
                       ),
+                      localizationKey:
+                          prayersTimePageItems[index].localizationKey,
                     ),
                   ),
                 );

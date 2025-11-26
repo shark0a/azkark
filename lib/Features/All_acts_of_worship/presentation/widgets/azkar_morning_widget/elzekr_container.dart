@@ -1,6 +1,7 @@
 import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ElzekrContainer extends StatelessWidget {
   const ElzekrContainer({
@@ -15,7 +16,7 @@ class ElzekrContainer extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppStyles.azkarContainerBG,
-        borderRadius: BorderRadius.only(topRight: Radius.circular(8)),
+        borderRadius: BorderRadius.only(topRight: Radius.circular(8.r)),
       ),
       width: double.infinity,
 
@@ -25,12 +26,12 @@ class ElzekrContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                padding: EdgeInsets.symmetric(vertical: 5.29, horizontal: 8.5),
+                padding: EdgeInsets.symmetric(vertical: 5.29.h, horizontal: 8.5.w),
                 decoration: ShapeDecoration(
                   color: Color(0xff005773),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(8),
+                      topRight: Radius.circular(8.r),
                     ),
                   ),
                 ),
@@ -42,25 +43,25 @@ class ElzekrContainer extends StatelessWidget {
             ],
           ),
           SvgPicture.asset("assets/azker_upper_frame.svg"),
-          const SizedBox(height: 9.98),
+          SizedBox(height: 9.98.h),
           SizedBox(
-            width: 300.16,
+            width: 300.16.w,
             child: Text(
               elzekr,
               textDirection: TextDirection.rtl,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: const Color(0xFF005773),
-                fontSize: 15,
+                fontSize: 15.sp,
                 fontFamily: 'Emara',
                 fontWeight: FontWeight.w800,
                 height: 1.74,
               ),
             ),
           ),
-          const SizedBox(height: 15.98),
+          SizedBox(height: 15.98.h),
           SvgPicture.asset("assets/azker_upper_frame.svg"),
-          const SizedBox(height: 8.51),
+          SizedBox(height: 8.51.h),
         ],
       ),
     );

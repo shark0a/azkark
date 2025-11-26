@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:azkark/Features/All_acts_of_worship/data/all_azkar_model.dart';
 
 import 'package:flutter/services.dart';
@@ -28,8 +29,34 @@ class MehtodHelper {
   }
 
   // convert to 12 H
+
   static String convertTimeTo12H(String time) {
-    return DateFormat("hh : mm a").format(DateFormat("hh:mm").parse(time));
+    try {
+      // فصل الساعات والدقائق
+      List<String> parts = time.split(':');
+      if (parts.length != 2) return time;
+
+      int hour = int.parse(parts[0]);
+      String minute = parts[1];
+
+      // إذا الساعة أكبر من 12 (تنسيق 24 ساعة) حوله لـ 12 ساعة
+      if (hour > 12) {
+        String period = 'PM';
+        int hour12 = hour - 12;
+        return '${hour12.toString().padLeft(2, '0')}:$minute $period';
+      }
+      // إذا الساعة أقل من أو تساوي 12 اتركه كما هو وأضف AM/PM
+      else {
+        String period = hour >= 12 ? 'PM' : 'AM';
+        // إذا كانت 00:XX حولها لـ 12:XX AM
+        if (hour == 0) {
+          return '12:$minute $period';
+        }
+        return '${hour.toString().padLeft(2, '0')}:$minute $period';
+      }
+    } catch (e) {
+      return time;
+    }
   }
 
   //diff between times
@@ -52,34 +79,86 @@ class MehtodHelper {
       return "00:00";
     }
   }
-  static Stream<String> timeLeftStream(String nextTime) async* {
-  while (true) {
-    final now = DateTime.now();
-    final today = DateFormat("HH:mm").parse(nextTime);
 
-    DateTime next = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      today.hour,
-      today.minute,
-    );
+  // static String formatGregorianDate(String? date, String lang) {
+  //   log(date.toString());
+  //   if (date == null || date.trim().isEmpty) return date ?? '';
 
-    if (next.isBefore(now)) {
-      next = next.add(const Duration(days: 1));
+  //   try {
+  //     final parsed = DateFormat("dd-MM-yyyy").parse(date);
+
+  //     String formatPattern;
+  //     if (lang.startsWith('ar')) {
+  //       formatPattern = "EEEE dd MMMM yyyy";
+  //     } else {
+  //       formatPattern = "EEEE dd MMMM yyyy";
+  //     }
+
+  //     return DateFormat(formatPattern, lang).format(parsed);
+  //   } catch (e) {
+  //     log(e.toString());
+  //     return date;
+  //   }
+  // }
+  static String formatGregorianDate(String? date, String lang) {
+    log(date.toString());
+    if (date == null || date.trim().isEmpty) return date ?? '';
+
+    try {
+      List<String> parts = date.split('-');
+      if (parts.length != 3) return date;
+
+      int day = int.parse(parts[0]);
+      int month = int.parse(parts[1]);
+      int year = int.parse(parts[2]);
+
+      DateTime parsed = DateTime(year, month, day);
+      String formatPattern = "EEEE dd MMMM yyyy";
+      return DateFormat(formatPattern, lang).format(parsed);
+    } catch (e) {
+      log('Error: $e');
+      return date;
     }
-
-    final diff = next.difference(now);
-
-    final hours = diff.inHours.toString().padLeft(2, '0');
-    final minutes = (diff.inMinutes % 60).toString().padLeft(2, '0');
-    final seconds = (diff.inSeconds % 60).toString().padLeft(2, '0');
-
-    yield "$hours:$minutes:$seconds";
-
-    await Future.delayed(const Duration(seconds: 1));
   }
-}
+
+  static Stream<String> timeLeftStream(String nextTime) async* {
+    while (true) {
+      final now = DateTime.now();
+
+      // فصل الساعات والدقائق يدوياً
+      List<String> parts = nextTime.split(':');
+      if (parts.length != 2) {
+        yield "00:00:00";
+        await Future.delayed(const Duration(seconds: 1));
+        continue;
+      }
+
+      int hour = int.tryParse(parts[0]) ?? 0;
+      int minute = int.tryParse(parts[1]) ?? 0;
+
+      DateTime nextPrayer = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        hour,
+        minute,
+      );
+
+      if (nextPrayer.isBefore(now)) {
+        nextPrayer = nextPrayer.add(const Duration(days: 1));
+      }
+
+      Duration difference = nextPrayer.difference(now);
+
+      int hours = difference.inHours;
+      int minutes = difference.inMinutes.remainder(60);
+      int seconds = difference.inSeconds.remainder(60);
+
+      yield "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
+
+      await Future.delayed(const Duration(seconds: 1));
+    }
+  }
 
   ///get reeal time
   static String getCurrentTime() {

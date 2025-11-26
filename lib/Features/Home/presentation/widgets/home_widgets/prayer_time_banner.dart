@@ -5,6 +5,8 @@ import 'package:azkark/core/utils/cache/shared_pref_keys.dart';
 import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/core/utils/helper/mehtod_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:azkark/generated/l10n.dart';
 
 class PrayerTimeBanner extends StatelessWidget {
   const PrayerTimeBanner({super.key, required this.homeController});
@@ -12,11 +14,11 @@ class PrayerTimeBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, String> arabicNames = {
-      "Fajr": "الفجر",
-      "Dhuhr": "الظهر",
-      "Asr": "العصر",
-      "Maghrib": "المغرب",
-      "Isha": "العشاء",
+      "Fajr": S.of(context).prayer_fajr,
+      "Dhuhr": S.of(context).prayer_dhuhr,
+      "Asr": S.of(context).prayer_asr,
+      "Maghrib": S.of(context).prayer_maghrib,
+      "Isha": S.of(context).prayer_isha,
     };
 
     final nextTimeKey =
@@ -33,14 +35,14 @@ class PrayerTimeBanner extends StatelessWidget {
 
     final nextTimeName = isArabic ? arabicNames[nextTimeKey] : nextTimeKey;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 18),
+      padding: EdgeInsets.symmetric(horizontal: 18.w),
       child: Container(
         clipBehavior: Clip.hardEdge,
-        height: 165,
+        height: 165.h,
         width: double.infinity,
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(17),
+            borderRadius: BorderRadius.circular(17.r),
           ),
         ),
         child: Stack(
@@ -51,55 +53,50 @@ class PrayerTimeBanner extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 15,
-              left: 26,
+              top: 15.h,
+              left: 26.w,
+              child: StreamBuilder<String>(
+                stream: MehtodHelper.timeStream(),
+                builder: (context, asyncSnapshot) {
+                  return Text(
+                    textDirection: TextDirection.ltr,
+                    MehtodHelper.convertTimeTo12H(
+                      asyncSnapshot.data ?? MehtodHelper.getCurrentTime(),
+                    ),
+                    // ,
+                    style: AppStyles.semiblod36,
+                  );
+                },
+              ),
+            ),
+            Positioned(
+              top: 70.h,
+              left: 27.w,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  // Text("الظهر", style: AppStyles.medium14),
-                  StreamBuilder<String>(
-                    stream: MehtodHelper.timeStream(),
-                    builder: (context, asyncSnapshot) {
-                      return Text(
-                        MehtodHelper.convertTimeTo12H(
-                          asyncSnapshot.data ?? MehtodHelper.getCurrentTime(),
-                        ),
-                        // ,
-                        // asyncSnapshot.data ?? MehtodHelper.getCurrentTime(),
-                        style: AppStyles.semiblod36,
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text.rich(
-                        TextSpan(
-                          text: "الصلاة التالية : ",
-                          style: AppStyles.regular14.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                          ),
+                  Text.rich(
+                    TextSpan(
+                      text: "${S.of(context).next_prayer_label} ",
+                      style: AppStyles.regular14.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15.sp,
+                      ),
 
-                          children: [
-                            TextSpan(
-                              text: '$nextTimeName',
-                              style: AppStyles.regular14.copyWith(
-                                fontWeight: FontWeight.w800,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ],
+                      children: [
+                        TextSpan(
+                          text: '$nextTimeName',
+                          style: AppStyles.regular14.copyWith(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 18.sp,
+                          ),
                         ),
-                      ),
-                      Text(
-                        MehtodHelper.convertTimeTo12H(nextTimeVlaue),
-                        style: AppStyles.blod14.copyWith(fontSize: 16),
-                        //
-                        // nextTimeVlaue,
-                      ),
-                    ],
+                      ],
+                    ),
+                  ),
+                  Text(
+                    MehtodHelper.convertTimeTo12H(nextTimeVlaue),
+                    style: AppStyles.blod14.copyWith(fontSize: 16.sp),
                   ),
                 ],
               ),

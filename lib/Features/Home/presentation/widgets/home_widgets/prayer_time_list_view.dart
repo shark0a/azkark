@@ -2,6 +2,7 @@ import 'package:azkark/Features/All_acts_of_worship/data/prayer_icon_name_models
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_detail_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PrayerTimeHorezontalListView extends StatelessWidget {
   const PrayerTimeHorezontalListView({super.key, required this.provider});
@@ -27,10 +28,10 @@ class PrayerTimeHorezontalListView extends StatelessWidget {
       provider.prayerTimesHive?.timings.fajr ?? "00:00",
     ];
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(vertical: 8.h),
       color: Color(0xffEDFBFF),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18),
+        padding: EdgeInsets.symmetric(horizontal: 18.w),
         child: provider.prayerTimesHive != null
             ? ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -42,10 +43,10 @@ class PrayerTimeHorezontalListView extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.only(
                       right: index == 0
-                          ? 0
+                          ? 0.w
                           : index == prayerIconAndTime.length - 1
-                          ? 0
-                          : 14,
+                          ? 0.w
+                          : 14.w,
                     ),
                     child: Center(
                       child: PrayerDetailContainer(
@@ -53,6 +54,8 @@ class PrayerTimeHorezontalListView extends StatelessWidget {
                         prayerName: prayerIconAndTime[index].name,
                         prayerTime: timesLocal[index],
                         prayerIcon: prayerIconAndTime[index].prayerIcon,
+                        localizationKey:
+                            prayerIconAndTime[index].localizationKey,
                       ),
                     ),
                   ),
@@ -69,18 +72,19 @@ class PrayerTimeHorezontalListView extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.only(
                       right: index == 0
-                          ? 0
+                          ? 0.w
                           : index == prayerIconAndTime.length - 1
-                          ? 0
-                          : 14,
+                          ? 0.w
+                          : 14.w,
                     ),
                     child: Center(
                       child: PrayerDetailContainer(
                         active: index == provider.nextprayerTimeIndex,
                         prayerName: prayerIconAndTime[index].name,
                         prayerTime: timesApi[index],
-
                         prayerIcon: prayerIconAndTime[index].prayerIcon,
+                        localizationKey:
+                            prayerIconAndTime[index].localizationKey,
                       ),
                     ),
                   ),

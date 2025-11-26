@@ -1,5 +1,6 @@
 class HiveKeys {
   static const prayersBox = "prayer_times";
+  static const favBox = "favBox";
   static const prayersTimesTodayKey = "today";
   static const nextPrayerBox = "next_Prayer";
   static const nextPrayerTimesTodayKey = "nextPrayer";

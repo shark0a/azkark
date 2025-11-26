@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DateConversionCard extends StatelessWidget {
   final String title;
@@ -20,10 +20,10 @@ class DateConversionCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(
-        horizontal: isSmallScreen ? 8 : 16,
-        vertical: 4,
+        horizontal: (isSmallScreen ? 8 : 16).w,
+        vertical: 4.h,
       ),
-      padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+      padding: EdgeInsets.all((isSmallScreen ? 12 : 16).r),
       decoration: BoxDecoration(
         color: Colors.green[50],
         borderRadius: BorderRadius.circular(12),
@@ -38,19 +38,19 @@ class DateConversionCard extends StatelessWidget {
 
               date,
               style: TextStyle(
-                fontSize: isSmallScreen ? 14 : 18,
+                fontSize: (isSmallScreen ? 14 : 18).sp,
                 fontWeight: FontWeight.bold,
                 color: color,
               ),
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          SizedBox(width: isSmallScreen ? 4 : 8),
+          SizedBox(width: (isSmallScreen ? 4 : 8).w),
           Text(
             title,
             textDirection: TextDirection.rtl,
             style: TextStyle(
-              fontSize: isSmallScreen ? 14 : 16,
+              fontSize: (isSmallScreen ? 14 : 16).sp,
               fontWeight: FontWeight.bold,
               color: color,
             ),

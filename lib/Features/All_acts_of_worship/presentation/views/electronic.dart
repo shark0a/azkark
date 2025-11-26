@@ -1,8 +1,9 @@
-
 import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:azkark/generated/l10n.dart';
 import 'package:provider/provider.dart';
 
 class Electronic extends StatelessWidget {
@@ -11,7 +12,9 @@ class Electronic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ValueNotifier<int> count = ValueNotifier(0);
-    ValueNotifier<String> dropButtonValue = ValueNotifier("اختار الذكر");
+    ValueNotifier<String> dropButtonValue = ValueNotifier(
+      S.of(context).choose_zekr,
+    );
     return SafeArea(
       bottom: false,
       child: Scaffold(
@@ -28,7 +31,7 @@ class Electronic extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 50),
+                SizedBox(height: 50.h),
                 ValueListenableBuilder(
                   valueListenable: dropButtonValue,
                   builder: (context, value, child) => ValueListenableBuilder<String>(
@@ -41,48 +44,43 @@ class Electronic extends StatelessWidget {
                       alignment: Alignment.center,
                       items: [
                         DropdownMenuItem(
-                          value: "اختار الذكر",
+                          value: S.of(context).choose_zekr,
                           child: Align(
                             alignment: Alignment.center,
-                            child: Text("اختار الذكر"),
+                            child: Text(S.of(context).choose_zekr),
                           ),
                         ),
                         DropdownMenuItem(
-                          value: "اللهم صلي علي سيدنا محمد",
+                          value: S.of(context).may_allah_bless,
                           child: Align(
                             alignment: Alignment.centerRight,
-                            child: Text("اللهم صلي علي سيدنا محمد"),
+                            child: Text(S.of(context).may_allah_bless),
                           ),
                         ),
                         DropdownMenuItem(
-                          value: "سبحان الله",
+                          value: S.of(context).subhanallah,
                           alignment: Alignment.centerRight,
-
-                          child: Text("سبحان الله"),
+                          child: Text(S.of(context).subhanallah),
                         ),
                         DropdownMenuItem(
-                          value: "الحمد الله",
+                          value: S.of(context).alhamdulillah,
                           alignment: Alignment.centerRight,
-
-                          child: Text("الحمد الله"),
+                          child: Text(S.of(context).alhamdulillah),
                         ),
                         DropdownMenuItem(
-                          value: "الله اكبر",
+                          value: S.of(context).allahu_akbar,
                           alignment: Alignment.centerRight,
-
-                          child: Text("الله اكبر"),
+                          child: Text(S.of(context).allahu_akbar),
                         ),
                         DropdownMenuItem(
-                          value: "سبحان الله وبحمده",
+                          value: S.of(context).subhanallah_bihamdihi,
                           alignment: Alignment.centerRight,
-
-                          child: Text("سبحان الله وبحمده"),
+                          child: Text(S.of(context).subhanallah_bihamdihi),
                         ),
                         DropdownMenuItem(
-                          value: "استغفر الله",
+                          value: S.of(context).astaghfirallah,
                           alignment: Alignment.centerRight,
-
-                          child: Text("استغفر الله"),
+                          child: Text(S.of(context).astaghfirallah),
                         ),
                       ],
                       onChanged: (dropvalue) {
@@ -93,7 +91,7 @@ class Electronic extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 50),
+                SizedBox(height: 50.h),
                 ValueListenableBuilder(
                   valueListenable: count,
                   builder: (context, value, child) {
@@ -102,28 +100,30 @@ class Electronic extends StatelessWidget {
                         count.value++;
                       },
                       child: Container(
-                        width: 100,
-                        height: 100,
+                        width: 100.w,
+                        height: 100.w,
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              offset: Offset(0, 2),
-                              blurRadius: 8,
+                              offset: Offset(0, 2.h),
+                              blurRadius: 8.r,
                               // blurStyle: ,
                               color: Color.fromRGBO(0, 0, 0, 1),
                             ),
                           ],
                           border: Border.all(
                             color: AppStyles.appBarTitleColor,
-                            width: 6,
+                            width: 6.w,
                           ),
                           shape: BoxShape.circle,
                         ),
 
                         child: Center(
                           child: Text(
-                            count.value == 0 ? "بدء" : "${count.value}",
-                            style: AppStyles.blod20.copyWith(fontSize: 25),
+                            count.value == 0
+                                ? S.of(context).start_label
+                                : S.of(context).count_label(count.value),
+                            style: AppStyles.blod20.copyWith(fontSize: 25.sp),
                           ),
                         ),
                       ),

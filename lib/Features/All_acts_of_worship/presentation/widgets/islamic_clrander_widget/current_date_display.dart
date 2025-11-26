@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hijri_date/hijri_date.dart';
 import 'package:intl/intl.dart';
+import 'package:azkark/generated/l10n.dart';
 
 class CurrentDateDisplay extends StatelessWidget {
   final bool isHijri;
@@ -21,7 +22,7 @@ class CurrentDateDisplay extends StatelessWidget {
       HijriDate hijriDate = HijriDate.fromDate(date);
       return '${hijriDate.hDay} ${_getHijriMonthName(hijriDate.hMonth)} ${hijriDate.hYear} هـ';
     } catch (e) {
-      return 'خطأ في التحويل';
+      return S.current.error_converting;
     }
   }
 
@@ -56,8 +57,8 @@ class CurrentDateDisplay extends StatelessWidget {
       child: Center(
         child: Text(
           isHijri
-              ? 'التاريخ الهجري: ${hijriDate != null ? '${hijriDate!.hDay} ${_getHijriMonthName(hijriDate!.hMonth)} ${hijriDate!.hYear} هـ' : _getHijriDate(DateTime.now())}'
-              : 'التاريخ الميلادي: ${DateFormat.yMMMMEEEEd('ar').format(gregorianDate!)}',
+              ? '${S.current.hijri_date} ${hijriDate != null ? '${hijriDate!.hDay} ${_getHijriMonthName(hijriDate!.hMonth)} ${hijriDate!.hYear} هـ' : _getHijriDate(DateTime.now())}'
+              : '${S.current.gregorian_date} ${DateFormat.yMMMMEEEEd('ar').format(gregorianDate!)}',
           style: TextStyle(
             fontSize: isSmallScreen ? 14 : 18,
             fontWeight: FontWeight.bold,

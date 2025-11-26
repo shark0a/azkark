@@ -9,6 +9,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:azkark/generated/l10n.dart';
 import 'package:provider/provider.dart';
 
 class SecondeSplashScreen extends StatefulWidget {
@@ -33,19 +35,6 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
     if (!mounted) return;
     final homeController = context.read<HomeController>();
     final azkarProvider = context.read<AzkarProvider>();
-
-    final lastFetch = sl.get<SharedPref>().getInt('lastPrayerFetch');
-    final now = DateTime.now().millisecondsSinceEpoch;
-    const oneDayMillis = 24 * 60 * 60 * 1000;
-
-    if (lastFetch == null || now - lastFetch > oneDayMillis) {
-      if (lastFetch == null) await homeController.initLocation();
-      await homeController.fetchPrayersTimes();
-      sl.get<SharedPref>().setInt('lastPrayerFetch', now);
-    } else {
-      homeController.loadingLocalData();
-    }
-
     final firstTime = sl.get<SharedPref>().getBool(
       SharedPrefKeys.firstTimeOpen,
     );
@@ -55,8 +44,29 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
     } else {
       // await azkarProvider.loadAzkarFromHive();
       await azkarProvider.loadDataFromJson();
-      await azkarProvider.loadFavList();
     }
+
+    final lastFetch = sl.get<SharedPref>().getInt('lastPrayerFetch');
+    final lastNextFetch = sl.get<SharedPref>().getInt('lastNextPrayerFetch');
+    final now = DateTime.now().millisecondsSinceEpoch;
+    const oneDayMillis = 24 * 60 * 60 * 1000;
+
+    if (lastFetch == null || now - lastFetch > oneDayMillis) {
+      if (lastFetch == null) {
+        await homeController.initLocation();
+      }
+
+      await homeController.fetchPrayersTimes();
+      if (lastNextFetch == null) {
+        await homeController.fetchNextTime();
+      }
+
+      sl.get<SharedPref>().setInt('lastPrayerFetch', now);
+    } else {
+      homeController.loadingLocalData();
+    }
+    await azkarProvider.loadFavList();
+    await homeController.loadNextTimeFromHive();
 
     if (mounted) {
       setState(() {
@@ -94,7 +104,7 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
                     curve: Curves.easeInBack,
                     duration: 850.ms,
                   ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
               // Animated loading spinner with pulse effect
               _isLoading
                   ? Column(
@@ -114,11 +124,14 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
                               duration: 1500.ms,
                               curve: Curves.easeInOut,
                             ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20.h),
                         Text(
-                          'جاري التحميل...',
+                          S.of(context).loading,
                           style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: Colors.white70, fontSize: 16),
+                              ?.copyWith(
+                                color: Colors.white70,
+                                fontSize: 16.sp,
+                              ),
                         ).animate().fadeIn(delay: 600.ms, duration: 600.ms),
                       ],
                     )

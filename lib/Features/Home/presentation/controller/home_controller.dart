@@ -14,17 +14,27 @@ import 'package:flutter/material.dart';
 
 class HomeController extends ChangeNotifier {
   HomeController({required HomeRepo homeRepo}) : _homeRepo = homeRepo;
-  //localization controller and them controlelr
-  Locale _locale = const Locale('en', 'US');
   ThemeMode _themeMode = ThemeMode.light;
+  ThemeMode get themeMode => _themeMode;
+  Locale _locale = const Locale('en', 'US');
 
   Locale get locale => _locale;
-  ThemeMode get themeMode => _themeMode;
+
+  Future<void> _loadLocale() async {
+    final langCode = sl.get<SharedPref>().getString(
+      SharedPrefKeys.langKey,
+    );
+    if (langCode != null) {
+      _locale = Locale(langCode);
+      notifyListeners();
+    }
+  }
 
   void toggleLocale() async {
     _locale = _locale.languageCode == 'en'
         ? const Locale('ar', 'EG')
         : const Locale('en', 'US');
+
     await sl.get<SharedPref>().setString(
       SharedPrefKeys.langKey,
       _locale.languageCode,
@@ -62,6 +72,7 @@ class HomeController extends ChangeNotifier {
   String? get localCountyName => _localCountyName;
   void loadingLocalData() async {
     try {
+      await _loadLocale();
       prayerTimesHive = sl.get<HiveService>().getData<PrayerDataHiveModel>(
         HiveKeys.prayersBox,
         HiveKeys.prayersTimesTodayKey,
@@ -179,12 +190,7 @@ class HomeController extends ChangeNotifier {
           nextPrayer!,
         );
       }
-      log(
-        "from api  current value  ${nextPrayer?.currentPrayersValue} 👌👌👌👌👌👌👌👌👌👌",
-      );
-      log(
-        "from api  current value  ${nextPrayer?.currentPrayersValue} 👌👌👌👌👌👌👌👌👌👌",
-      );
+
       notifyListeners();
     }
   }

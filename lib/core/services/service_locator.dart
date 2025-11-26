@@ -8,25 +8,24 @@ import 'package:azkark/core/services/APIs/api_services.dart';
 import 'package:azkark/core/utils/cache/hive_adapter_register.dart';
 import 'package:azkark/core/utils/cache/hive_keys.dart';
 import 'package:azkark/core/utils/cache/hive_service.dart';
-import 'package:azkark/core/utils/helper/mehtod_helper.dart';
 import 'package:azkark/core/utils/cache/shared_pre.dart';
+import 'package:azkark/core/utils/helper/mehtod_helper.dart';
 import 'package:azkark/core/utils/location/check_location_permession.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
+
 Future<void> setupServiceLocator({
   String baseUrl = 'https://api.aladhan.com/v1/',
 }) async {
-  //dio handle
+  // Dio
   sl.registerLazySingleton<Dio>(() {
-    final Dio dio = Dio(BaseOptions(baseUrl: baseUrl));
+    final dio = Dio(BaseOptions(baseUrl: baseUrl));
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          //           final lang = sl<SharedPref>().getString(SharedKeys.lang) ?? 'en';
-          // options.headers['Accept-Language'] = lang;
           return handler.next(options);
         },
       ),
@@ -36,32 +35,37 @@ Future<void> setupServiceLocator({
     );
     return dio;
   });
-  //Home Repo register
+
+  // API Service
+  sl.registerLazySingleton<ApiServices>(() => ApiServices(dio: sl<Dio>()));
+
+  // Home Repo
   sl.registerLazySingleton<HomeRepo>(
     () => HomeRepoImple(apiServices: sl<ApiServices>()),
   );
 
-  //register api Service
-  sl.registerLazySingleton<ApiServices>(() => ApiServices(dio: sl<Dio>()));
-  // Register Hive service as singleton
+  // Hive Service
   sl.registerLazySingleton<HiveService>(() => HiveService());
-  final hiveServices = sl<HiveService>();
-  await hiveServices.init();
-  registerAdapters();
+  final hiveService = sl<HiveService>();
+  await hiveService.init();
+  registerAdapters(); // لازم يكون عندك function لتسجيل الـ Hive adapters
 
-  await hiveServices.openBox<PrayerDataHiveModel>(HiveKeys.prayersBox);
-  await hiveServices.openBox<CurrentLocationModel>(HiveKeys.locationBox);
-  await hiveServices.openBox<NextPrayerResponse>(HiveKeys.nextPrayerBox);
-  await hiveServices.openBox<FavItemsModel>("favBox");
-  // Register SharedPref service as singleton
-  final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+  await hiveService.openBox<PrayerDataHiveModel>(HiveKeys.prayersBox);
+  await hiveService.openBox<CurrentLocationModel>(HiveKeys.locationBox);
+  await hiveService.openBox<NextPrayerResponse>(HiveKeys.nextPrayerBox);
+  await hiveService.openBox<FavItemsModel>(HiveKeys.favBox);
+
+  // Shared Preferences
+  final sharedPrefs = await SharedPreferences.getInstance();
+  sl.registerLazySingleton<SharedPreferences>(() => sharedPrefs);
   sl.registerLazySingleton<SharedPref>(
     () => SharedPref(sharedPref: sl<SharedPreferences>()),
   );
-  //register helper mehtode class
+
+  // Helpers
   sl.registerLazySingleton<MehtodHelper>(() => MehtodHelper());
-  //get Location
+
+  // Location permission checker
   sl.registerLazySingleton<CheckLocationPermession>(
     () => CheckLocationPermession(),
   );
