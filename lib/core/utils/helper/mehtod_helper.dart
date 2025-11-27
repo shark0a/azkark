@@ -48,7 +48,6 @@ class MehtodHelper {
       // إذا الساعة أقل من أو تساوي 12 اتركه كما هو وأضف AM/PM
       else {
         String period = hour >= 12 ? 'PM' : 'AM';
-        // إذا كانت 00:XX حولها لـ 12:XX AM
         if (hour == 0) {
           return '12:$minute $period';
         }

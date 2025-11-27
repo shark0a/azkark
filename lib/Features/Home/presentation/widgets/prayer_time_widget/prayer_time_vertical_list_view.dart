@@ -50,9 +50,6 @@ class PrayerTimeVerticalListView extends StatelessWidget {
                   'fajr',
                 ];
                 final prayerKey = prayerKeys[index];
-                final isActive =
-                    homeController.prayerTimesHive?.activePrayers[prayerKey] ??
-                    true;
 
                 return Padding(
                   padding: EdgeInsets.only(top: index == 0 ? 0 : 24.h),
@@ -69,7 +66,9 @@ class PrayerTimeVerticalListView extends StatelessWidget {
                         timesLocal[index],
                         // lang,
                       ),
-                      active: isActive,
+                      active: prayersTimePageItems[index].prayerKey.contains(
+                        homeController.nextPrayerKeyLocal!.toLowerCase(),
+                      ),
                       localizationKey:
                           prayersTimePageItems[index].localizationKey,
                     ),
@@ -99,7 +98,9 @@ class PrayerTimeVerticalListView extends StatelessWidget {
                     },
                     child: CustomizeListTileVersion(
                       prayerImage: prayersTimePageItems[index].prayerImage,
-                      active: true,
+                      active: prayersTimePageItems[index].prayerKey.contains(
+                        homeController.nextPrayerKeyLocal!.toLowerCase(),
+                      ),
                       prayerName: prayersTimePageItems[index].name,
                       // prayerTime: timesApi[index],
                       prayerTime: MehtodHelper.convertTimeTo12H(

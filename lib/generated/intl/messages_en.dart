@@ -24,91 +24,88 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "alhamdulillah": MessageLookupByLibrary.simpleMessage(
-      "All praise is due to Allah",
-    ),
-    "all_duas": MessageLookupByLibrary.simpleMessage("All Duas"),
-    "all_worship_label": MessageLookupByLibrary.simpleMessage("All Worship"),
-    "allahu_akbar": MessageLookupByLibrary.simpleMessage(
-      "Allah is the Greatest",
-    ),
-    "appTitle": MessageLookupByLibrary.simpleMessage("Azkark"),
-    "app_version": MessageLookupByLibrary.simpleMessage("App Version"),
-    "astaghfirallah": MessageLookupByLibrary.simpleMessage(
-      "I seek forgiveness from Allah",
-    ),
-    "azkar_evening": MessageLookupByLibrary.simpleMessage("Evening Azkar"),
-    "azkar_morning": MessageLookupByLibrary.simpleMessage("Morning Azkar"),
-    "azkar_prayer": MessageLookupByLibrary.simpleMessage("Prayer Azkar"),
-    "choose_zekr": MessageLookupByLibrary.simpleMessage("Choose Zekr"),
-    "count_label": m0,
-    "dailyAzkar": MessageLookupByLibrary.simpleMessage("Daily Azkar"),
-    "electronic_counter": MessageLookupByLibrary.simpleMessage(
-      "Electronic Tasbih",
-    ),
-    "english_lang": MessageLookupByLibrary.simpleMessage("English"),
-    "error_converting": MessageLookupByLibrary.simpleMessage(
-      "Conversion Error",
-    ),
-    "favorites": MessageLookupByLibrary.simpleMessage("Favorites"),
-    "for_prayer_prefix": MessageLookupByLibrary.simpleMessage("for prayer "),
-    "gregorian": MessageLookupByLibrary.simpleMessage("Gregorian"),
-    "gregorian_date": MessageLookupByLibrary.simpleMessage("Gregorian Date:"),
-    "hijri": MessageLookupByLibrary.simpleMessage("Hijri"),
-    "hijri_calendar": MessageLookupByLibrary.simpleMessage("Hijri Calendar"),
-    "hijri_date": MessageLookupByLibrary.simpleMessage("Hijri Date:"),
-    "home": MessageLookupByLibrary.simpleMessage("Home"),
-    "home_page_label": MessageLookupByLibrary.simpleMessage("Home\nPage"),
-    "loading": MessageLookupByLibrary.simpleMessage("Loading..."),
-    "may_allah_bless": MessageLookupByLibrary.simpleMessage(
-      "May Allah Bless the Prophet",
-    ),
-    "next_prayer_label": MessageLookupByLibrary.simpleMessage("Next prayer:"),
-    "place_label": MessageLookupByLibrary.simpleMessage("Place"),
-    "prayer_asr": MessageLookupByLibrary.simpleMessage("Asr"),
-    "prayer_dhuhr": MessageLookupByLibrary.simpleMessage("Dhuhr"),
-    "prayer_fajr": MessageLookupByLibrary.simpleMessage("Fajr"),
-    "prayer_isha": MessageLookupByLibrary.simpleMessage("Isha"),
-    "prayer_maghrib": MessageLookupByLibrary.simpleMessage("Maghrib"),
-    "prayer_settings": MessageLookupByLibrary.simpleMessage("Prayer Times"),
-    "prayer_sunrise": MessageLookupByLibrary.simpleMessage("Sunrise"),
-    "prayer_times_label": MessageLookupByLibrary.simpleMessage("Prayer Times"),
-    "prayer_title": MessageLookupByLibrary.simpleMessage("Prayer Times"),
-    "ruqya_quran": MessageLookupByLibrary.simpleMessage("Ruqya from Quran"),
-    "ruqya_sunnah": MessageLookupByLibrary.simpleMessage("Ruqya from Sunnah"),
-    "settings": MessageLookupByLibrary.simpleMessage("Settings"),
-    "settings_label": MessageLookupByLibrary.simpleMessage("Settings"),
-    "settings_title": MessageLookupByLibrary.simpleMessage("Settings"),
-    "start": MessageLookupByLibrary.simpleMessage("Start"),
-    "start_label": MessageLookupByLibrary.simpleMessage("Start"),
-    "stop": MessageLookupByLibrary.simpleMessage("Stop"),
-    "subhanallah": MessageLookupByLibrary.simpleMessage("Glory be to Allah"),
-    "subhanallah_bihamdihi": MessageLookupByLibrary.simpleMessage(
-      "Glory be to Allah and Praise",
-    ),
-    "tasbih": MessageLookupByLibrary.simpleMessage("Tasbih"),
-    "time_left_label": MessageLookupByLibrary.simpleMessage("Time left"),
-    "unknown_label": MessageLookupByLibrary.simpleMessage("Unknown"),
-    "update_location": MessageLookupByLibrary.simpleMessage("Update Location"),
-    "version_label": MessageLookupByLibrary.simpleMessage("Version"),
-    "welcome_message": MessageLookupByLibrary.simpleMessage("Welcome"),
-    "zekr_awaken": MessageLookupByLibrary.simpleMessage("Zekr When Waking"),
-    "zekr_azan": MessageLookupByLibrary.simpleMessage("Zekr of the Azan"),
-    "zekr_enter_home": MessageLookupByLibrary.simpleMessage(
-      "Zekr When Entering Home",
-    ),
-    "zekr_exit_home": MessageLookupByLibrary.simpleMessage(
-      "Zekr When Leaving Home",
-    ),
-    "zekr_night_waking": MessageLookupByLibrary.simpleMessage(
-      "Zekr When Waking at Night",
-    ),
-    "zekr_prayer_answered": MessageLookupByLibrary.simpleMessage(
-      "Times When Prayers Are Answered",
-    ),
-    "zekr_prayer_virtue": MessageLookupByLibrary.simpleMessage(
-      "Virtue of Sending Blessings",
-    ),
-    "zekr_wudhu": MessageLookupByLibrary.simpleMessage("Zekr After Wudhu"),
-  };
+        "alhamdulillah":
+            MessageLookupByLibrary.simpleMessage("All praise is due to Allah"),
+        "all_duas": MessageLookupByLibrary.simpleMessage("All Duas"),
+        "all_worship_label":
+            MessageLookupByLibrary.simpleMessage("All Worship"),
+        "allahu_akbar":
+            MessageLookupByLibrary.simpleMessage("Allah is the Greatest"),
+        "appTitle": MessageLookupByLibrary.simpleMessage("Azkark"),
+        "app_version": MessageLookupByLibrary.simpleMessage("App Version"),
+        "astaghfirallah": MessageLookupByLibrary.simpleMessage(
+            "I seek forgiveness from Allah"),
+        "azkar_evening": MessageLookupByLibrary.simpleMessage("Evening Azkar"),
+        "azkar_morning": MessageLookupByLibrary.simpleMessage("Morning Azkar"),
+        "azkar_prayer": MessageLookupByLibrary.simpleMessage("Prayer Azkar"),
+        "choose_zekr": MessageLookupByLibrary.simpleMessage("Choose Zekr"),
+        "count_label": m0,
+        "dailyAzkar": MessageLookupByLibrary.simpleMessage("Daily Azkar"),
+        "electronic_counter":
+            MessageLookupByLibrary.simpleMessage("Electronic Tasbih"),
+        "english_lang": MessageLookupByLibrary.simpleMessage("English"),
+        "error_converting":
+            MessageLookupByLibrary.simpleMessage("Conversion Error"),
+        "favorites": MessageLookupByLibrary.simpleMessage("Favorites"),
+        "for_prayer_prefix":
+            MessageLookupByLibrary.simpleMessage("for prayer "),
+        "gregorian": MessageLookupByLibrary.simpleMessage("Gregorian"),
+        "gregorian_date":
+            MessageLookupByLibrary.simpleMessage("Gregorian Date:"),
+        "hijri": MessageLookupByLibrary.simpleMessage("Hijri"),
+        "hijri_calendar":
+            MessageLookupByLibrary.simpleMessage("Hijri Calendar"),
+        "hijri_date": MessageLookupByLibrary.simpleMessage("Hijri Date:"),
+        "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "home_page_label": MessageLookupByLibrary.simpleMessage("Home\nPage"),
+        "loading": MessageLookupByLibrary.simpleMessage("Loading..."),
+        "may_allah_bless":
+            MessageLookupByLibrary.simpleMessage("May Allah Bless the Prophet"),
+        "next_prayer_label":
+            MessageLookupByLibrary.simpleMessage("Next prayer:"),
+        "place_label": MessageLookupByLibrary.simpleMessage("Place"),
+        "prayer_asr": MessageLookupByLibrary.simpleMessage("Asr"),
+        "prayer_dhuhr": MessageLookupByLibrary.simpleMessage("Dhuhr"),
+        "prayer_fajr": MessageLookupByLibrary.simpleMessage("Fajr"),
+        "prayer_isha": MessageLookupByLibrary.simpleMessage("Isha"),
+        "prayer_maghrib": MessageLookupByLibrary.simpleMessage("Maghrib"),
+        "prayer_settings": MessageLookupByLibrary.simpleMessage("Prayer Times"),
+        "prayer_sunrise": MessageLookupByLibrary.simpleMessage("Sunrise"),
+        "prayer_times_label":
+            MessageLookupByLibrary.simpleMessage("Prayer Times"),
+        "prayer_title": MessageLookupByLibrary.simpleMessage("Prayer Times"),
+        "ruqya_quran": MessageLookupByLibrary.simpleMessage("Ruqya from Quran"),
+        "ruqya_sunnah":
+            MessageLookupByLibrary.simpleMessage("Ruqya from Sunnah"),
+        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "settings_label": MessageLookupByLibrary.simpleMessage("Settings"),
+        "settings_title": MessageLookupByLibrary.simpleMessage("Settings"),
+        "start": MessageLookupByLibrary.simpleMessage("Start"),
+        "start_label": MessageLookupByLibrary.simpleMessage("Start"),
+        "stop": MessageLookupByLibrary.simpleMessage("Stop"),
+        "subhanallah":
+            MessageLookupByLibrary.simpleMessage("Glory be to Allah"),
+        "subhanallah_bihamdihi": MessageLookupByLibrary.simpleMessage(
+            "Glory be to Allah and Praise"),
+        "tasbih": MessageLookupByLibrary.simpleMessage("Tasbih"),
+        "time_left_label": MessageLookupByLibrary.simpleMessage("Time left"),
+        "unknown_label": MessageLookupByLibrary.simpleMessage("Unknown"),
+        "update_location":
+            MessageLookupByLibrary.simpleMessage("Update Location"),
+        "version_label": MessageLookupByLibrary.simpleMessage("Version"),
+        "welcome_message": MessageLookupByLibrary.simpleMessage("Welcome"),
+        "zekr_awaken": MessageLookupByLibrary.simpleMessage("Zekr When Waking"),
+        "zekr_azan": MessageLookupByLibrary.simpleMessage("Zekr of the Azan"),
+        "zekr_enter_home":
+            MessageLookupByLibrary.simpleMessage("Zekr When Entering Home"),
+        "zekr_exit_home":
+            MessageLookupByLibrary.simpleMessage("Zekr When Leaving Home"),
+        "zekr_night_waking":
+            MessageLookupByLibrary.simpleMessage("Zekr When Waking at Night"),
+        "zekr_prayer_answered": MessageLookupByLibrary.simpleMessage(
+            "Times When Prayers Are Answered"),
+        "zekr_prayer_virtue":
+            MessageLookupByLibrary.simpleMessage("Virtue of Sending Blessings"),
+        "zekr_wudhu": MessageLookupByLibrary.simpleMessage("Zekr After Wudhu")
+      };
 }

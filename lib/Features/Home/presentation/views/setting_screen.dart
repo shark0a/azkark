@@ -1,7 +1,11 @@
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/prasise_widget/customize_list_tile.dart';
 import 'package:azkark/Features/Home/data/setting_items_models.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
+import 'package:azkark/Features/Home/presentation/widgets/customize_home_app_bar.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
+import 'package:azkark/core/services/service_locator.dart';
+import 'package:azkark/core/utils/cache/shared_pre.dart';
+import 'package:azkark/core/utils/cache/shared_pref_keys.dart';
 import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +17,9 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lang =
+        sl.get<SharedPref>().getString(SharedPrefKeys.langKey) ??
+        Localizations.localeOf(context).countryCode;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 60.h),
@@ -30,12 +37,17 @@ class SettingScreen extends StatelessWidget {
             active: index == 3,
             title: _getLocalizedSettingTitle(context, index),
             leading: index == 0
-                ? Icon(Icons.arrow_back, color: Colors.black)
+                ? Icon(Icons.arrow_forward, color: Colors.black)
                 : index == 1
-                ? Icon(
-                    size: 60.r,
-                    Icons.toggle_off_sharp,
-                    color: AppStyles.appBarTitleColor,
+                ? GestureDetector(
+                    onTap: context.read<HomeController>().toggleLocale,
+                    child: Icon(
+                      size: 60.r,
+                      lang != 'ar' ? Icons.toggle_on_sharp : Icons.toggle_on,
+                      color: lang != 'ar'
+                          ? AppStyles.appBarTitleColor
+                          : AppStyles.inActiveColor,
+                    ),
                   )
                 : index == 2
                 ? GestureDetector(
@@ -52,7 +64,7 @@ class SettingScreen extends StatelessWidget {
                     child: Icon(
                       size: 30.r,
                       Icons.repeat_outlined,
-                      color: const Color.fromARGB(255, 118, 12, 255),
+                      color: AppStyles.appBarTitleColor,
                     ),
                   )
                 : Text(
@@ -83,40 +95,5 @@ class SettingScreen extends StatelessWidget {
       default:
         return settingItemsModel[index].title;
     }
-  }
-}
-
-class CustomizeHomeAppBar extends StatelessWidget {
-  const CustomizeHomeAppBar({
-    super.key,
-    required this.title,
-    required this.icon,
-  });
-  final String title;
-  final Icon icon;
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      titleSpacing: 0,
-      backgroundColor: AppStyles.scaffoldBG,
-      surfaceTintColor: AppStyles.scaffoldBG,
-      centerTitle: true,
-
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            title,
-            textDirection: TextDirection.rtl,
-            style: AppStyles.semiblod18.copyWith(
-              fontSize: 20.sp,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-          SizedBox(width: 10.w),
-          icon,
-        ],
-      ),
-    );
   }
 }

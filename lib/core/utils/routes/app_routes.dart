@@ -87,6 +87,7 @@ class AppRoutes {
         path: kElectronic,
         builder: (context, state) => const Electronic(),
       ),
+
       GoRoute(
         path: kIslamicCalendar,
         builder: (context, state) => IslamicCalendar(),

@@ -1,7 +1,4 @@
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
-import 'package:azkark/core/services/service_locator.dart';
-import 'package:azkark/core/utils/cache/shared_pre.dart';
-import 'package:azkark/core/utils/cache/shared_pref_keys.dart';
 import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/core/utils/helper/mehtod_helper.dart';
 import 'package:flutter/material.dart';
@@ -13,27 +10,20 @@ class PrayerTimeBanner extends StatelessWidget {
   final HomeController homeController;
   @override
   Widget build(BuildContext context) {
-    final Map<String, String> arabicNames = {
-      "Fajr": S.of(context).prayer_fajr,
-      "Dhuhr": S.of(context).prayer_dhuhr,
-      "Asr": S.of(context).prayer_asr,
-      "Maghrib": S.of(context).prayer_maghrib,
-      "Isha": S.of(context).prayer_isha,
+    final Map<String, String> prayerKeyToLocalized = {
+      "fajr": S.of(context).prayer_fajr,
+      "dhuhr": S.of(context).prayer_dhuhr,
+      "asr": S.of(context).prayer_asr,
+      "maghrib": S.of(context).prayer_maghrib,
+      "isha": S.of(context).prayer_isha,
     };
 
-    final nextTimeKey =
-        homeController.nextPrayer?.nextTimingkey ??
-        homeController.nextPrayerLocal?.nextTimingkey ??
-        "";
-    final nextTimeVlaue =
-        homeController.nextPrayer?.nextTimingValue ??
-        homeController.nextPrayerLocal?.nextTimingValue ??
-        "";
+    final nextTimeKey = homeController.nextPrayerKeyLocal ?? "fajr";
+    final nextTimeVlaue = homeController.nextPrayerTimeLocal ?? "00:00";
 
-    final isArabic =
-        sl.get<SharedPref>().getString(SharedPrefKeys.langKey) == 'ar';
-
-    final nextTimeName = isArabic ? arabicNames[nextTimeKey] : nextTimeKey;
+    final nextTimeName =
+        prayerKeyToLocalized[nextTimeKey.toLowerCase()] ??
+        nextTimeKey.toLowerCase();
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 18.w),
       child: Container(

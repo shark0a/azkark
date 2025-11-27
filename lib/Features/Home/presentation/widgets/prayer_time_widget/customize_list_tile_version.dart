@@ -41,11 +41,12 @@ class CustomizeListTileVersion extends StatelessWidget {
               // letterSpacing: -0.30,
             ),
           ),
+          const SizedBox(width: 8),
           Icon(
             active ? Icons.volume_up_sharp : Icons.volume_off_rounded,
             color: active
-                ? AppStyles.inActiveColor
-                : AppStyles.appBarTitleColor,
+                ? AppStyles.appBarTitleColor
+                : AppStyles.inActiveColor,
           ),
           SizedBox(width: 10.w),
         ],
@@ -56,7 +57,7 @@ class CustomizeListTileVersion extends StatelessWidget {
           SvgPicture.asset(
             prayerImage,
             colorFilter: ColorFilter.mode(
-              AppStyles.inActiveColor,
+              active ? AppStyles.appBarTitleColor : AppStyles.inActiveColor,
               BlendMode.srcIn,
             ),
             width: 25.5.w,
@@ -67,7 +68,7 @@ class CustomizeListTileVersion extends StatelessWidget {
             _getLocalizedPrayerName(context),
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: const Color(0x7F1E1E1E),
+              color: active ? Colors.black : AppStyles.inActiveColor,
               fontSize: 18.sp,
               fontFamily: 'Poppins',
               fontWeight: FontWeight.w300,

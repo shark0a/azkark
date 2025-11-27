@@ -15,14 +15,9 @@ class CustomizeListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       tileColor: active ? Color(0xffEDFBFF) : Color(0xffF5F5F5),
-      title: Text(
-        title,
-        textDirection: TextDirection.rtl,
-
-        style: AppStyles.regular16,
-      ),
       titleAlignment: ListTileTitleAlignment.center,
-      leading: leading,
+      trailing: leading,
+      leading: Text(title, style: AppStyles.regular16),
     );
   }
 }

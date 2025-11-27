@@ -2,8 +2,9 @@ import 'package:azkark/Features/All_acts_of_worship/data/fav_items_model.dart';
 import 'package:azkark/Features/Home/data/current_location_model.dart';
 import 'package:azkark/Features/Home/data/prayers_responses/next_prayer_reposne.dart';
 import 'package:azkark/Features/Home/data/prayers_time_hive_models.dart';
-import 'package:azkark/Features/Home/domain/home_repo.dart';
-import 'package:azkark/Features/Home/domain/home_repo_imple.dart';
+import 'package:azkark/Features/Home/domain/repo/home_repo.dart';
+import 'package:azkark/Features/Home/domain/repo/home_repo_imple.dart';
+import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:azkark/core/services/APIs/api_services.dart';
 import 'package:azkark/core/utils/cache/hive_adapter_register.dart';
 import 'package:azkark/core/utils/cache/hive_keys.dart';
@@ -61,6 +62,8 @@ Future<void> setupServiceLocator({
   sl.registerLazySingleton<SharedPref>(
     () => SharedPref(sharedPref: sl<SharedPreferences>()),
   );
+  //home controller register
+  sl.registerLazySingleton<HomeController>(() => HomeController());
 
   // Helpers
   sl.registerLazySingleton<MehtodHelper>(() => MehtodHelper());

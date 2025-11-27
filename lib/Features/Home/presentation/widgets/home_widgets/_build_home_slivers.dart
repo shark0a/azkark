@@ -12,13 +12,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 List<Widget> buildHomeSlivers(HomeController homeController) {
   final nextTimeKey =
-      homeController.nextPrayer?.nextTimingkey ??
-      homeController.nextPrayerLocal?.nextTimingkey ??
-      "00:00";
+      // homeController.nextPrayer?.nextTimingkey ??
+      homeController.nextPrayerKeyLocal ?? "fajr";
   final nextTimeVlaue =
-      homeController.nextPrayer?.nextTimingValue ??
-      homeController.nextPrayerLocal?.nextTimingValue ??
-      "00:00";
+      // homeController.nextPrayer?.nextTimingValue ??
+      // homeController.nextPrayerLocal?.nextTimingValue ??
+      homeController.nextPrayerTimeLocal ?? "00:00";
 
   // Mapping prayer keys to localized strings
   String localizedNextPrayer;

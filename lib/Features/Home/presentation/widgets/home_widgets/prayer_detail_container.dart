@@ -21,7 +21,6 @@ class PrayerDetailContainer extends StatelessWidget {
   final String localizationKey;
   @override
   Widget build(BuildContext context) {
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 7.h),
       decoration: ShapeDecoration(
@@ -45,7 +44,7 @@ class PrayerDetailContainer extends StatelessWidget {
           ),
           SizedBox(height: 1.h),
           Text(
-            MehtodHelper.convertTimeTo12H(prayerTime, ),
+            MehtodHelper.convertTimeTo12H(prayerTime),
             // prayerTime,
             style: active
                 ? AppStyles.semiblod14.copyWith(

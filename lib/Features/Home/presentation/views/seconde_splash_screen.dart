@@ -1,5 +1,6 @@
 import 'package:azkark/Features/All_acts_of_worship/presentation/manager/azkar_provider.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
+import 'package:azkark/core/services/back_ground_service/notification_handler/notification_service.dart';
 import 'package:azkark/core/services/service_locator.dart';
 import 'package:azkark/core/utils/cache/shared_pre.dart';
 import 'package:azkark/core/utils/cache/shared_pref_keys.dart';
@@ -35,19 +36,11 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
     if (!mounted) return;
     final homeController = context.read<HomeController>();
     final azkarProvider = context.read<AzkarProvider>();
-    final firstTime = sl.get<SharedPref>().getBool(
-      SharedPrefKeys.firstTimeOpen,
-    );
-    if (firstTime == null || firstTime) {
-      sl.get<SharedPref>().setBool(SharedPrefKeys.firstTimeOpen, false);
-      await azkarProvider.loadDataFromJson();
-    } else {
-      // await azkarProvider.loadAzkarFromHive();
-      await azkarProvider.loadDataFromJson();
-    }
+    final bool isFirstOpen =
+        sl.get<SharedPref>().getBool(SharedPrefKeys.firstTimeOpen) ?? true;
 
+    await azkarProvider.loadDataFromJson();
     final lastFetch = sl.get<SharedPref>().getInt('lastPrayerFetch');
-    final lastNextFetch = sl.get<SharedPref>().getInt('lastNextPrayerFetch');
     final now = DateTime.now().millisecondsSinceEpoch;
     const oneDayMillis = 24 * 60 * 60 * 1000;
 
@@ -55,26 +48,23 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
       if (lastFetch == null) {
         await homeController.initLocation();
       }
-
       await homeController.fetchPrayersTimes();
-      if (lastNextFetch == null) {
-        await homeController.fetchNextTime();
-      }
-
-      sl.get<SharedPref>().setInt('lastPrayerFetch', now);
     } else {
-      homeController.loadingLocalData();
+      await homeController.loadingLocalData();
     }
-    await azkarProvider.loadFavList();
-    await homeController.loadNextTimeFromHive();
 
+    await azkarProvider.loadFavList();
+    await homeController.fetchNextPrayer();
+    if (isFirstOpen) {
+      await NotificationService.instance.init();
+      await NotificationService.instance.scheduleDailyPrayers();
+    }
+
+    // await Future.delayed(const Duration(milliseconds: 600));
     if (mounted) {
       setState(() {
         _isLoading = false;
       });
-      await Future.delayed(const Duration(milliseconds: 850));
-      if (!mounted) return;
-      context.go(AppRoutes.kHomeScreen);
     }
   }
 
@@ -97,8 +87,13 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               SvgPicture.asset("assets/seconde_Logo.svg")
-                  .animate(delay: 200.ms)
-                  .fadeIn(delay: 200.ms, curve: Curves.easeIn, duration: 800.ms)
+                  .animate(
+                    onComplete: (controller) {
+                      context.go(AppRoutes.kHomeScreen);
+                    },
+                    delay: 200.ms,
+                  )
+                  .fadeIn(delay: 300.ms, curve: Curves.easeIn, duration: 800.ms)
                   .scale(
                     delay: 300.ms,
                     curve: Curves.easeInBack,

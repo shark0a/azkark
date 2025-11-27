@@ -1,9 +1,8 @@
 import 'dart:developer';
 import 'package:azkark/Features/Home/data/current_location_model.dart';
-import 'package:azkark/Features/Home/data/prayers_responses/next_prayer_reposne.dart';
 import 'package:azkark/Features/Home/data/prayers_responses/prayer_time_response_model.dart';
 import 'package:azkark/Features/Home/data/prayers_time_hive_models.dart';
-import 'package:azkark/Features/Home/domain/home_repo.dart';
+import 'package:azkark/Features/Home/domain/repo/home_repo.dart';
 import 'package:azkark/core/services/service_locator.dart';
 import 'package:azkark/core/utils/cache/hive_keys.dart';
 import 'package:azkark/core/utils/cache/hive_service.dart';
@@ -13,24 +12,31 @@ import 'package:azkark/core/utils/location/check_location_permession.dart';
 import 'package:flutter/material.dart';
 
 class HomeController extends ChangeNotifier {
-  HomeController({required HomeRepo homeRepo}) : _homeRepo = homeRepo;
+  // allow optional injection; if not provided take from sl
+  HomeController({HomeRepo? homeRepo})
+    : _homeRepo = homeRepo ?? sl.get<HomeRepo>() {
+    _initLocal();
+  }
+
   ThemeMode _themeMode = ThemeMode.light;
   ThemeMode get themeMode => _themeMode;
   Locale _locale = const Locale('en', 'US');
-
   Locale get locale => _locale;
+  void _initLocal() {
+    _loadLocale();
+  }
 
   Future<void> _loadLocale() async {
-    final langCode = sl.get<SharedPref>().getString(
-      SharedPrefKeys.langKey,
-    );
-    if (langCode != null) {
-      _locale = Locale(langCode);
+    final lang = sl.get<SharedPref>().getString(SharedPrefKeys.langKey);
+    final country = sl.get<SharedPref>().getString(SharedPrefKeys.countrykey);
+
+    if (lang != null) {
+      _locale = Locale(lang, country);
       notifyListeners();
     }
   }
 
-  void toggleLocale() async {
+  Future<void> toggleLocale() async {
     _locale = _locale.languageCode == 'en'
         ? const Locale('ar', 'EG')
         : const Locale('en', 'US');
@@ -38,6 +44,10 @@ class HomeController extends ChangeNotifier {
     await sl.get<SharedPref>().setString(
       SharedPrefKeys.langKey,
       _locale.languageCode,
+    );
+    await sl.get<SharedPref>().setString(
+      SharedPrefKeys.countrykey,
+      _locale.countryCode ?? "",
     );
     notifyListeners();
   }
@@ -70,9 +80,9 @@ class HomeController extends ChangeNotifier {
   String get loadingLocalDataError => _loadingLocalDataError;
   String? _localCountyName;
   String? get localCountyName => _localCountyName;
-  void loadingLocalData() async {
+
+  Future<void> loadingLocalData() async {
     try {
-      await _loadLocale();
       prayerTimesHive = sl.get<HiveService>().getData<PrayerDataHiveModel>(
         HiveKeys.prayersBox,
         HiveKeys.prayersTimesTodayKey,
@@ -90,7 +100,7 @@ class HomeController extends ChangeNotifier {
       _loadingLocalDataError = e.toString();
       notifyListeners();
       log(
-        "error come fromloading local data Home Controller   $_loadingLocalDataError",
+        "error come from loading local data Home Controller   $_loadingLocalDataError",
       );
     }
   }
@@ -151,7 +161,7 @@ class HomeController extends ChangeNotifier {
       prayerTimes = result.data;
     } catch (e) {
       _errorMsg = "Error : ${e.toString()}";
-      log("_this is error message ${e.toString()}. 😓😓😓😓😓");
+      log("_this is error message ${e.toString()}.");
     } finally {
       if (prayerTimes != null) {
         await sl.get<SharedPref>().setString(
@@ -170,44 +180,111 @@ class HomeController extends ChangeNotifier {
     }
   }
 
-  NextPrayerResponse? nextPrayer;
-  NextPrayerResponse? nextPrayerLocal;
-  Future<void> fetchNextTime() async {
+  String? nextPrayerKeyLocal; // Store prayer key instead of name
+  String? nextPrayerTimeLocal;
+
+  Future<void> fetchNextPrayer() async {
     try {
-      var result = await _homeRepo.nextPrayerTime(
-        currentLocation!.lat,
-        currentLocation!.long,
-      );
-      nextPrayer = result;
-    } catch (e) {
-      log("filed to fetch next prayes ${e.toString()}");
-    } finally {
-      log("from api  ${nextPrayer?.nextTimingValue} 👌👌👌👌👌👌👌👌👌👌");
-      if (nextPrayer != null) {
-        await sl.get<HiveService>().putData<NextPrayerResponse>(
-          HiveKeys.nextPrayerBox,
-          HiveKeys.nextPrayerTimesTodayKey,
-          nextPrayer!,
-        );
+      final now = TimeOfDay.now();
+
+      final prayerMap = {
+        "Fajr":
+            prayerTimes?.timings.fajr ??
+            prayerTimesHive?.timings.fajr ??
+            "00:00",
+        "Dhuhr":
+            prayerTimes?.timings.dhuhr ??
+            prayerTimesHive?.timings.dhuhr ??
+            "00:00",
+        "Asr":
+            prayerTimes?.timings.asr ?? prayerTimesHive?.timings.asr ?? "00-00",
+        "Maghrib":
+            prayerTimes?.timings.maghrib ??
+            prayerTimesHive?.timings.maghrib ??
+            "00:00",
+        "Isha":
+            prayerTimes?.timings.isha ??
+            prayerTimesHive?.timings.isha ??
+            "00:00",
+      };
+
+      TimeOfDay? convert(String? time) {
+        if (time == null) return null;
+        // Accept formats like "HH:mm" or "HH-mm"; fallback to 00:00 if invalid
+        final normalized = time.contains(":")
+            ? time
+            : time.replaceAll("-", ":");
+        final parts = normalized.split(":");
+        if (parts.length < 2) return null;
+        final h = int.tryParse(parts[0]) ?? 0;
+        final m = int.tryParse(parts[1]) ?? 0;
+        return TimeOfDay(hour: h, minute: m);
       }
 
-      notifyListeners();
+      final upcoming = prayerMap.entries
+          .map((e) => MapEntry(e.key, convert(e.value)))
+          .where((e) => e.value != null)
+          .where(
+            (e) =>
+                e.value!.hour > now.hour ||
+                (e.value!.hour == now.hour && e.value!.minute > now.minute),
+          )
+          .toList();
+
+      // لو في صلوات جاية النهاردة
+      if (upcoming.isNotEmpty) {
+        upcoming.sort((a, b) => a.value!.hour.compareTo(b.value!.hour));
+        final next = upcoming.first;
+        nextPrayerKeyLocal = next.key; // Store prayer key
+        nextPrayerTimeLocal = prayerMap[next.key];
+      } else {
+        // لو مفيش → الصلاة الجاية بكرة هي الفجر
+        nextPrayerKeyLocal = "fajr";
+        nextPrayerTimeLocal = prayerMap["fajr"];
+      }
+    } catch (e) {
+      log(e.toString());
     }
   }
 
-  Future<void> loadNextTimeFromHive() async {
-    try {
-      nextPrayerLocal = sl.get<HiveService>().getData<NextPrayerResponse>(
-        HiveKeys.nextPrayerBox,
-        HiveKeys.nextPrayerTimesTodayKey,
-      );
-    } catch (e) {
-      log("filed to Loadfrom Hive next prayes ${e.toString()}");
-    } finally {
-      log("Hive : ${nextPrayerLocal?.nextTimingkey}");
-      notifyListeners();
-    }
-  }
+  //fetchNextTime from internet
+  // NextPrayerResponse? nextPrayer;
+  // NextPrayerResponse? nextPrayerLocal;
+  // Future<void> fetchNextTime() async {
+  //   try {
+  //     var result = await _homeRepo.nextPrayerTime(
+  //       currentLocation!.lat,
+  //       currentLocation!.long,
+  //     );
+  //     nextPrayer = result;
+  //   } catch (e) {
+  //     log("failed to fetch next prayers ${e.toString()}");
+  //   } finally {
+  //     log("from api  ${nextPrayer?.nextTimingValue}");
+  //     if (nextPrayer != null) {
+  //       await sl.get<HiveService>().putData<NextPrayerResponse>(
+  //         HiveKeys.nextPrayerBox,
+  //         HiveKeys.nextPrayerTimesTodayKey,
+  //         nextPrayer!,
+  //       );
+  //     }
+  //     notifyListeners();
+  //   }
+  // }
+
+  // Future<void> loadNextTimeFromHive() async {
+  //   try {
+  //     nextPrayerLocal = sl.get<HiveService>().getData<NextPrayerResponse>(
+  //       HiveKeys.nextPrayerBox,
+  //       HiveKeys.nextPrayerTimesTodayKey,
+  //     );
+  //   } catch (e) {
+  //     log("failed to Load from Hive next prayers ${e.toString()}");
+  //   } finally {
+  //     log("Hive : ${nextPrayerLocal?.nextTimingkey}");
+  //     notifyListeners();
+  //   }
+  // }
 
   Future<void> toggleActive({required String prayerKey}) async {
     if (prayerTimesHive == null) return;

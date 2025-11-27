@@ -1,4 +1,4 @@
-import 'package:azkark/Features/Home/domain/home_repo.dart';
+import 'package:azkark/Features/Home/domain/repo/home_repo.dart';
 import 'package:azkark/akark_app_body.dart';
 import 'package:azkark/core/services/service_locator.dart';
 import 'package:azkark/core/utils/helper/mehtod_helper.dart';

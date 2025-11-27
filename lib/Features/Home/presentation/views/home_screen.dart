@@ -1,5 +1,5 @@
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
-import 'package:azkark/Features/Home/presentation/views/setting_screen.dart';
+import 'package:azkark/Features/Home/presentation/widgets/customize_home_app_bar.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/_build_home_slivers.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/date_and_location_details.dart';
@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
       bodyContent = Center(
         child: Text(
           provider.errorMsg,
-          style: TextStyle(color: Colors.red, fontSize: 18.sp),
+          style: TextStyle(color: Colors.black, fontSize: 18.sp),
         ),
       );
     } else {

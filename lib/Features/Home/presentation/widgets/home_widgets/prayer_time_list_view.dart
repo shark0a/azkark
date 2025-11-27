@@ -1,4 +1,6 @@
-import 'package:azkark/Features/All_acts_of_worship/data/prayer_icon_name_models.dart';
+import 'dart:developer';
+
+import 'package:azkark/Features/Home/data/prayer_time_page_model.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_detail_container.dart';
 import 'package:flutter/material.dart';
@@ -38,29 +40,34 @@ class PrayerTimeHorezontalListView extends StatelessWidget {
                 physics: BouncingScrollPhysics(),
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
+                    log("this isis iiAAAAAAAAAA ");
                     provider.toggleNextPrayerTimeIndex(index);
                   },
                   child: Padding(
                     padding: EdgeInsets.only(
                       right: index == 0
                           ? 0.w
-                          : index == prayerIconAndTime.length - 1
+                          : index == prayersTimePageItems.length - 1
                           ? 0.w
                           : 14.w,
                     ),
                     child: Center(
                       child: PrayerDetailContainer(
-                        active: index == provider.nextprayerTimeIndex,
-                        prayerName: prayerIconAndTime[index].name,
+                        active: prayersTimePageItems[index].localizationKey
+                            .toLowerCase()
+                            .contains(
+                              provider.nextPrayerKeyLocal?.toLowerCase() ?? "",
+                            ),
+                        prayerName: prayersTimePageItems[index].name,
                         prayerTime: timesLocal[index],
-                        prayerIcon: prayerIconAndTime[index].prayerIcon,
+                        prayerIcon: prayersTimePageItems[index].prayerImage,
                         localizationKey:
-                            prayerIconAndTime[index].localizationKey,
+                            prayersTimePageItems[index].localizationKey,
                       ),
                     ),
                   ),
                 ),
-                itemCount: prayerIconAndTime.length,
+                itemCount: prayersTimePageItems.length,
               )
             : ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -68,28 +75,35 @@ class PrayerTimeHorezontalListView extends StatelessWidget {
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
                     provider.toggleNextPrayerTimeIndex(index);
+                    log(
+                      "this isis ii ${prayersTimePageItems[index].localizationKey.toLowerCase().toString()}",
+                    );
                   },
                   child: Padding(
                     padding: EdgeInsets.only(
                       right: index == 0
                           ? 0.w
-                          : index == prayerIconAndTime.length - 1
+                          : index == prayersTimePageItems.length - 1
                           ? 0.w
                           : 14.w,
                     ),
                     child: Center(
                       child: PrayerDetailContainer(
-                        active: index == provider.nextprayerTimeIndex,
-                        prayerName: prayerIconAndTime[index].name,
+                        active: prayersTimePageItems[index].localizationKey
+                            .toLowerCase()
+                            .contains(
+                              provider.nextPrayerKeyLocal?.toLowerCase() ?? "",
+                            ),
+                        prayerName: prayersTimePageItems[index].name,
                         prayerTime: timesApi[index],
-                        prayerIcon: prayerIconAndTime[index].prayerIcon,
+                        prayerIcon: prayersTimePageItems[index].prayerImage,
                         localizationKey:
-                            prayerIconAndTime[index].localizationKey,
+                            prayersTimePageItems[index].localizationKey,
                       ),
                     ),
                   ),
                 ),
-                itemCount: prayerIconAndTime.length,
+                itemCount: prayersTimePageItems.length,
               ),
       ),
     );

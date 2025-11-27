@@ -13,7 +13,7 @@ class DateAndLocationDetails extends StatelessWidget {
   final HomeController provider;
   @override
   Widget build(BuildContext context) {
-    final lang = sl.get<SharedPref>().getString(SharedPrefKeys.langKey) ?? 'ar';
+    final lang = sl.get<SharedPref>().getString(SharedPrefKeys.langKey) ?? 'en';
     final Map<String, String> timezoneArabic = {
       "Africa/Cairo": "القاهرة، مصر",
       "Asia/Riyadh": "آسيا/الرياض",
@@ -79,7 +79,7 @@ class DateAndLocationDetails extends StatelessWidget {
                                 ? '${provider.prayerTimes?.date.hijri.weekday.ar} ${provider.prayerTimes?.date.hijri.day} ${provider.prayerTimes?.date.hijri.month.ar} ${provider.prayerTimes?.date.hijri.year} هـ'
                                 : '${provider.prayerTimesHive?.date.hijri.weekday.ar ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.day ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.month.ar ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.year ?? "--:--"} هـ',
                             style: AppStyles.light15.copyWith(
-                              fontSize: 14.sp,
+                              fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
                             ),
                           )
@@ -88,8 +88,8 @@ class DateAndLocationDetails extends StatelessWidget {
                                 ? '${provider.prayerTimes?.date.hijri.weekday.en} ${provider.prayerTimes?.date.hijri.day} ${provider.prayerTimes?.date.hijri.month.en} ${provider.prayerTimes?.date.hijri.year}'
                                 : '${provider.prayerTimesHive?.date.hijri.weekday.en ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.day ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.month.en ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.year ?? "--:--"}',
                             style: AppStyles.light15.copyWith(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                   ],
