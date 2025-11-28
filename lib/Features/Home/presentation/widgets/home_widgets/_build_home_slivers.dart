@@ -49,16 +49,20 @@ List<Widget> buildHomeSlivers(HomeController homeController) {
   if (homeController.bottomNavigationIndex == 0) {
     return [
       SliverToBoxAdapter(child: SizedBox(height: 8.h)),
-      SliverToBoxAdapter(
-        child: SizedBox(
-          height: 100.h,
-          child: PrayerTimeHorezontalListView(provider: homeController),
-        ),
-      ),
+      homeController.isLoadingLocation || homeController.isFetchingPrayerTimes
+          ? SliverToBoxAdapter(child: SizedBox.shrink())
+          : SliverToBoxAdapter(
+              child: SizedBox(
+                height: 100.h,
+                child: PrayerTimeHorezontalListView(provider: homeController),
+              ),
+            ),
       SliverToBoxAdapter(child: SizedBox(height: 14.h)),
-      SliverToBoxAdapter(
-        child: PrayerTimeBanner(homeController: homeController),
-      ),
+      homeController.isLoadingLocation || homeController.isFetchingPrayerTimes
+          ? SliverToBoxAdapter(child: SizedBox.shrink())
+          : SliverToBoxAdapter(
+              child: PrayerTimeBanner(homeController: homeController),
+            ),
       SliverToBoxAdapter(child: SizedBox(height: 18.h)),
       SliverToBoxAdapter(child: AllOfOptions()),
       SliverToBoxAdapter(child: SizedBox(height: 18.h)),
@@ -70,12 +74,14 @@ List<Widget> buildHomeSlivers(HomeController homeController) {
     SliverToBoxAdapter(child: SizedBox(height: 20.h)),
     SliverToBoxAdapter(child: SvgPicture.asset('assets/stopwatch.svg')),
     SliverToBoxAdapter(child: SizedBox(height: 20.h)),
-    SliverToBoxAdapter(
-      child: LeftTimeWidget(
-        nextPrayer: localizedNextPrayer,
-        leftTime: nextTimeVlaue,
-      ),
-    ),
+    homeController.isLoadingLocation || homeController.isFetchingPrayerTimes
+        ? SliverToBoxAdapter(child: SizedBox.shrink())
+        : SliverToBoxAdapter(
+            child: LeftTimeWidget(
+              nextPrayer: localizedNextPrayer,
+              leftTime: nextTimeVlaue,
+            ),
+          ),
     SliverToBoxAdapter(child: SizedBox(height: 20.h)),
     SliverToBoxAdapter(child: PrayerTimeVerticalListView()),
   ];

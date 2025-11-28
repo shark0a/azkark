@@ -8,7 +8,7 @@ part of 'all_azkar_model.dart';
 
 class AzkarModelAdapter extends TypeAdapter<AzkarModel> {
   @override
-  final int typeId = 12;
+  final int typeId = 16;
 
   @override
   AzkarModel read(BinaryReader reader) {

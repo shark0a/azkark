@@ -450,6 +450,179 @@ class DateModelHiveModelAdapter extends TypeAdapter<DateModelHiveModel> {
           typeId == other.typeId;
 }
 
+class MetaHiveModelAdapter extends TypeAdapter<MetaHiveModel> {
+  @override
+  final int typeId = 18;
+
+  @override
+  MetaHiveModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return MetaHiveModel(
+      latitude: fields[0] as double,
+      longitude: fields[1] as double,
+      timezone: fields[2] as String,
+      method: fields[3] as MethodHiveModel,
+      latitudeAdjustmentMethod: fields[4] as String,
+      midnightMode: fields[5] as String,
+      school: fields[6] as String,
+      offset: (fields[7] as Map).cast<String, int>(),
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, MetaHiveModel obj) {
+    writer
+      ..writeByte(8)
+      ..writeByte(0)
+      ..write(obj.latitude)
+      ..writeByte(1)
+      ..write(obj.longitude)
+      ..writeByte(2)
+      ..write(obj.timezone)
+      ..writeByte(3)
+      ..write(obj.method)
+      ..writeByte(4)
+      ..write(obj.latitudeAdjustmentMethod)
+      ..writeByte(5)
+      ..write(obj.midnightMode)
+      ..writeByte(6)
+      ..write(obj.school)
+      ..writeByte(7)
+      ..write(obj.offset);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MetaHiveModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class MethodHiveModelAdapter extends TypeAdapter<MethodHiveModel> {
+  @override
+  final int typeId = 12;
+
+  @override
+  MethodHiveModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return MethodHiveModel(
+      id: fields[0] as int,
+      name: fields[1] as String,
+      params: fields[2] as MethodParamsHiveModel,
+      location: fields[3] as MethodLocationHiveModel,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, MethodHiveModel obj) {
+    writer
+      ..writeByte(4)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.params)
+      ..writeByte(3)
+      ..write(obj.location);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MethodHiveModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class MethodParamsHiveModelAdapter extends TypeAdapter<MethodParamsHiveModel> {
+  @override
+  final int typeId = 15;
+
+  @override
+  MethodParamsHiveModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return MethodParamsHiveModel(
+      fajr: fields[0] as double,
+      isha: fields[1] as double,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, MethodParamsHiveModel obj) {
+    writer
+      ..writeByte(2)
+      ..writeByte(0)
+      ..write(obj.fajr)
+      ..writeByte(1)
+      ..write(obj.isha);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MethodParamsHiveModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class MethodLocationHiveModelAdapter
+    extends TypeAdapter<MethodLocationHiveModel> {
+  @override
+  final int typeId = 17;
+
+  @override
+  MethodLocationHiveModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return MethodLocationHiveModel(
+      latitude: fields[0] as double,
+      longitude: fields[1] as double,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, MethodLocationHiveModel obj) {
+    writer
+      ..writeByte(2)
+      ..writeByte(0)
+      ..write(obj.latitude)
+      ..writeByte(1)
+      ..write(obj.longitude);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MethodLocationHiveModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
 class PrayerDataHiveModelAdapter extends TypeAdapter<PrayerDataHiveModel> {
   @override
   final int typeId = 10;
@@ -463,19 +636,22 @@ class PrayerDataHiveModelAdapter extends TypeAdapter<PrayerDataHiveModel> {
     return PrayerDataHiveModel(
       timings: fields[0] as TimingsHiveModel,
       date: fields[1] as DateModelHiveModel,
-      activePrayers: (fields[2] as Map).cast<String, bool>(),
+      meta: fields[2] as MetaHiveModel,
+      activePrayers: (fields[3] as Map).cast<String, bool>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, PrayerDataHiveModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.timings)
       ..writeByte(1)
       ..write(obj.date)
       ..writeByte(2)
+      ..write(obj.meta)
+      ..writeByte(3)
       ..write(obj.activePrayers);
   }
 

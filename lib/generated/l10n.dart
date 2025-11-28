@@ -470,6 +470,16 @@ class S {
     );
   }
 
+  /// `Please check your internet Connection or resart App 🚑`
+  String get PleasecheckyourinternetConnectionorresartApp {
+    return Intl.message(
+      'Please check your internet Connection or resart App 🚑',
+      name: 'PleasecheckyourinternetConnectionorresartApp',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Gregorian Date:`
   String get gregorian_date {
     return Intl.message(

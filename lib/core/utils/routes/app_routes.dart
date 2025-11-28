@@ -13,6 +13,7 @@ import 'package:azkark/Features/Home/presentation/views/home_screen.dart';
 import 'package:azkark/Features/Home/presentation/views/seconde_splash_screen.dart';
 import 'package:azkark/Features/Home/presentation/views/setting_screen.dart';
 import 'package:azkark/Features/Home/presentation/views/splash_screen.dart';
+import 'package:azkark/Features/Home/presentation/views/test_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -33,6 +34,7 @@ class AppRoutes {
   static const kFavouriteScreen = "/favouriteScreen";
   static const kVariousAzkar = "/VariousAzkar";
   static const kVariousZekr = "/VariousZekr";
+  // static const kNotificationTestScreen = "/NotificationTestScreen";
   static final route = GoRouter(
     routes: [
       GoRoute(path: "/", builder: (context, state) => SecondeSplashScreen()),
@@ -71,6 +73,10 @@ class AppRoutes {
         path: kAzkarPrayers,
         builder: (context, state) => const AzkarPrayers(),
       ),
+      // GoRoute(
+      //   path: kNotificationTestScreen,
+      //   builder: (context, state) => const NotificationTestScreen(),
+      // ),
       GoRoute(
         path: kAllPrayers,
         builder: (context, state) => const AllPrayers(),

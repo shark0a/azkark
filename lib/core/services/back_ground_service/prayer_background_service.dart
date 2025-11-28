@@ -49,74 +49,11 @@ class PrayerBackgroundService {
         );
 
         log("fetchDailyPrayers saved successfully.");
-
+        await NotificationService.instance.init();
         await NotificationService.instance.scheduleDailyPrayers();
       }
     } catch (e, st) {
       log("fetchDailyPrayers ERROR: $e\n$st");
     }
   }
-
-  /// Fetch next prayer from Hive only (no API)
-  // static Future<Map<String, String>?> fetchNextPrayerFromHive() async {
-  //   try {
-  //     final hive = sl.get<HiveService>();
-  //     final prayerTimesHive = hive.getData<PrayerDataHiveModel>(
-  //       HiveKeys.prayersBox,
-  //       HiveKeys.prayersTimesTodayKey,
-  //     );
-
-  //     if (prayerTimesHive == null) {
-  //       await fetchDailyPrayers();
-  //       return null;
-  //     }
-
-  //     final now = TimeOfDay.now();
-  //     final prayerMap = {
-  //       "Fajr": prayerTimesHive.timings.fajr,
-  //       "Dhuhr": prayerTimesHive.timings.dhuhr,
-  //       "Asr": prayerTimesHive.timings.asr,
-  //       "Maghrib": prayerTimesHive.timings.maghrib,
-  //       "Isha": prayerTimesHive.timings.isha,
-  //     };
-
-  //     TimeOfDay? convert(String? time) {
-  //       if (time == null) return null;
-  //       final parts = time.split(":");
-  //       return TimeOfDay(
-  //         hour: int.parse(parts[0]),
-  //         minute: int.parse(parts[1]),
-  //       );
-  //     }
-
-  //     final upcoming = prayerMap.entries
-  //         .map((e) => MapEntry(e.key, convert(e.value)))
-  //         .where((e) => e.value != null)
-  //         .where(
-  //           (e) =>
-  //               e.value!.hour > now.hour ||
-  //               (e.value!.hour == now.hour && e.value!.minute > now.minute),
-  //         )
-  //         .toList();
-
-  //     String nextPrayerName;
-  //     String nextPrayerTime;
-
-  //     if (upcoming.isNotEmpty) {
-  //       upcoming.sort((a, b) => a.value!.hour.compareTo(b.value!.hour));
-  //       final next = upcoming.first;
-  //       nextPrayerName = next.key;
-  //       nextPrayerTime = prayerMap[next.key]!;
-  //     } else {
-  //       nextPrayerName = "Fajr";
-  //       nextPrayerTime = prayerMap["Fajr"]!;
-  //     }
-
-  //     log("Next prayer (Hive): $nextPrayerName at $nextPrayerTime");
-  //     return {"name": nextPrayerName, "time": nextPrayerTime};
-  //   } catch (e) {
-  //     log("fetchNextPrayerFromHive ERROR: $e");
-  //     return null;
-  //   }
-  // }
 }

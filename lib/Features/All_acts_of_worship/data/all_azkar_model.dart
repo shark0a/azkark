@@ -38,7 +38,7 @@ import 'package:hive/hive.dart';
 
 part 'all_azkar_model.g.dart';
 
-@HiveType(typeId: 12)
+@HiveType(typeId: 16)
 class AzkarModel {
   @HiveField(0)
   final int id;

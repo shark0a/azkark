@@ -21,5 +21,8 @@ void registerAdapters() {
   Hive.registerAdapter(FavItemsModelAdapter());
   Hive.registerAdapter(CurrentLocationModelAdapter());
   Hive.registerAdapter(NextPrayerResponseAdapter());
-
+  Hive.registerAdapter(MethodParamsHiveModelAdapter());
+  Hive.registerAdapter(MethodLocationHiveModelAdapter());
+  Hive.registerAdapter(MetaHiveModelAdapter());
+  Hive.registerAdapter(MethodHiveModelAdapter());
 }

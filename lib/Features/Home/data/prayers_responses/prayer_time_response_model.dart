@@ -352,6 +352,7 @@ class MethodLocation {
     );
   }
 }
+
 extension PrayerDataExtension on PrayerData {
   PrayerDataHiveModel toHiveModel() {
     return PrayerDataHiveModel(
@@ -407,6 +408,29 @@ extension PrayerDataExtension on PrayerData {
           ),
           lunarSighting: date.gregorian.lunarSighting,
         ),
+      ),
+
+      meta: MetaHiveModel(
+        // ✅ إضافة الـ Meta
+        latitude: meta.latitude,
+        longitude: meta.longitude,
+        timezone: meta.timezone,
+        method: MethodHiveModel(
+          id: meta.method.id,
+          name: meta.method.name,
+          params: MethodParamsHiveModel(
+            fajr: meta.method.params.fajr,
+            isha: meta.method.params.isha,
+          ),
+          location: MethodLocationHiveModel(
+            latitude: meta.method.location.latitude,
+            longitude: meta.method.location.longitude,
+          ),
+        ),
+        latitudeAdjustmentMethod: meta.latitudeAdjustmentMethod,
+        midnightMode: meta.midnightMode,
+        school: meta.school,
+        offset: meta.offset,
       ),
       activePrayers: {
         'fajr': true,

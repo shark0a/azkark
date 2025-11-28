@@ -17,46 +17,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     final provider = context.watch<HomeController>();
-
-    Widget bodyContent;
-
-    if (provider.isLoadingLocation || provider.isFetchingPrayerTimes) {
-      bodyContent = const Center(child: CircularProgressIndicator());
-    } else if (provider.errorMsg.isNotEmpty) {
-      bodyContent = Center(
-        child: Text(
-          provider.errorMsg,
-          style: TextStyle(color: Colors.black, fontSize: 18.sp),
-        ),
-      );
-    } else {
-      bodyContent = SafeArea(
-        top: false,
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: provider.bottomNavigationIndex == 0 ? 60 : 0,
-          ),
-          child: CustomScrollView(
-            physics: BouncingScrollPhysics(),
-            slivers: [
-              SliverToBoxAdapter(
-                child: TextButton(
-                  onPressed: () {
-                    provider.toggleLocale();
-                  },
-                  child: Text("data"),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: DateAndLocationDetails(provider: provider),
-              ),
-              ...buildHomeSlivers(provider),
-            ],
-          ),
-        ),
-      );
-    }
-
     return Scaffold(
       appBar: provider.bottomNavigationIndex == 0
           ? null
@@ -70,7 +30,25 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-      body: bodyContent,
+      body: SafeArea(
+        top: false,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: provider.bottomNavigationIndex == 0 ? 60 : 0,
+          ),
+          child: CustomScrollView(
+            physics: BouncingScrollPhysics(),
+            slivers: [
+              provider.isLoadingLocation || provider.isFetchingPrayerTimes
+                  ? SliverToBoxAdapter(child: SizedBox.shrink())
+                  : SliverToBoxAdapter(
+                      child: DateAndLocationDetails(provider: provider),
+                    ),
+              ...buildHomeSlivers(provider),
+            ],
+          ),
+        ),
+      ),
       bottomNavigationBar: CustomButtomNavigationBar(provider: provider),
     );
   }

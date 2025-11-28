@@ -24,6 +24,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "PleasecheckyourinternetConnectionorresartApp":
+            MessageLookupByLibrary.simpleMessage(
+                "Please check your internet Connection or resart App 🚑"),
         "alhamdulillah":
             MessageLookupByLibrary.simpleMessage("All praise is due to Allah"),
         "all_duas": MessageLookupByLibrary.simpleMessage("All Duas"),

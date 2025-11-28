@@ -43,6 +43,7 @@
 	"app_version": "App Version",
 	"gregorian": "Gregorian",
 	"hijri": "Hijri",
+	"PleasecheckyourinternetConnectionorresartApp":"Please check your internet Connection or resart App 🚑",
 	"gregorian_date": "Gregorian Date:",
 	"hijri_date": "Hijri Date:",
 	"error_converting": "Conversion Error",

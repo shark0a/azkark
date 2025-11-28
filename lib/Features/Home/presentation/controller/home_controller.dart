@@ -301,6 +301,7 @@ class HomeController extends ChangeNotifier {
       }
 
       final updated = PrayerDataHiveModel(
+        meta: prayerTimesHive!.meta,
         timings: prayerTimesHive!.timings,
         date: prayerTimesHive!.date,
         activePrayers: updatedActivePrayers,

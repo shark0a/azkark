@@ -197,6 +197,76 @@ class DateModelHiveModel extends HiveObject {
   });
 }
 
+@HiveType(typeId: 18)
+class MetaHiveModel extends HiveObject {
+  @HiveField(0)
+  final double latitude;
+  @HiveField(1)
+  final double longitude;
+  @HiveField(2)
+  final String timezone;
+  @HiveField(3)
+  final MethodHiveModel method;
+  @HiveField(4)
+  final String latitudeAdjustmentMethod;
+  @HiveField(5)
+  final String midnightMode;
+  @HiveField(6)
+  final String school;
+  @HiveField(7)
+  final Map<String, int> offset;
+
+  MetaHiveModel({
+    required this.latitude,
+    required this.longitude,
+    required this.timezone,
+    required this.method,
+    required this.latitudeAdjustmentMethod,
+    required this.midnightMode,
+    required this.school,
+    required this.offset,
+  });
+}
+
+@HiveType(typeId: 12)
+class MethodHiveModel extends HiveObject {
+  @HiveField(0)
+  final int id;
+  @HiveField(1)
+  final String name;
+  @HiveField(2)
+  final MethodParamsHiveModel params;
+  @HiveField(3)
+  final MethodLocationHiveModel location;
+
+  MethodHiveModel({
+    required this.id,
+    required this.name,
+    required this.params,
+    required this.location,
+  });
+}
+
+@HiveType(typeId: 15)
+class MethodParamsHiveModel extends HiveObject {
+  @HiveField(0)
+  final double fajr;
+  @HiveField(1)
+  final double isha;
+
+  MethodParamsHiveModel({required this.fajr, required this.isha});
+}
+
+@HiveType(typeId: 17)
+class MethodLocationHiveModel extends HiveObject {
+  @HiveField(0)
+  final double latitude;
+  @HiveField(1)
+  final double longitude;
+
+  MethodLocationHiveModel({required this.latitude, required this.longitude});
+}
+
 // ---------------- PRAYER DATA ----------------
 @HiveType(typeId: 10)
 class PrayerDataHiveModel extends HiveObject {
@@ -205,11 +275,14 @@ class PrayerDataHiveModel extends HiveObject {
   @HiveField(1)
   final DateModelHiveModel date;
   @HiveField(2)
+  final MetaHiveModel meta; // ✅ إضافة الـ Meta
+  @HiveField(3)
   final Map<String, bool> activePrayers;
 
   PrayerDataHiveModel({
     required this.timings,
     required this.date,
+    required this.meta, // ✅ إضافة الـ Meta
     required this.activePrayers,
   });
 }

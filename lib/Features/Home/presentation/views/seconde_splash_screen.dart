@@ -27,40 +27,66 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initApp();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _initApp();
     });
   }
 
   Future<void> _initApp() async {
     if (!mounted) return;
+
     final homeController = context.read<HomeController>();
     final azkarProvider = context.read<AzkarProvider>();
+
+    // تحميل بيانات الأذكار أولاً
+    await azkarProvider.loadDataFromJson();
+    await azkarProvider.loadFavList();
+
+    // الحصول على حالة الفتح الأول
     final bool isFirstOpen =
         sl.get<SharedPref>().getBool(SharedPrefKeys.firstTimeOpen) ?? true;
 
-    await azkarProvider.loadDataFromJson();
+    print('isFirstOpen: $isFirstOpen'); // إضافة طباعة للتتبع
+
+    // التحقق من آخر مرة تم فيها جلب أوقات الصلاة
     final lastFetch = sl.get<SharedPref>().getInt('lastPrayerFetch');
-    final now = DateTime.now().millisecondsSinceEpoch;
+    final nowMillis = DateTime.now().millisecondsSinceEpoch;
     const oneDayMillis = 24 * 60 * 60 * 1000;
 
-    if (lastFetch == null || now - lastFetch > oneDayMillis) {
+    print('lastFetch: $lastFetch'); // إضافة طباعة
+    print('nowMillis: $nowMillis'); // إضافة طباعة
+
+    bool needFetchPrayers =
+        (lastFetch == null) || (nowMillis - lastFetch > oneDayMillis);
+
+    print('needFetchPrayers: $needFetchPrayers'); // إضافة طباعة
+    if (needFetchPrayers) {
+      print('Fetching new prayer times...'); // إضافة طباعة
       if (lastFetch == null) {
         await homeController.initLocation();
       }
       await homeController.fetchPrayersTimes();
+      await sl.get<SharedPref>().setInt('lastPrayerFetch', nowMillis);
+      print('Saved lastPrayerFetch: $nowMillis'); // إضافة طباعة
     } else {
+      print('Loading local prayer data...'); // إضافة طباعة
       await homeController.loadingLocalData();
     }
 
-    await azkarProvider.loadFavList();
+    // حساب الصلاة القادمة في كل الحالات
     await homeController.fetchNextPrayer();
+
+    // إعداد الإشعارات للمرة الأولى فقط
     if (isFirstOpen) {
+      print('First time open - setting up notifications...'); // إضافة طباعة
       await NotificationService.instance.init();
       await NotificationService.instance.scheduleDailyPrayers();
+      await sl.get<SharedPref>().setBool(SharedPrefKeys.firstTimeOpen, false);
+      print('Set firstTimeOpen to false'); // إضافة طباعة
     }
 
-    // await Future.delayed(const Duration(milliseconds: 600));
+    await Future.delayed(const Duration(milliseconds: 200));
+
     if (mounted) {
       setState(() {
         _isLoading = false;
@@ -89,6 +115,8 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
               SvgPicture.asset("assets/seconde_Logo.svg")
                   .animate(
                     onComplete: (controller) {
+                      Future.delayed(Duration(milliseconds: 100));
+
                       context.go(AppRoutes.kHomeScreen);
                     },
                     delay: 200.ms,

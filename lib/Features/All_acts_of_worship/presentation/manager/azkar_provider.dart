@@ -41,7 +41,6 @@ class AzkarProvider extends ChangeNotifier {
       throw "open file has error $e";
     } finally {
       _isLoading = false;
-      sl.get<SharedPref>().setBool(SharedPrefKeys.firstTimeOpen, false);
       notifyListeners();
     }
   }
