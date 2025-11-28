@@ -1,3 +1,4 @@
+
 import 'package:azkark/Features/All_acts_of_worship/data/fav_items_model.dart';
 import 'package:azkark/Features/Home/data/current_location_model.dart';
 import 'package:azkark/Features/Home/data/prayers_responses/next_prayer_reposne.dart';
@@ -24,6 +25,11 @@ Future<void> setupServiceLocator({
   // Dio
   sl.registerLazySingleton<Dio>(() {
     final dio = Dio(BaseOptions(baseUrl: baseUrl));
+    // Set timeouts explicitly
+    dio.options.connectTimeout = const Duration(seconds: 30);
+    dio.options.receiveTimeout = const Duration(seconds: 30);
+    dio.options.sendTimeout = const Duration(seconds: 30);
+
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
@@ -38,7 +44,7 @@ Future<void> setupServiceLocator({
   });
 
   // API Service
-  sl.registerLazySingleton<ApiServices>(() => ApiServices(dio: sl<Dio>()));
+   sl.registerLazySingleton<ApiServices>(() => ApiServices(dio: sl<Dio>()));
 
   // Home Repo
   sl.registerLazySingleton<HomeRepo>(

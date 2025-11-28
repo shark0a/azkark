@@ -13,7 +13,6 @@ import 'package:azkark/Features/Home/presentation/views/home_screen.dart';
 import 'package:azkark/Features/Home/presentation/views/seconde_splash_screen.dart';
 import 'package:azkark/Features/Home/presentation/views/setting_screen.dart';
 import 'package:azkark/Features/Home/presentation/views/splash_screen.dart';
-import 'package:azkark/Features/Home/presentation/views/test_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

@@ -7,6 +7,7 @@ import 'package:azkark/Features/Home/presentation/widgets/prayer_time_widget/lef
 import 'package:azkark/Features/Home/presentation/widgets/prayer_time_widget/prayer_time_vertical_list_view.dart';
 import 'package:azkark/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -72,15 +73,29 @@ List<Widget> buildHomeSlivers(HomeController homeController) {
   }
   return [
     SliverToBoxAdapter(child: SizedBox(height: 20.h)),
-    SliverToBoxAdapter(child: SvgPicture.asset('assets/stopwatch.svg')),
+    SliverToBoxAdapter(
+      child: SvgPicture.asset('assets/stopwatch.svg').animate().slideX(
+        begin: -0.5,
+        end: 0,
+        duration: 2500.ms,
+        curve: Curves.easeInBack,
+      ),
+    ),
     SliverToBoxAdapter(child: SizedBox(height: 20.h)),
     homeController.isLoadingLocation || homeController.isFetchingPrayerTimes
         ? SliverToBoxAdapter(child: SizedBox.shrink())
         : SliverToBoxAdapter(
-            child: LeftTimeWidget(
-              nextPrayer: localizedNextPrayer,
-              leftTime: nextTimeVlaue,
-            ),
+            child:
+                LeftTimeWidget(
+                  nextPrayer: localizedNextPrayer,
+                  leftTime: nextTimeVlaue,
+                ).animate().slideX(
+                  begin: .5,
+                  end: 0,
+                  delay: 100.ms,
+                  duration: 2000.ms,
+                  curve: Curves.easeInBack,
+                ),
           ),
     SliverToBoxAdapter(child: SizedBox(height: 20.h)),
     SliverToBoxAdapter(child: PrayerTimeVerticalListView()),

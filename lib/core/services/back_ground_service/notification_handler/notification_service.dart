@@ -1,194 +1,4 @@
-// import 'dart:developer';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-// import 'package:azkark/core/services/service_locator.dart';
-// import 'package:azkark/Features/Home/data/prayers_time_hive_models.dart';
-// import 'package:azkark/core/utils/cache/hive_keys.dart';
-// import 'package:azkark/core/utils/cache/hive_service.dart';
-// import 'package:timezone/data/latest.dart' as tz;
-// import 'package:timezone/timezone.dart' as tz_local;
-
-// class NotificationService {
-//   NotificationService._privateConstructor();
-//   static final NotificationService instance =
-//       NotificationService._privateConstructor();
-
-//   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//       FlutterLocalNotificationsPlugin();
-
-//   /// تهيئة الإشعارات
-//   Future<void> init() async {
-//     tz.initializeTimeZones();
-
-//     const AndroidInitializationSettings androidSettings =
-//         AndroidInitializationSettings('@mipmap/launcher_icon');
-
-//     const DarwinInitializationSettings iosSettings =
-//         DarwinInitializationSettings(
-//           requestAlertPermission: true,
-//           requestBadgePermission: true,
-//           requestSoundPermission: true,
-//         );
-
-//     await flutterLocalNotificationsPlugin.initialize(
-//       const InitializationSettings(android: androidSettings, iOS: iosSettings),
-//     );
-
-//     // طلب إذن runtime على Android 13+
-//     await flutterLocalNotificationsPlugin
-//         .resolvePlatformSpecificImplementation<
-//           AndroidFlutterLocalNotificationsPlugin
-//         >()
-//         ?.requestNotificationsPermission();
-
-//     log("NotificationService initialized successfully");
-//   }
-
-//   /// جدولة إشعارات الصلوات اليومية
-//   /// جدولة إشعارات الصلوات اليومية (الإصدار المحسن)
-//   Future<void> scheduleDailyPrayers() async {
-//     try {
-//       final hive = sl.get<HiveService>();
-//       final prayerTimesHive = hive.getData<PrayerDataHiveModel>(
-//         HiveKeys.prayersBox,
-//         HiveKeys.prayersTimesTodayKey,
-//       );
-
-//       if (prayerTimesHive == null) {
-//         log("❌ No prayer times found in Hive");
-//         return;
-//       }
-
-//       log("🕌 Starting prayer scheduling...");
-//       log(
-//         "📅 API Times - Fajr: ${prayerTimesHive.timings.fajr}, Dhuhr: ${prayerTimesHive.timings.dhuhr}, Asr: ${prayerTimesHive.timings.asr}, Maghrib: ${prayerTimesHive.timings.maghrib}, Isha: ${prayerTimesHive.timings.isha}",
-//       );
-
-//       final prayerTimes = {
-//         "الفجر": _parseTime(prayerTimesHive.timings.fajr),
-//         "الظهر": _parseTime(prayerTimesHive.timings.dhuhr),
-//         "العصر": _parseTime(prayerTimesHive.timings.asr),
-//         "المغرب": _parseTime(prayerTimesHive.timings.maghrib),
-//         "العشاء": _parseTime(prayerTimesHive.timings.isha),
-//       };
-
-//       // tz.initializeTimeZones();
-
-//       final now = tz_local.TZDateTime.now(tz_local.local);
-//       log(
-//         "⏰ Device Current currentTimeZone: ${tz_local.local.currentTimeZone}",
-//       );
-//       log("⏰ Device Current currentTimeZonename: ${tz_local.local.name}");
-//       log("⏰ Device Current Time: $now");
-
-//       int successCount = 0;
-
-//       prayerTimes.forEach((name, time) {
-//         if (time != null) {
-//           final scheduled = _schedulePrayer(name, time, now);
-//           if (scheduled) successCount++;
-//         }
-//       });
-
-//       log(
-//         "🎉 Scheduling completed: $successCount/${prayerTimes.length} prayers scheduled",
-//       );
-//     } catch (e) {
-//       log("💥 ERROR in scheduleDailyPrayers: $e");
-//     }
-//   }
-
-//   /// تحويل وقت الصلاة من String إلى TimeOfDay
-//   TimeOfDay? _parseTime(String timeStr) {
-//     if (timeStr.isEmpty) return null;
-
-//     try {
-//       final normalized = timeStr.replaceAll("-", ":");
-//       final parts = normalized.split(':');
-//       if (parts.length < 2) return null;
-
-//       final hour = int.tryParse(parts[0]) ?? 0;
-//       final minute = int.tryParse(parts[1]) ?? 0;
-
-//       // ✅ التأكد من أن الوقت في نطاق 24-hour
-//       if (hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59) {
-//         return TimeOfDay(hour: hour, minute: minute);
-//       }
-//       return null;
-//     } catch (e) {
-//       log("❌ Error parsing time: $timeStr - $e");
-//       return null;
-//     }
-//   }
-
-//   /// جدولة صلاة واحدة
-//   bool _schedulePrayer(
-//     String name,
-//     TimeOfDay prayerTime,
-//     tz_local.TZDateTime now,
-//   ) {
-//     try {
-//       // ✅ إنشاء وقت الجدولة باستخدام الـ 24-hour format
-//       var scheduleTime = tz_local.TZDateTime(
-//         tz_local.local,
-//         now.year,
-//         now.month,
-//         now.day,
-//         prayerTime.hour, // ✅ hour من 0-23
-//         prayerTime.minute, // ✅ minute من 0-59
-//       );
-
-//       log(
-//         "🕒 $name -> API Time: ${prayerTime.hour}:${prayerTime.minute} -> Scheduled: $scheduleTime",
-//       );
-
-//       // ✅ إذا فات الوقت اليوم، نضيف يوم
-//       if (scheduleTime.isBefore(now)) {
-//         scheduleTime = scheduleTime.add(const Duration(days: 1));
-//         log("📅 $name -> Adjusted to tomorrow: $scheduleTime");
-//       }
-
-//       final timeUntilPrayer = scheduleTime.difference(now);
-//       log("⏱️ $name -> Will notify in: $timeUntilPrayer");
-
-//       flutterLocalNotificationsPlugin.zonedSchedule(
-//         name.hashCode,
-//         '🕌 حان وقت الصلاة',
-//         'صلاة $name',
-//         scheduleTime,
-//         NotificationDetails(
-//           android: AndroidNotificationDetails(
-//             'prayer_channel',
-//             'تنبيهات الصلوات',
-//             channelDescription: 'إشعارات بأوقات الصلوات',
-//             importance: Importance.max,
-//             priority: Priority.high,
-//             playSound: true,
-//             sound: RawResourceAndroidNotificationSound('azan'),
-//             icon: '@mipmap/launcher_icon',
-//           ),
-//           iOS: const DarwinNotificationDetails(sound: 'azan.aac'),
-//         ),
-//         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-//         matchDateTimeComponents: DateTimeComponents.time,
-//       );
-
-//       log("✅ SUCCESS: $name scheduled for $scheduleTime");
-//       return true;
-//     } catch (e) {
-//       log("❌ FAILED to schedule $name: $e");
-//       return false;
-//     }
-//   }
-
-//   /// إلغاء كل الإشعارات
-//   Future<void> cancelAll() async {
-//     await flutterLocalNotificationsPlugin.cancelAll();
-//     log("All notifications cancelled");
-//   }
-// }
 import 'dart:developer';
-
 import 'package:azkark/Features/Home/data/prayers_time_hive_models.dart';
 import 'package:azkark/core/services/service_locator.dart';
 import 'package:azkark/core/utils/cache/hive_keys.dart';
@@ -196,6 +6,7 @@ import 'package:azkark/core/utils/cache/hive_service.dart';
 import 'package:azkark/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter/services.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/timezone.dart' as tz_local;
@@ -264,7 +75,7 @@ class NotificationService {
 
       String timezoneName = 'Africa/Cairo'; // افتراضي
 
-      if (prayerTimesHive != null && prayerTimesHive.meta != null) {
+      if (prayerTimesHive != null) {
         // ✅ استخدام الـ timezone من الـ Meta في Hive
         timezoneName = prayerTimesHive.meta.timezone;
         log("🎯 Using timezone from Hive Meta: $timezoneName");
@@ -286,6 +97,30 @@ class NotificationService {
   /// جدولة إشعارات الصلوات اليومية
   Future<void> scheduleDailyPrayers() async {
     try {
+      // On Android 12+ exact alarms require special permission from the user.
+      // Ask platform to ensure exact alarms are allowed before scheduling.
+      const platform = MethodChannel('azkark/exact_alarm');
+      try {
+        final allowed = await platform.invokeMethod<bool>(
+          'ensureExactAlarmsAllowed',
+        );
+        if (allowed == false) {
+          log(
+            'Exact alarms not permitted by user; skipping scheduling and requesting permission via settings.',
+          );
+          return;
+        }
+      } on PlatformException catch (e) {
+        log(
+          'PlatformException while requesting exact alarm permission: ${e.message}',
+        );
+        // If we cannot request permission (e.g., in background), abort scheduling to avoid exception
+        return;
+      } catch (e) {
+        log('Unexpected error while checking exact alarm permission: $e');
+        return;
+      }
+
       final hive = sl.get<HiveService>();
       final prayerTimesHive = hive.getData<PrayerDataHiveModel>(
         HiveKeys.prayersBox,

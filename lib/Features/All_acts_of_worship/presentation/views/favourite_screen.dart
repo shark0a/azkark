@@ -4,6 +4,7 @@ import 'package:azkark/Features/Home/presentation/controller/home_controller.dar
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/azkar_morning_widget/elzeker_section_container.dart';
 import 'package:azkark/Features/Home/presentation/widgets/customize_app_bar.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
+import 'package:azkark/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,18 +16,17 @@ class FavouriteScreen extends StatelessWidget {
     final provider = context.watch<AzkarProvider>();
     final favList = provider.favList.values.toList();
     return Scaffold(
-      appBar: const PreferredSize(
+      appBar: PreferredSize(
         preferredSize: Size(double.infinity, 60),
-        child: CustomizeAppBar(title: 'المفضله'),
+        child: CustomizeAppBar(title: S.of(context).Fav),
       ),
       body: favList.isEmpty
-          ? const Center(child: Text("List is Empty"))
+          ?  Center(child: Text(S.of(context).ListisEmpty))
           : ListView.builder(
               itemCount: favList.length,
               padding: const EdgeInsets.symmetric(vertical: 10),
               itemBuilder: (context, index) {
                 final zekrItem = favList[index];
-
                 return KeyedSubtree(
                   key: ValueKey(zekrItem.id),
                   child: Selector<AzkarProvider, bool>(

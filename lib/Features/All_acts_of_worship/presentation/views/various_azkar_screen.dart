@@ -6,6 +6,7 @@ import 'package:azkark/Features/Home/presentation/widgets/customize_app_bar.dart
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
 import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/core/utils/routes/app_routes.dart';
+import 'package:azkark/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class VariousAzkarScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 60),
-        child: CustomizeAppBar(title: 'اذكار متنوعه'),
+        child: CustomizeAppBar(title: S.of(context).VariuosAzkar),
       ),
       body: variousDoaa.isEmpty
           ? Center(
@@ -30,6 +31,7 @@ class VariousAzkarScreen extends StatelessWidget {
               ),
             )
           : ListView.builder(
+              physics: BouncingScrollPhysics(),
               itemCount: variusAzkarItem.length,
               itemBuilder: (context, index) => Padding(
                 padding: const EdgeInsets.only(top: 20),

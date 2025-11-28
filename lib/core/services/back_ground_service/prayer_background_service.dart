@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:azkark/Features/Home/data/current_location_model.dart';
 import 'package:azkark/Features/Home/data/prayers_responses/prayer_time_response_model.dart';
 import 'package:azkark/Features/Home/data/prayers_time_hive_models.dart';
@@ -11,7 +12,6 @@ import 'package:azkark/core/utils/cache/shared_pre.dart';
 import 'package:azkark/core/utils/cache/shared_pref_keys.dart';
 
 class PrayerBackgroundService {
-  /// Fetches full day prayer times from API and stores in Hive
   static Future<void> fetchDailyPrayers() async {
     try {
       final homeRepo = sl.get<HomeRepo>();
@@ -22,38 +22,36 @@ class PrayerBackgroundService {
         HiveKeys.locationBox,
         HiveKeys.locationKey,
       );
-
-      if (location == null) {
-        // ignore: unnecessary_null_comparison
-        log("No saved location. Skipping fetchDailyPrayers.");
-        return;
-      }
+      if (location == null) return;
 
       final response = await homeRepo.getPrayersTime(
         location.lat,
         location.long,
       );
-
       if (response.data != null) {
         final hiveModel = response.data.toHiveModel();
 
-        await hive.putData<PrayerDataHiveModel>(
-          HiveKeys.prayersBox,
-          HiveKeys.prayersTimesTodayKey,
-          hiveModel,
-        );
+        // Save Hive & timezone
+        await Future.wait([
+          hive.putData<PrayerDataHiveModel>(
+            HiveKeys.prayersBox,
+            HiveKeys.prayersTimesTodayKey,
+            hiveModel,
+          ),
+          prefs.setString(
+            SharedPrefKeys.countryName,
+            response.data.meta.timezone,
+          ),
+          prefs.setInt(
+            'lastFetchDailyPrayers',
+            DateTime.now().millisecondsSinceEpoch,
+          ),
+        ]);
 
-        await prefs.setString(
-          SharedPrefKeys.countryName,
-          response.data.meta.timezone,
-        );
-
-        log("fetchDailyPrayers saved successfully.");
-        await NotificationService.instance.init();
         await NotificationService.instance.scheduleDailyPrayers();
       }
-    } catch (e, st) {
-      log("fetchDailyPrayers ERROR: $e\n$st");
+    } catch (_) {
+      log("Come from calll");
     }
   }
 }

@@ -16,7 +16,6 @@ import 'package:provider/provider.dart';
 
 class SecondeSplashScreen extends StatefulWidget {
   const SecondeSplashScreen({super.key});
-
   @override
   State<SecondeSplashScreen> createState() => _SecondeSplashScreenState();
 }
@@ -27,9 +26,7 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _initApp();
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) async => _initApp());
   }
 
   Future<void> _initApp() async {
@@ -37,61 +34,52 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
 
     final homeController = context.read<HomeController>();
     final azkarProvider = context.read<AzkarProvider>();
+    final prefs = sl.get<SharedPref>();
+    await homeController.fetchPrayersTimes();
 
-    // تحميل بيانات الأذكار أولاً
-    await azkarProvider.loadDataFromJson();
-    await azkarProvider.loadFavList();
+    // Load Azkar & favorites in parallel
+    await Future.wait([
+      azkarProvider.loadDataFromJson(),
+      azkarProvider.loadFavList(),
+    ]);
 
-    // الحصول على حالة الفتح الأول
-    final bool isFirstOpen =
-        sl.get<SharedPref>().getBool(SharedPrefKeys.firstTimeOpen) ?? true;
-
-    print('isFirstOpen: $isFirstOpen'); // إضافة طباعة للتتبع
-
-    // التحقق من آخر مرة تم فيها جلب أوقات الصلاة
-    final lastFetch = sl.get<SharedPref>().getInt('lastPrayerFetch');
+    final lastFetch = prefs.getInt('lastPrayerFetch') ?? 0;
     final nowMillis = DateTime.now().millisecondsSinceEpoch;
     const oneDayMillis = 24 * 60 * 60 * 1000;
 
-    print('lastFetch: $lastFetch'); // إضافة طباعة
-    print('nowMillis: $nowMillis'); // إضافة طباعة
-
-    bool needFetchPrayers =
-        (lastFetch == null) || (nowMillis - lastFetch > oneDayMillis);
-
-    print('needFetchPrayers: $needFetchPrayers'); // إضافة طباعة
-    if (needFetchPrayers) {
-      print('Fetching new prayer times...'); // إضافة طباعة
-      if (lastFetch == null) {
+    if (nowMillis - lastFetch > oneDayMillis) {
+      if (lastFetch == 0) {
         await homeController.initLocation();
       }
-      await homeController.fetchPrayersTimes();
-      await sl.get<SharedPref>().setInt('lastPrayerFetch', nowMillis);
-      print('Saved lastPrayerFetch: $nowMillis'); // إضافة طباعة
+      await prefs.setInt('lastPrayerFetch', nowMillis);
     } else {
-      print('Loading local prayer data...'); // إضافة طباعة
       await homeController.loadingLocalData();
     }
 
-    // حساب الصلاة القادمة في كل الحالات
     await homeController.fetchNextPrayer();
 
-    // إعداد الإشعارات للمرة الأولى فقط
+    final isFirstOpen = prefs.getBool(SharedPrefKeys.firstTimeOpen) ?? true;
     if (isFirstOpen) {
-      print('First time open - setting up notifications...'); // إضافة طباعة
       await NotificationService.instance.init();
       await NotificationService.instance.scheduleDailyPrayers();
-      await sl.get<SharedPref>().setBool(SharedPrefKeys.firstTimeOpen, false);
-      print('Set firstTimeOpen to false'); // إضافة طباعة
+      await prefs.setBool(SharedPrefKeys.firstTimeOpen, false);
     }
 
     await Future.delayed(const Duration(milliseconds: 200));
 
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-      });
+    const maxWaitMs = 5000; // max total wait time
+    const pollInterval = 200; // how often to check
+    int waited = 0;
+    while (mounted &&
+        homeController.prayerTimesHive == null &&
+        waited < maxWaitMs) {
+      await Future.delayed(const Duration(milliseconds: pollInterval));
+      waited += pollInterval;
     }
+
+    if (mounted) setState(() => _isLoading = false);
+
+    if (mounted) context.go(AppRoutes.kHomeScreen);
   }
 
   @override
@@ -100,7 +88,7 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        height: double.maxFinite,
+        height: double.infinity,
         decoration: const BoxDecoration(
           color: Color(0xff00133F),
           image: DecorationImage(
@@ -109,58 +97,35 @@ class _SecondeSplashScreenState extends State<SecondeSplashScreen> {
           ),
         ),
         child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset("assets/seconde_Logo.svg")
-                  .animate(
-                    onComplete: (controller) {
-                      Future.delayed(Duration(milliseconds: 100));
-
-                      context.go(AppRoutes.kHomeScreen);
-                    },
-                    delay: 200.ms,
-                  )
-                  .fadeIn(delay: 300.ms, curve: Curves.easeIn, duration: 800.ms)
-                  .scale(
-                    delay: 300.ms,
-                    curve: Curves.easeInBack,
-                    duration: 850.ms,
-                  ),
-              SizedBox(height: 30.h),
-              // Animated loading spinner with pulse effect
-              _isLoading
-                  ? Column(
-                      children: [
-                        CircularProgressIndicator(
-                              color: Colors.white,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.white.withValues(alpha: 0.9),
-                              ),
-                            )
-                            .animate(
-                              onPlay: (controller) => controller.repeat(),
-                            )
-                            .scale(
-                              begin: const Offset(1.0, 1.0),
-                              end: const Offset(1.1, 1.1),
-                              duration: 1500.ms,
-                              curve: Curves.easeInOut,
-                            ),
-                        SizedBox(height: 20.h),
-                        Text(
-                          S.of(context).loading,
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: Colors.white70,
-                                fontSize: 16.sp,
-                              ),
-                        ).animate().fadeIn(delay: 600.ms, duration: 600.ms),
-                      ],
-                    )
-                  : const SizedBox.shrink(),
-            ],
-          ),
+          child: _isLoading
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset("assets/seconde_Logo.svg")
+                        .animate()
+                        .fadeIn(delay: 300.ms, duration: 800.ms)
+                        .scale(
+                          delay: 300.ms,
+                          curve: Curves.easeInBack,
+                          duration: 850.ms,
+                        ),
+                    SizedBox(height: 30.h),
+                    CircularProgressIndicator(
+                      color: Colors.white,
+                    ).animate().scale(
+                      begin: const Offset(1.0, 1.0),
+                      end: const Offset(1.1, 1.1),
+                      duration: 1500.ms,
+                      curve: Curves.easeInOut,
+                    ),
+                    SizedBox(height: 20.h),
+                    Text(
+                      S.of(context).loading,
+                      style: TextStyle(color: Colors.white70, fontSize: 16.sp),
+                    ).animate().fadeIn(delay: 600.ms, duration: 600.ms),
+                  ],
+                )
+              : const SizedBox.shrink(),
         ),
       ),
     );

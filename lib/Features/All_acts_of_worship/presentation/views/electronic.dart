@@ -34,62 +34,65 @@ class Electronic extends StatelessWidget {
                 SizedBox(height: 50.h),
                 ValueListenableBuilder(
                   valueListenable: dropButtonValue,
-                  builder: (context, value, child) => ValueListenableBuilder<String>(
-                    valueListenable: dropButtonValue,
-                    builder: (context, value, child) => DropdownButton<String>(
-                      value: value,
-                      style: AppStyles.regular16,
-                      isExpanded:
-                          false, // يخلي العرض يملأ المساحة ويعطي مجال للتحاذي
-                      alignment: Alignment.center,
-                      items: [
-                        DropdownMenuItem(
-                          value: S.of(context).choose_zekr,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(S.of(context).choose_zekr),
-                          ),
-                        ),
-                        DropdownMenuItem(
-                          value: S.of(context).may_allah_bless,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(S.of(context).may_allah_bless),
-                          ),
-                        ),
-                        DropdownMenuItem(
-                          value: S.of(context).subhanallah,
-                          alignment: Alignment.centerRight,
-                          child: Text(S.of(context).subhanallah),
-                        ),
-                        DropdownMenuItem(
-                          value: S.of(context).alhamdulillah,
-                          alignment: Alignment.centerRight,
-                          child: Text(S.of(context).alhamdulillah),
-                        ),
-                        DropdownMenuItem(
-                          value: S.of(context).allahu_akbar,
-                          alignment: Alignment.centerRight,
-                          child: Text(S.of(context).allahu_akbar),
-                        ),
-                        DropdownMenuItem(
-                          value: S.of(context).subhanallah_bihamdihi,
-                          alignment: Alignment.centerRight,
-                          child: Text(S.of(context).subhanallah_bihamdihi),
-                        ),
-                        DropdownMenuItem(
-                          value: S.of(context).astaghfirallah,
-                          alignment: Alignment.centerRight,
-                          child: Text(S.of(context).astaghfirallah),
-                        ),
-                      ],
-                      onChanged: (dropvalue) {
-                        if (dropvalue != null) {
-                          dropButtonValue.value = dropvalue;
-                        }
-                      },
-                    ),
-                  ),
+                  builder: (context, value, child) =>
+                      ValueListenableBuilder<String>(
+                        valueListenable: dropButtonValue,
+                        builder: (context, value, child) =>
+                            DropdownButton<String>(
+                              value: value,
+                              style: AppStyles.regular16,
+                              isExpanded: false,
+                              alignment: Alignment.center,
+                              items: [
+                                DropdownMenuItem(
+                                  value: S.of(context).choose_zekr,
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(S.of(context).choose_zekr),
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: S.of(context).may_allah_bless,
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(S.of(context).may_allah_bless),
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: S.of(context).subhanallah,
+                                  alignment: Alignment.centerRight,
+                                  child: Text(S.of(context).subhanallah),
+                                ),
+                                DropdownMenuItem(
+                                  value: S.of(context).alhamdulillah,
+                                  alignment: Alignment.centerRight,
+                                  child: Text(S.of(context).alhamdulillah),
+                                ),
+                                DropdownMenuItem(
+                                  value: S.of(context).allahu_akbar,
+                                  alignment: Alignment.centerRight,
+                                  child: Text(S.of(context).allahu_akbar),
+                                ),
+                                DropdownMenuItem(
+                                  value: S.of(context).subhanallah_bihamdihi,
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    S.of(context).subhanallah_bihamdihi,
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: S.of(context).astaghfirallah,
+                                  alignment: Alignment.centerRight,
+                                  child: Text(S.of(context).astaghfirallah),
+                                ),
+                              ],
+                              onChanged: (dropvalue) {
+                                if (dropvalue != null) {
+                                  dropButtonValue.value = dropvalue;
+                                }
+                              },
+                            ),
+                      ),
                 ),
                 SizedBox(height: 50.h),
                 ValueListenableBuilder(
@@ -122,7 +125,7 @@ class Electronic extends StatelessWidget {
                           child: Text(
                             count.value == 0
                                 ? S.of(context).start_label
-                                : S.of(context).count_label(count.value),
+                                : '${count.value}',
                             style: AppStyles.blod20.copyWith(fontSize: 25.sp),
                           ),
                         ),

@@ -36,26 +36,5 @@ class HomeRepoImple implements HomeRepo {
     }
   }
 
-  // @override
-  // Future<NextPrayerResponse> nextPrayerTime(
-  //   String latitude,
-  //   String longitude,
-  // ) async {
-  //   try {
-  //     var result = await _apiServices.get(
-  //       'nextPrayer/${DateFormat('dd-MM-yyyy').format(DateTime.now())}',
-  //       queryParameters: {'latitude': latitude, 'longitude': longitude},
-  //     );
-  //     return NextPrayerResponse.fromJson(result);
-  //   } on DioException catch (e) {
-  //     if (e.type == DioExceptionType.connectionError ||
-  //         e.type == DioExceptionType.connectionError ||
-  //         e.type == DioExceptionType.receiveTimeout) {
-  //       throw "Please check the internet connection";
-  //     }
-  //     throw "Error occurred during API call: ${e.message}";
-  //   } catch (e) {
-  //     throw "unkown error ${e.toString()}";
-  //   }
-  // }
+
 }

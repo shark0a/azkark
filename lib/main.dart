@@ -8,12 +8,13 @@ import 'package:azkark/core/services/service_locator.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupServiceLocator();
-  await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
-  await Workmanager().registerPeriodicTask(
-    "2",
+
+  await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
+
+  await Workmanager().registerOneOffTask(
+    "fetch_today_prayers",
     "fetchDailyPrayersTask",
-    frequency: const Duration(hours: 24),
-    existingWorkPolicy: ExistingWorkPolicy.replace,
   );
+
   runApp(const AzkarkApp());
 }

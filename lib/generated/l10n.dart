@@ -470,6 +470,46 @@ class S {
     );
   }
 
+  /// `Favourite`
+  String get Fav {
+    return Intl.message(
+      'Favourite',
+      name: 'Fav',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `AlDoaa`
+  String get AlDoaa {
+    return Intl.message(
+      'AlDoaa',
+      name: 'AlDoaa',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `List is Empty 🤦‍♂️`
+  String get ListisEmpty {
+    return Intl.message(
+      'List is Empty 🤦‍♂️',
+      name: 'ListisEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Different Azkar`
+  String get VariuosAzkar {
+    return Intl.message(
+      'Different Azkar',
+      name: 'VariuosAzkar',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Please check your internet Connection or resart App 🚑`
   String get PleasecheckyourinternetConnectionorresartApp {
     return Intl.message(

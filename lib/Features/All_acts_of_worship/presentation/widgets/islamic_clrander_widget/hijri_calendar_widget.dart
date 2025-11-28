@@ -105,13 +105,10 @@ class HijriCalendarWidgetState extends State<HijriCalendarWidget> {
         padding: EdgeInsets.all((widget.isSmallScreen ? 4 : 8).r),
         child: Column(
           children: [
-            // Header - حجم أصغر
             _buildHeader(),
             SizedBox(height: (widget.isSmallScreen ? 8 : 12).h),
-            // Week Days - حجم أصغر
             _buildWeekDays(),
             SizedBox(height: (widget.isSmallScreen ? 4 : 6).h),
-            // Days Grid - يستخدم المساحة المتبقية
             Expanded(child: _buildDaysGrid(daysInMonth, startingWeekday)),
           ],
         ),

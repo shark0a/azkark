@@ -24,9 +24,14 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "AlDoaa": MessageLookupByLibrary.simpleMessage("الدعاء"),
+        "Fav": MessageLookupByLibrary.simpleMessage("المفضله"),
+        "ListisEmpty":
+            MessageLookupByLibrary.simpleMessage("القائـمه فارغــه 🤦‍♂️"),
         "PleasecheckyourinternetConnectionorresartApp":
             MessageLookupByLibrary.simpleMessage(
                 "تاكد من الاتصال ب الانترنت او قم بإعادة تشغيل التطبيق 🚑"),
+        "VariuosAzkar": MessageLookupByLibrary.simpleMessage("اذكار متنوعه"),
         "alhamdulillah": MessageLookupByLibrary.simpleMessage("الحمد الله"),
         "all_duas": MessageLookupByLibrary.simpleMessage("جميع الأدعية"),
         "all_worship_label":

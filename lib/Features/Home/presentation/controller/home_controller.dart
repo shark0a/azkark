@@ -33,6 +33,24 @@ class HomeController extends ChangeNotifier {
     if (lang != null) {
       _locale = Locale(lang, country);
       notifyListeners();
+    } else {
+      // First app open: use system locale if available, otherwise default to English
+      final systemLocale = WidgetsBinding.instance.window.locale;
+      if (systemLocale.languageCode == 'ar') {
+        _locale = const Locale('ar', 'EG');
+      } else {
+        _locale = const Locale('en', 'US');
+      }
+      // Save the selected locale
+      await sl.get<SharedPref>().setString(
+        SharedPrefKeys.langKey,
+        _locale.languageCode,
+      );
+      await sl.get<SharedPref>().setString(
+        SharedPrefKeys.countrykey,
+        _locale.countryCode ?? "",
+      );
+      notifyListeners();
     }
   }
 
@@ -246,45 +264,6 @@ class HomeController extends ChangeNotifier {
       log(e.toString());
     }
   }
-
-  //fetchNextTime from internet
-  // NextPrayerResponse? nextPrayer;
-  // NextPrayerResponse? nextPrayerLocal;
-  // Future<void> fetchNextTime() async {
-  //   try {
-  //     var result = await _homeRepo.nextPrayerTime(
-  //       currentLocation!.lat,
-  //       currentLocation!.long,
-  //     );
-  //     nextPrayer = result;
-  //   } catch (e) {
-  //     log("failed to fetch next prayers ${e.toString()}");
-  //   } finally {
-  //     log("from api  ${nextPrayer?.nextTimingValue}");
-  //     if (nextPrayer != null) {
-  //       await sl.get<HiveService>().putData<NextPrayerResponse>(
-  //         HiveKeys.nextPrayerBox,
-  //         HiveKeys.nextPrayerTimesTodayKey,
-  //         nextPrayer!,
-  //       );
-  //     }
-  //     notifyListeners();
-  //   }
-  // }
-
-  // Future<void> loadNextTimeFromHive() async {
-  //   try {
-  //     nextPrayerLocal = sl.get<HiveService>().getData<NextPrayerResponse>(
-  //       HiveKeys.nextPrayerBox,
-  //       HiveKeys.nextPrayerTimesTodayKey,
-  //     );
-  //   } catch (e) {
-  //     log("failed to Load from Hive next prayers ${e.toString()}");
-  //   } finally {
-  //     log("Hive : ${nextPrayerLocal?.nextTimingkey}");
-  //     notifyListeners();
-  //   }
-  // }
 
   Future<void> toggleActive({required String prayerKey}) async {
     if (prayerTimesHive == null) return;
