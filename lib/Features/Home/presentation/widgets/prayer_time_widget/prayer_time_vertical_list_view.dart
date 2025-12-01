@@ -28,6 +28,7 @@ class PrayerTimeVerticalListView extends StatelessWidget {
       homeController.prayerTimesHive?.timings.fajr ?? "00:00",
     ];
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,

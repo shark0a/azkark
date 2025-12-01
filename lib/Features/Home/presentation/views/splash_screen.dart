@@ -20,6 +20,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:azkark/generated/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'dart:async';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -29,6 +31,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   bool _isLoading = true;
+  StreamSubscription<ConnectivityResult>? _connectivitySub;
+  bool _refetchNeeded = false;
 
   @override
   void initState() {
@@ -77,7 +81,13 @@ class _SplashScreenState extends State<SplashScreen> {
           log('OneSignal permission request failed: $e');
         }
       } catch (e) {
+        // If fetching failed due to network, schedule a refetch when connectivity returns
         showErrorSnackBar(context, S.current.LocationUpdatFAliure);
+        log(
+          'Initial fetch failed, will retry when connectivity is available: $e',
+        );
+        _refetchNeeded = true;
+        _startConnectivityListener();
         log(
           "========================in spalshh i n first statues  scheduleDailyPrayers faluire ${e.toString()}===================",
         );
@@ -110,6 +120,56 @@ class _SplashScreenState extends State<SplashScreen> {
       context.go(AppRoutes.kHomeScreen);
     }
     ;
+  }
+
+  void _startConnectivityListener() {
+    if (_connectivitySub != null) return;
+
+    _connectivitySub = Connectivity().onConnectivityChanged.listen((
+      result,
+    ) async {
+      if (!_refetchNeeded) return;
+      if (result != ConnectivityResult.none) {
+        log('Connectivity restored: $result — attempting refetch');
+        await _attemptRefetch();
+      }
+    });
+
+    // Also check current connectivity immediately
+    Connectivity().checkConnectivity().then((result) async {
+      if (!_refetchNeeded) return;
+      if (result != ConnectivityResult.none) {
+        log('Connectivity available on check: $result — attempting refetch');
+        await _attemptRefetch();
+      }
+    });
+  }
+
+  Future<void> _attemptRefetch() async {
+    final homeController = context.read<HomeController>();
+    try {
+      // Try to reinitialize location if missing
+      await homeController.initLocation();
+      await homeController.fetchPrayersTimes();
+      await NotificationService.instance.init();
+      await NotificationService.instance.scheduleDailyPrayers();
+      await homeController.fetchNextPrayer();
+      await sl.get<SharedPref>().setBool(SharedPrefKeys.firstTimeOpen, false);
+      _refetchNeeded = false;
+      // stop listening once succeeded
+      await _connectivitySub?.cancel();
+      _connectivitySub = null;
+      log('Refetch successful and notifications scheduled');
+    } catch (e) {
+      log('Refetch attempt failed: $e');
+      // keep listening for next connectivity event
+    }
+  }
+
+  @override
+  void dispose() {
+    _connectivitySub?.cancel();
+    super.dispose();
   }
 
   @override
