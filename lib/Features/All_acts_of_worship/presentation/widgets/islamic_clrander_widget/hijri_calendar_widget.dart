@@ -1,3 +1,4 @@
+import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:hijri_date/hijri_date.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -99,6 +100,15 @@ class HijriCalendarWidgetState extends State<HijriCalendarWidget> {
     int startingWeekday = _getFirstDayWeekday(_currentYear, _currentMonth);
 
     return Card(
+      color: AppStyles.scaffoldBG,
+      // shape: RoundedRectangleBorder(
+      //   side: BorderSide(
+      //     strokeAlign: 1,
+      //     width: 2,
+      //     color: const Color.fromRGBO(0, 0, 0, 50),
+      //   ),
+      //   borderRadius: BorderRadiusGeometry.circular(10),
+      // ),
       margin: EdgeInsets.zero,
       elevation: 4.r,
       child: Container(
@@ -266,7 +276,7 @@ class HijriCalendarWidgetState extends State<HijriCalendarWidget> {
     return GridView.count(
       crossAxisCount: 7,
       physics: NeverScrollableScrollPhysics(),
-      childAspectRatio: 1.0, // تأكد أن المربعات مربعة
+      childAspectRatio: 1.0,
       mainAxisSpacing: (widget.isSmallScreen ? 0.5 : 1).h,
       crossAxisSpacing: (widget.isSmallScreen ? 0.5 : 1).w,
       padding: EdgeInsets.all((widget.isSmallScreen ? 1 : 2).r),

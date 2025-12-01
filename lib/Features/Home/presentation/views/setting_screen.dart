@@ -7,9 +7,12 @@ import 'package:azkark/core/services/service_locator.dart';
 import 'package:azkark/core/utils/cache/shared_pre.dart';
 import 'package:azkark/core/utils/cache/shared_pref_keys.dart';
 import 'package:azkark/core/utils/helper/app_styles.dart';
+import 'package:azkark/core/utils/helper/show_snack_bar.dart';
+import 'package:azkark/core/utils/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:azkark/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -28,50 +31,98 @@ class SettingScreen extends StatelessWidget {
           icon: Icon(Icons.settings, color: AppStyles.appBarTitleColor),
         ),
       ),
-      body: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        itemCount: settingItemsModel.length,
-        itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.only(top: 24.h),
-          child: CustomizeListTile(
-            active: index == 3,
-            title: _getLocalizedSettingTitle(context, index),
-            leading: index == 0
-                ? Icon(Icons.arrow_forward, color: Colors.black)
-                : index == 1
-                ? GestureDetector(
-                    onTap: context.read<HomeController>().toggleLocale,
-                    child: Icon(
-                      size: 60.r,
-                      lang != 'ar' ? Icons.toggle_on_sharp : Icons.toggle_on,
-                      color: lang != 'ar'
-                          ? AppStyles.appBarTitleColor
-                          : AppStyles.inActiveColor,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: ListView.builder(
+          physics: BouncingScrollPhysics(),
+          itemCount: settingItemsModel.length,
+          itemBuilder: (context, index) => Padding(
+            padding: EdgeInsets.only(top: 24.h),
+            child: CustomizeListTile(
+              activeleading: false,
+              active: index == 3,
+              title: _getLocalizedSettingTitle(context, index),
+              tralling: index == 0
+                  ? GestureDetector(
+                      onTap: () {
+                        context.go(AppRoutes.kPrayerSetting);
+                      },
+                      child: Icon(Icons.arrow_forward, color: Colors.black),
+                    )
+                  : index == 1
+                  ? GestureDetector(
+                      onTap: context.read<HomeController>().toggleLocale,
+                      child: Icon(
+                        size: 60.r,
+                        lang != 'ar' ? Icons.toggle_on_sharp : Icons.toggle_on,
+                        color: lang != 'ar'
+                            ? AppStyles.appBarTitleColor
+                            : AppStyles.inActiveColor,
+                      ),
+                    )
+                  : index == 2
+                  ? GestureDetector(
+                      onTap: () async {
+                        if (context.read<HomeController>().currentLocation !=
+                            null) {
+                          try {
+                            await context
+                                .read<HomeController>()
+                                .fetchPrayersTimes();
+                            context.read<HomeController>().errorMsg.isEmpty
+                                ? showSuccessSnackBar(
+                                    context,
+                                    S.of(context).LocationUpdateMessage,
+                                  )
+                                : showErrorSnackBar(
+                                    context,
+
+                                    S.of(context).LocationUpdatFAliure,
+                                  );
+                          } catch (e) {}
+                        } else {
+                          try {
+                            await context.read<HomeController>().initLocation();
+                            await context
+                                .read<HomeController>()
+                                .fetchPrayersTimes();
+                            context.read<HomeController>().errorMsg.isEmpty
+                                ? showSuccessSnackBar(
+                                    context,
+                                    S.of(context).LocationUpdateMessage,
+                                  )
+                                : showErrorSnackBar(
+                                    context,
+
+                                    S.of(context).LocationUpdatFAliure,
+                                  );
+                          } catch (e) {}
+                        }
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            size: 30.r,
+                            Icons.repeat_outlined,
+                            color: AppStyles.appBarTitleColor,
+                          ),
+                          Text(
+                            context
+                                    .read<HomeController>()
+                                    .prayerTimesHive
+                                    ?.meta
+                                    .timezone ??
+                                '',
+                          ),
+                        ],
+                      ),
+                    )
+                  : Text(
+                      '${S.of(context).version_label} 1.0.0',
+                      style: AppStyles.light14,
                     ),
-                  )
-                : index == 2
-                ? GestureDetector(
-                    onTap: () async {
-                      if (context.read<HomeController>().currentLocation !=
-                          null) {
-                        await context
-                            .read<HomeController>()
-                            .fetchPrayersTimes();
-                      } else {
-                        await context.read<HomeController>().initLocation();
-                      }
-                    },
-                    child: Icon(
-                      size: 30.r,
-                      Icons.repeat_outlined,
-                      color: AppStyles.appBarTitleColor,
-                    ),
-                  )
-                : Text(
-                    textDirection: TextDirection.rtl,
-                    '${S.of(context).version_label} 1.0.0',
-                    style: AppStyles.light14,
-                  ),
+            ),
           ),
         ),
       ),

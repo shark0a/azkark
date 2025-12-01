@@ -1,5 +1,8 @@
 plugins {
     id("com.android.application")
+    // START: FlutterFire Configuration
+    id("com.google.gms.google-services")
+    // END: FlutterFire Configuration
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
@@ -47,6 +50,9 @@ dependencies {
     // `flutter_local_notifications` that require newer java APIs work on older devices.
     // Updated to 2.1.4 to satisfy AAR metadata requirements
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    implementation("com.onesignal:OneSignal:[5.1.0, 5.1.99]")
+    implementation("com.google.android.play:core:1.10.3") 
+
 }
 
 flutter {

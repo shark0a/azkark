@@ -25,12 +25,20 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "AlDoaa": MessageLookupByLibrary.simpleMessage("الدعاء"),
+        "Azkar_eltasbeeh_and":
+            MessageLookupByLibrary.simpleMessage("أذكار التسبيح والاستغفار"),
         "Fav": MessageLookupByLibrary.simpleMessage("المفضله"),
         "ListisEmpty":
             MessageLookupByLibrary.simpleMessage("القائـمه فارغــه 🤦‍♂️"),
+        "LocationUpdatFAliure": MessageLookupByLibrary.simpleMessage(
+            "فشل التحديث افحص الانترنت وحاول مره اخري ⚠️"),
+        "LocationUpdateMessage":
+            MessageLookupByLibrary.simpleMessage("تم تحديث الموقع بنجاح 👌"),
         "PleasecheckyourinternetConnectionorresartApp":
             MessageLookupByLibrary.simpleMessage(
                 "تاكد من الاتصال ب الانترنت او قم بإعادة تشغيل التطبيق 🚑"),
+        "Sharethis": MessageLookupByLibrary.simpleMessage(
+            "شارك هذا الذكر من برنامج اذكارك 🌙"),
         "VariuosAzkar": MessageLookupByLibrary.simpleMessage("اذكار متنوعه"),
         "alhamdulillah": MessageLookupByLibrary.simpleMessage("الحمد الله"),
         "all_duas": MessageLookupByLibrary.simpleMessage("جميع الأدعية"),
@@ -66,6 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "loading": MessageLookupByLibrary.simpleMessage("جاري التحميل..."),
         "may_allah_bless":
             MessageLookupByLibrary.simpleMessage("اللهم صلي علي سيدنا محمد"),
+        "nearest_mosq": MessageLookupByLibrary.simpleMessage("اتجاه القبله"),
         "next_prayer_label":
             MessageLookupByLibrary.simpleMessage("الصلاة التالية:"),
         "place_label": MessageLookupByLibrary.simpleMessage("المكان"),
@@ -94,6 +103,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "subhanallah_bihamdihi":
             MessageLookupByLibrary.simpleMessage("سبحان الله وبحمده"),
         "tasbih": MessageLookupByLibrary.simpleMessage("التسبيح"),
+        "tasbih_azkar":
+            MessageLookupByLibrary.simpleMessage("أذكار التسبيح والاستغفار"),
+        "tasbih_title": MessageLookupByLibrary.simpleMessage("التسبيح"),
         "time_left_label":
             MessageLookupByLibrary.simpleMessage("الوقت المتبقي"),
         "unknown_label": MessageLookupByLibrary.simpleMessage("غير معروف"),

@@ -5,7 +5,9 @@ import 'package:azkark/Features/Home/presentation/controller/home_controller.dar
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/azkar_morning_widget/elzeker_section_container.dart';
 import 'package:azkark/Features/Home/presentation/widgets/customize_app_bar.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
+import 'package:azkark/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class AzkarPraiseEst extends StatelessWidget {
@@ -18,7 +20,9 @@ class AzkarPraiseEst extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 60),
-        child: CustomizeAppBar(title: "أذكار التسبيح والاستغفار"),
+        child: CustomizeAppBar(onTap: () {
+            context.pop();
+          },title: S.of(context).Azkar_eltasbeeh_and),
       ),
       body: azkarPraise.isEmpty
           ? Center(

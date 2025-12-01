@@ -44,6 +44,7 @@ class HomeScreen extends StatelessWidget {
                   : SliverToBoxAdapter(
                       child: DateAndLocationDetails(provider: provider),
                     ),
+
               ...buildHomeSlivers(provider),
             ],
           ),

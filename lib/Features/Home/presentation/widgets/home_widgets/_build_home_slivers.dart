@@ -5,6 +5,7 @@ import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_ti
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_time_list_view.dart';
 import 'package:azkark/Features/Home/presentation/widgets/prayer_time_widget/left_time_widget.dart';
 import 'package:azkark/Features/Home/presentation/widgets/prayer_time_widget/prayer_time_vertical_list_view.dart';
+import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -51,7 +52,14 @@ List<Widget> buildHomeSlivers(HomeController homeController) {
     return [
       SliverToBoxAdapter(child: SizedBox(height: 8.h)),
       homeController.isLoadingLocation || homeController.isFetchingPrayerTimes
-          ? SliverToBoxAdapter(child: SizedBox.shrink())
+          ? SliverToBoxAdapter(
+              child: Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: AppStyles.scaffoldBG,
+                  color: AppStyles.activeColor,
+                ),
+              ),
+            )
           : SliverToBoxAdapter(
               child: SizedBox(
                 height: 100.h,
@@ -59,11 +67,38 @@ List<Widget> buildHomeSlivers(HomeController homeController) {
               ),
             ),
       SliverToBoxAdapter(child: SizedBox(height: 14.h)),
+      homeController.prayerTimes == null &&
+              homeController.prayerTimesHive == null
+          ? SliverToBoxAdapter(
+              child: Container(
+                child: Center(
+                  child:
+                      homeController.isLoadingLocation ||
+                          homeController.isFetchingPrayerTimes
+                      ? CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          color: AppStyles.activeColor,
+                        )
+                      : SizedBox(
+                          width: 250.w,
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            S
+                                .current
+                                .PleasecheckyourinternetConnectionorresartApp,
+                            style: AppStyles.light14,
+                          ),
+                        ),
+                ),
+              ),
+            )
+          : SliverToBoxAdapter(child: const SizedBox.shrink()),
       homeController.isLoadingLocation || homeController.isFetchingPrayerTimes
           ? SliverToBoxAdapter(child: SizedBox.shrink())
           : SliverToBoxAdapter(
               child: PrayerTimeBanner(homeController: homeController),
             ),
+
       SliverToBoxAdapter(child: SizedBox(height: 18.h)),
       SliverToBoxAdapter(child: AllOfOptions()),
       SliverToBoxAdapter(child: SizedBox(height: 18.h)),
@@ -83,7 +118,14 @@ List<Widget> buildHomeSlivers(HomeController homeController) {
     ),
     SliverToBoxAdapter(child: SizedBox(height: 20.h)),
     homeController.isLoadingLocation || homeController.isFetchingPrayerTimes
-        ? SliverToBoxAdapter(child: SizedBox.shrink())
+        ? SliverToBoxAdapter(
+            child: Center(
+              child: CircularProgressIndicator(
+                backgroundColor: AppStyles.scaffoldBG,
+                color: AppStyles.activeColor,
+              ),
+            ),
+          )
         : SliverToBoxAdapter(
             child:
                 LeftTimeWidget(
@@ -97,6 +139,32 @@ List<Widget> buildHomeSlivers(HomeController homeController) {
                   curve: Curves.easeInBack,
                 ),
           ),
+    SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+    homeController.prayerTimes == null && homeController.prayerTimesHive == null
+        ? SliverToBoxAdapter(
+            child: Container(
+              child: Center(
+                child:
+                    homeController.isLoadingLocation ||
+                        homeController.isFetchingPrayerTimes
+                    ? CircularProgressIndicator(
+                        backgroundColor: Colors.white,
+                        color: AppStyles.activeColor,
+                      )
+                    : SizedBox(
+                        width: 250.w,
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          S
+                              .current
+                              .PleasecheckyourinternetConnectionorresartApp,
+                          style: AppStyles.light14,
+                        ),
+                      ),
+              ),
+            ),
+          )
+        : SliverToBoxAdapter(child: const SizedBox.shrink()),
     SliverToBoxAdapter(child: SizedBox(height: 20.h)),
     SliverToBoxAdapter(child: PrayerTimeVerticalListView()),
   ];

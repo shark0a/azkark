@@ -4,8 +4,10 @@ import 'package:azkark/Features/All_acts_of_worship/presentation/manager/azkar_p
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/azkar_morning_widget/elzeker_section_container.dart';
 import 'package:azkark/Features/Home/presentation/widgets/customize_app_bar.dart';
+import 'package:azkark/generated/l10n.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/custom_buttom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class AzkarEvening extends StatelessWidget {
@@ -18,7 +20,12 @@ class AzkarEvening extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 60),
-        child: CustomizeAppBar(title: 'أذكار المساء'),
+        child: CustomizeAppBar(
+          onTap: () {
+            context.pop();
+          },
+          title: S.of(context).azkar_evening,
+        ),
       ),
       body: azkarEvening.isEmpty
           ? Center(
@@ -45,6 +52,7 @@ class AzkarEvening extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.only(top: 20.9),
                       child: ElzekerSectionContainer(
+                        
                         onTap: () {
                           isFavNotifier.value = !isFavNotifier.value;
                           zekrItem.isFav = isFavNotifier.value;

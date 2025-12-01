@@ -35,7 +35,6 @@ class DateConversionCard extends StatelessWidget {
           Flexible(
             child: Text(
               textDirection: TextDirection.rtl,
-
               date,
               style: TextStyle(
                 fontSize: (isSmallScreen ? 14 : 18).sp,

@@ -1,0 +1,8 @@
+-keep class com.baseflow.** { *; }
+-keep class io.flutter.** { *; }
+-keep class com.google.android.gms.** { *; }
+-keep class com.dexterous.flutterlocalnotifications.** { *; }
+-keep class androidx.core.app.NotificationCompat$** { *; }
+-keep class android.support.v4.app.NotificationCompat$** { *; }
+-keep class com.google.android.play.core.** { *; }
+-keep interface com.google.android.play.core.** { *; }

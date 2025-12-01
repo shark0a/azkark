@@ -74,8 +74,8 @@ Future<void> setupServiceLocator({
   // Helpers
   sl.registerLazySingleton<MehtodHelper>(() => MehtodHelper());
 
-  // Location permission checker
-  sl.registerLazySingleton<CheckLocationPermession>(
-    () => CheckLocationPermession(),
+  // Location service
+  sl.registerLazySingleton<LocationService>(
+    () => LocationService(),
   );
 }

@@ -350,6 +350,16 @@ class S {
     );
   }
 
+  /// `Qibla Direction`
+  String get nearest_mosq {
+    return Intl.message(
+      'Qibla Direction',
+      name: 'nearest_mosq',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Evening Azkar`
   String get azkar_evening {
     return Intl.message(
@@ -405,6 +415,26 @@ class S {
     return Intl.message(
       'Favorites',
       name: 'favorites',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share this from Azkark App🌙`
+  String get Sharethis {
+    return Intl.message(
+      'Share this from Azkark App🌙',
+      name: 'Sharethis',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error sharing zekr ⚠️`
+  String get Errorsharingzekr {
+    return Intl.message(
+      'Error sharing zekr ⚠️',
+      name: 'Errorsharingzekr',
       desc: '',
       args: [],
     );
@@ -500,11 +530,21 @@ class S {
     );
   }
 
-  /// `Different Azkar`
+  /// `various azkar`
   String get VariuosAzkar {
     return Intl.message(
-      'Different Azkar',
+      'various azkar',
       name: 'VariuosAzkar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Adhkar tasbeeh And istegfar`
+  String get Azkar_eltasbeeh_and {
+    return Intl.message(
+      'Adhkar tasbeeh And istegfar',
+      name: 'Azkar_eltasbeeh_and',
       desc: '',
       args: [],
     );
@@ -550,100 +590,100 @@ class S {
     );
   }
 
-  /// `Zekr When Waking`
+  /// `Azkar When Waking From Sleep`
   String get zekr_awaken {
     return Intl.message(
-      'Zekr When Waking',
+      'Azkar When Waking From Sleep',
       name: 'zekr_awaken',
       desc: '',
       args: [],
     );
   }
 
-  /// `Zekr When Leaving Home`
+  /// `Azkar When Leaving Home`
   String get zekr_exit_home {
     return Intl.message(
-      'Zekr When Leaving Home',
+      'Azkar When Leaving Home',
       name: 'zekr_exit_home',
       desc: '',
       args: [],
     );
   }
 
-  /// `Zekr When Entering Home`
+  /// `Azkar When Entering Home`
   String get zekr_enter_home {
     return Intl.message(
-      'Zekr When Entering Home',
+      'Azkar When Entering Home',
       name: 'zekr_enter_home',
       desc: '',
       args: [],
     );
   }
 
-  /// `Zekr After Wudhu`
+  /// `Azkar After Wudhu`
   String get zekr_wudhu {
     return Intl.message(
-      'Zekr After Wudhu',
+      'Azkar After Wudhu',
       name: 'zekr_wudhu',
       desc: '',
       args: [],
     );
   }
 
-  /// `Virtue of Sending Blessings`
+  /// `The virtue of praying for the Prophet`
   String get zekr_prayer_virtue {
     return Intl.message(
-      'Virtue of Sending Blessings',
+      'The virtue of praying for the Prophet',
       name: 'zekr_prayer_virtue',
       desc: '',
       args: [],
     );
   }
 
-  /// `Times When Prayers Are Answered`
+  /// `Times and Places When Prayers Are Answered`
   String get zekr_prayer_answered {
     return Intl.message(
-      'Times When Prayers Are Answered',
+      'Times and Places When Prayers Are Answered',
       name: 'zekr_prayer_answered',
       desc: '',
       args: [],
     );
   }
 
-  /// `Zekr of the Azan`
+  /// `Azkar of the Azan`
   String get zekr_azan {
     return Intl.message(
-      'Zekr of the Azan',
+      'Azkar of the Azan',
       name: 'zekr_azan',
       desc: '',
       args: [],
     );
   }
 
-  /// `Zekr When Waking at Night`
+  /// `Azkar When Waking at Night`
   String get zekr_night_waking {
     return Intl.message(
-      'Zekr When Waking at Night',
+      'Azkar When Waking at Night',
       name: 'zekr_night_waking',
       desc: '',
       args: [],
     );
   }
 
-  /// `Ruqya from Quran`
+  /// `Ruqya from the Quran`
   String get ruqya_quran {
     return Intl.message(
-      'Ruqya from Quran',
+      'Ruqya from the Quran',
       name: 'ruqya_quran',
       desc: '',
       args: [],
     );
   }
 
-  /// `Ruqya from Sunnah`
+  /// `Ruqya from the Sunnah`
   String get ruqya_sunnah {
     return Intl.message(
-      'Ruqya from Sunnah',
+      'Ruqya from the Sunnah',
       name: 'ruqya_sunnah',
       desc: '',
       args: [],
@@ -715,6 +755,46 @@ class S {
     return Intl.message(
       'Electronic Tasbih',
       name: 'electronic_counter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tasbih`
+  String get tasbih_title {
+    return Intl.message(
+      'Tasbih',
+      name: 'tasbih_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tasbih and Istighfar Azkar`
+  String get tasbih_azkar {
+    return Intl.message(
+      'Tasbih and Istighfar Azkar',
+      name: 'tasbih_azkar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location Update successfully 👌`
+  String get LocationUpdateMessage {
+    return Intl.message(
+      'Location Update successfully 👌',
+      name: 'LocationUpdateMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Faliure update your location please check internet and try again ⚠️`
+  String get LocationUpdatFAliure {
+    return Intl.message(
+      'Faliure update your location please check internet and try again ⚠️',
+      name: 'LocationUpdatFAliure',
       desc: '',
       args: [],
     );

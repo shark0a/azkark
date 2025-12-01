@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'package:azkark/Features/Home/data/current_location_model.dart';
 import 'package:azkark/Features/Home/data/prayers_responses/prayer_time_response_model.dart';
@@ -10,6 +11,7 @@ import 'package:azkark/core/utils/cache/shared_pre.dart';
 import 'package:azkark/core/utils/cache/shared_pref_keys.dart';
 import 'package:azkark/core/utils/location/check_location_permession.dart';
 import 'package:flutter/material.dart';
+import 'package:azkark/core/services/back_ground_service/notification_handler/notification_service.dart';
 
 class HomeController extends ChangeNotifier {
   // allow optional injection; if not provided take from sl
@@ -135,18 +137,18 @@ class HomeController extends ChangeNotifier {
   Future<void> initLocation() async {
     _isLoadingLocation = true;
     notifyListeners();
-    final loc = sl<CheckLocationPermession>();
+    final loc = sl<LocationService>();
     try {
-      final position = await loc.determineLocation();
+      final position = await loc.getLocation();
       currentLocation = CurrentLocationModel(
         position.latitude.toString(),
         position.longitude.toString(),
       );
     } catch (e) {
-      log("Error: $e");
+      log("Error getting location: $e");
     } finally {
       if (currentLocation != null) {
-        sl.get<HiveService>().putData<CurrentLocationModel>(
+        await sl.get<HiveService>().putData<CurrentLocationModel>(
           HiveKeys.locationBox,
           HiveKeys.locationKey,
           currentLocation!,
@@ -205,22 +207,23 @@ class HomeController extends ChangeNotifier {
     try {
       final now = TimeOfDay.now();
 
+      // Use lowercase keys to match banner lookup
       final prayerMap = {
-        "Fajr":
+        "fajr":
             prayerTimes?.timings.fajr ??
             prayerTimesHive?.timings.fajr ??
             "00:00",
-        "Dhuhr":
+        "dhuhr":
             prayerTimes?.timings.dhuhr ??
             prayerTimesHive?.timings.dhuhr ??
             "00:00",
-        "Asr":
-            prayerTimes?.timings.asr ?? prayerTimesHive?.timings.asr ?? "00-00",
-        "Maghrib":
+        "asr":
+            prayerTimes?.timings.asr ?? prayerTimesHive?.timings.asr ?? "00:00",
+        "maghrib":
             prayerTimes?.timings.maghrib ??
             prayerTimesHive?.timings.maghrib ??
             "00:00",
-        "Isha":
+        "isha":
             prayerTimes?.timings.isha ??
             prayerTimesHive?.timings.isha ??
             "00:00",
@@ -249,17 +252,16 @@ class HomeController extends ChangeNotifier {
           )
           .toList();
 
-      // لو في صلوات جاية النهاردة
       if (upcoming.isNotEmpty) {
         upcoming.sort((a, b) => a.value!.hour.compareTo(b.value!.hour));
         final next = upcoming.first;
-        nextPrayerKeyLocal = next.key; // Store prayer key
+        nextPrayerKeyLocal = next.key; // Store prayer key (lowercase)
         nextPrayerTimeLocal = prayerMap[next.key];
       } else {
-        // لو مفيش → الصلاة الجاية بكرة هي الفجر
         nextPrayerKeyLocal = "fajr";
         nextPrayerTimeLocal = prayerMap["fajr"];
       }
+      notifyListeners();
     } catch (e) {
       log(e.toString());
     }
@@ -295,6 +297,15 @@ class HomeController extends ChangeNotifier {
       prayerTimesHive = updated;
 
       notifyListeners();
+      // If prayer was disabled, cancel its notification; if enabled, reschedule daily prayers
+      final isActive = updatedActivePrayers[prayerKey] ?? true;
+      if (!isActive) {
+        // await NotificationService.instance.init();
+        await NotificationService.instance.cancelForPrayer(prayerKey);
+      } else {
+        await NotificationService.instance.init();
+        await NotificationService.instance.scheduleDailyPrayers();
+      }
     } catch (e) {
       log("Error toggling prayer active state: $e");
     }

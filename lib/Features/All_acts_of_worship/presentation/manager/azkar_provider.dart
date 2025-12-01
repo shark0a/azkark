@@ -45,17 +45,6 @@ class AzkarProvider extends ChangeNotifier {
     }
   }
 
-  //save azkar in Local in  hive
-  // Future<void> saveAzkarLocalStorage() async {
-  //   try {
-
-  //   } catch (e) {
-  //     throw "error from svae in local storage";
-  //   } finally {
-  //     notifyListeners();
-  //   }
-  // }
-
   //// splite Azkar after read
 
   List<AzkarModel> azkarMorning = [];
@@ -92,36 +81,6 @@ class AzkarProvider extends ChangeNotifier {
           variousDoaa.add(element);
         }
       }
-      // await hive.putData<List<AzkarModel>>(
-      //   HiveKeys.allAzkarBox,
-      //   HiveKeys.azkarMorningKey,
-      //   azkarMorning,
-      // );
-      // await hive.putData<List<AzkarModel>>(
-      //   HiveKeys.allAzkarBox,
-      //   HiveKeys.azkarEveningKey,
-      //   azkarEvening,
-      // );
-      // await hive.putData<List<AzkarModel>>(
-      //   HiveKeys.allAzkarBox,
-      //   HiveKeys.azkarPrayersKey,
-      //   azkarPrayers,
-      // );
-      // await hive.putData<List<AzkarModel>>(
-      //   HiveKeys.allAzkarBox,
-      //   HiveKeys.allPrayersKey,
-      //   allPrayers,
-      // );
-      // await hive.putData<List<AzkarModel>>(
-      //   HiveKeys.allAzkarBox,
-      //   HiveKeys.praiseKey,
-      //   praise,
-      // );
-      // await hive.putData<List<AzkarModel>>(
-      //   HiveKeys.allAzkarBox,
-      //   HiveKeys.variousDoaaKey,
-      //   variousDoaa,
-      // );
     } catch (e) {
       log('error in splite ${e.toString()}');
     } finally {
@@ -134,12 +93,23 @@ class AzkarProvider extends ChangeNotifier {
   List<AzkarModel> specificZekr = [];
   void searcBySpecific(String zekrtTitle) {
     specificZekr.clear();
-    for (var element in variousDoaa) {
-      if (element.category.contains(zekrtTitle)) {
+    final allItems = <AzkarModel>[]
+      ..addAll(azkarMorning)
+      ..addAll(azkarEvening)
+      ..addAll(azkarPrayers)
+      ..addAll(allPrayers)
+      ..addAll(praise)
+      ..addAll(variousDoaa);
+
+    for (var element in allItems) {
+      if (element.category.contains(zekrtTitle) ||
+          element.search.contains(zekrtTitle) ||
+          element.zekr.contains(zekrtTitle)) {
         log(element.zekr);
         specificZekr.add(element);
       }
     }
+    notifyListeners();
   }
 
   /// add to fav list
@@ -194,57 +164,4 @@ class AzkarProvider extends ChangeNotifier {
     );
     notifyListeners();
   }
-
-  // load to from hive
-  // Future<void> loadAzkarFromHive() async {
-  //   try {
-  //     final hive = sl.get<HiveService>();
-
-  //     azkarMorning =
-  //         (await hive.getData<List<AzkarModel>>(
-  //           HiveKeys.allAzkarBox,
-  //           HiveKeys.azkarMorningKey,
-  //         )) ??
-  //         [];
-
-  //     azkarEvening =
-  //         (await hive.getData<List<AzkarModel>>(
-  //           HiveKeys.allAzkarBox,
-  //           HiveKeys.azkarEveningKey,
-  //         )) ??
-  //         [];
-
-  //     azkarPrayers =
-  //         (await hive.getData<List<AzkarModel>>(
-  //           HiveKeys.allAzkarBox,
-  //           HiveKeys.azkarPrayersKey,
-  //         )) ??
-  //         [];
-
-  //     allPrayers =
-  //         (await hive.getData<List<AzkarModel>>(
-  //           HiveKeys.allAzkarBox,
-  //           HiveKeys.allPrayersKey,
-  //         )) ??
-  //         [];
-
-  //     praise =
-  //         (await hive.getData<List<AzkarModel>>(
-  //           HiveKeys.allAzkarBox,
-  //           HiveKeys.praiseKey,
-  //         )) ??
-  //         [];
-
-  //     variousDoaa =
-  //         (await hive.getData<List<AzkarModel>>(
-  //           HiveKeys.allAzkarBox,
-  //           HiveKeys.variousDoaaKey,
-  //         )) ??
-  //         [];
-  //   } catch (e) {
-  //     log("loadAzkarFromHive errr :${e.toString()} ");
-  //   } finally {
-  //     notifyListeners();
-  //   }
-  // }
 }

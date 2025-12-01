@@ -3,8 +3,10 @@ import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/islamic
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/islamic_clrander_widget/date_conversion_card.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/islamic_clrander_widget/hijri_calendar_widget.dart';
 import 'package:azkark/Features/Home/presentation/widgets/customize_app_bar.dart';
+import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:hijri_date/hijri_date.dart';
@@ -77,7 +79,12 @@ class IslamicCalendarState extends State<IslamicCalendar> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 60),
-        child: CustomizeAppBar(title: S.of(context).hijri_calendar),
+        child: CustomizeAppBar(
+          onTap: () {
+            context.pop();
+          },
+          title: S.of(context).hijri_calendar,
+        ),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -85,14 +92,12 @@ class IslamicCalendarState extends State<IslamicCalendar> {
 
           return Column(
             children: [
-              // الأزرار - حجم أصغر في الشاشات الصغيرة
               CalendarButtons(
                 isHijri: _showHijri,
                 onChanged: (value) => setState(() => _showHijri = value),
                 isSmallScreen: isSmallScreen,
               ),
 
-              // عرض التاريخ الحالي - حجم أصغر في الشاشات الصغيرة
               CurrentDateDisplay(
                 isHijri: _showHijri,
                 gregorianDate: _selectedDay,
@@ -118,7 +123,6 @@ class IslamicCalendarState extends State<IslamicCalendar> {
   Widget _buildGregorianView(bool isSmallScreen) {
     return Column(
       children: [
-        // بطاقة التحويل - حجم أصغر في الشاشات الصغيرة
         DateConversionCard(
           title: 'التاريخ الهجري:',
           date: _getHijriDate(_selectedDay ?? DateTime.now()),
@@ -127,7 +131,6 @@ class IslamicCalendarState extends State<IslamicCalendar> {
         ),
         SizedBox(height: isSmallScreen ? 4 : 8),
 
-        // التقويم الميلادي - يستخدم المساحة المتبقية
         Expanded(
           child: Container(
             margin: EdgeInsets.all(isSmallScreen ? 8 : 16),
@@ -141,7 +144,6 @@ class IslamicCalendarState extends State<IslamicCalendar> {
   Widget _buildHijriView(bool isSmallScreen) {
     return Column(
       children: [
-        // بطاقة التحويل - حجم أصغر في الشاشات الصغيرة
         DateConversionCard(
           title: 'التاريخ الميلادي :',
 
@@ -153,7 +155,6 @@ class IslamicCalendarState extends State<IslamicCalendar> {
         ),
         SizedBox(height: isSmallScreen ? 4 : 8),
 
-        // التقويم الهجري - يستخدم المساحة المتبقية
         Expanded(
           child: HijriCalendarWidget(
             selectedDate: _hijriSelectedDay,
@@ -167,6 +168,7 @@ class IslamicCalendarState extends State<IslamicCalendar> {
 
   Widget _buildGregorianCalendar(bool isSmallScreen) {
     return Card(
+      color: AppStyles.scaffoldBG,
       elevation: 4,
       child: Container(
         padding: EdgeInsets.all(isSmallScreen ? 4.0 : 8.0),
@@ -186,11 +188,8 @@ class IslamicCalendarState extends State<IslamicCalendar> {
           onPageChanged: (focusedDay) =>
               setState(() => _focusedDay = focusedDay),
 
-          // إعدادات الـ UI لجعله responsive
-          daysOfWeekHeight: isSmallScreen
-              ? 30
-              : 40, // تقليل ارتفاع أيام الأسبوع
-          rowHeight: isSmallScreen ? 35 : 45, // تقليل ارتفاع الصفوف
+          daysOfWeekHeight: isSmallScreen ? 30 : 40,
+          rowHeight: isSmallScreen ? 35 : 45,
 
           calendarBuilders: CalendarBuilders(
             defaultBuilder: (context, day, focusedDay) {
@@ -207,19 +206,20 @@ class IslamicCalendarState extends State<IslamicCalendar> {
             },
           ),
 
+          availableGestures: AvailableGestures.horizontalSwipe,
           calendarStyle: CalendarStyle(
             selectedDecoration: BoxDecoration(
               color: Colors.blue,
               shape: BoxShape.circle,
             ),
+
             todayDecoration: BoxDecoration(
               color: Colors.blue.shade200,
               shape: BoxShape.circle,
             ),
-            // أحجام أصغر للشاشات الصغيرة
-            cellPadding: EdgeInsets.zero, // إزالة الـ padding تماماً
-            cellMargin: EdgeInsets.all(0.5), // تقليل الـ margin
-            outsideDaysVisible: false, // إخفاء الأيام خارج الشهر
+            cellPadding: EdgeInsets.zero,
+            cellMargin: EdgeInsets.all(0.5),
+            outsideDaysVisible: false,
           ),
 
           headerStyle: HeaderStyle(

@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>يحتاج التطبيق للوصول إلى موقعك لتحديد اتجاه القبلة</string>
+<key>NSMotionUsageDescription</key>
+<string>يحتاج التطبيق إلى البوصلة لتحديد اتجاه القبلة</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -14,6 +18,8 @@
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>FirebaseCrashlyticsCollectionEnabled</key>
+	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<!-- get loccation permession -->
 	<string>We need your location to show accurate data.</string>

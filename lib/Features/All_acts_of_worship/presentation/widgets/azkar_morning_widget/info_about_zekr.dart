@@ -10,10 +10,12 @@ class InfoAboutZekr extends StatelessWidget {
     required this.countOfZekr,
     required this.onTap,
     required this.isFav,
+    required this.shareonTap,
   });
   final String info;
   final ValueNotifier<int> countOfZekr;
   final void Function() onTap;
+  final void Function() shareonTap;
   final bool isFav;
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,10 @@ class InfoAboutZekr extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.share, color: Color(0xff005773), size: 40.r),
+            GestureDetector(
+              onTap: shareonTap,
+              child: Icon(Icons.share, color: Color(0xff005773), size: 40.r),
+            ),
             SizedBox(width: 8.w),
             Icon(Icons.edit, color: Color(0xff005773), size: 40.r),
             SizedBox(width: 8.w),

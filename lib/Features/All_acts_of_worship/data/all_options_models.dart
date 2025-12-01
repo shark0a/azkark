@@ -49,11 +49,11 @@ List<AllOptionsModel> allOtionsItems = [
   AllOptionsModel(
     icon: "assets/azkar8.svg",
     title: "اقرب المساجد ",
-    localizationKey: "azkar_morning",
+    localizationKey: "nearest_mosq",
   ),
   AllOptionsModel(
     icon: "assets/azkar9.svg",
     title: "أذكار متنوعة",
-    localizationKey: "azkar_prayer",
+    localizationKey: "VariuosAzkar",
   ),
 ];

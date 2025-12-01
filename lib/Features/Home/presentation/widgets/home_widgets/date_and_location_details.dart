@@ -7,6 +7,7 @@ import 'package:azkark/core/utils/helper/mehtod_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:azkark/generated/l10n.dart';
+import 'package:intl/intl.dart';
 
 class DateAndLocationDetails extends StatelessWidget {
   const DateAndLocationDetails({super.key, required this.provider});
@@ -47,7 +48,7 @@ class DateAndLocationDetails extends StatelessWidget {
                       MehtodHelper.formatGregorianDate(
                         provider.prayerTimes?.date.gregorian.date ??
                             provider.prayerTimesHive?.date.gregorian.date ??
-                            '9-9-2005',
+                            DateFormat("d-MM-yyyy").format(DateTime.now()),
                         lang,
                       ),
                       style: AppStyles.regular16.copyWith(
@@ -76,7 +77,7 @@ class DateAndLocationDetails extends StatelessWidget {
                     lang == 'ar'
                         ? Text(
                             provider.prayerTimesHive == null
-                                ? '${provider.prayerTimes?.date.hijri.weekday.ar} ${provider.prayerTimes?.date.hijri.day} ${provider.prayerTimes?.date.hijri.month.ar} ${provider.prayerTimes?.date.hijri.year} هـ'
+                                ? '${provider.prayerTimes?.date.hijri.weekday.ar ?? ''} ${provider.prayerTimes?.date.hijri.day ?? ''} ${provider.prayerTimes?.date.hijri.month.ar ?? ''} ${provider.prayerTimes?.date.hijri.year ?? ''} هـ'
                                 : '${provider.prayerTimesHive?.date.hijri.weekday.ar ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.day ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.month.ar ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.year ?? "--:--"} هـ',
                             style: AppStyles.light15.copyWith(
                               fontSize: 13.sp,
@@ -85,7 +86,7 @@ class DateAndLocationDetails extends StatelessWidget {
                           )
                         : Text(
                             provider.prayerTimesHive == null
-                                ? '${provider.prayerTimes?.date.hijri.weekday.en} ${provider.prayerTimes?.date.hijri.day} ${provider.prayerTimes?.date.hijri.month.en} ${provider.prayerTimes?.date.hijri.year}'
+                                ? '${provider.prayerTimes?.date.hijri.weekday.en ?? ''} ${provider.prayerTimes?.date.hijri.day ?? ''} ${provider.prayerTimes?.date.hijri.month.en ?? ''} ${provider.prayerTimes?.date.hijri.year ?? ''}'
                                 : '${provider.prayerTimesHive?.date.hijri.weekday.en ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.day ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.month.en ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.year ?? "--:--"}',
                             style: AppStyles.light15.copyWith(
                               fontSize: 13.sp,

@@ -19,7 +19,6 @@ class AllOptionGridView extends StatelessWidget {
             switch (index) {
               case 0:
                 context.push(AppRoutes.kAzkarEvening);
-                // context.push(AppRoutes.kNotificationTestScreen);
                 break;
               case 1:
                 context.push(AppRoutes.kAzkarMorning);
@@ -40,6 +39,7 @@ class AllOptionGridView extends StatelessWidget {
                 context.push(AppRoutes.kFavouriteScreen);
                 break;
               case 7:
+                context.push(AppRoutes.kQiblaCompassScreen);
                 break;
               case 8:
                 context.push(AppRoutes.kVariousAzkar);

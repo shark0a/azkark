@@ -1,11 +1,11 @@
 import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 class CustomizeAppBar extends StatelessWidget {
-  const CustomizeAppBar({super.key, required this.title});
+  const CustomizeAppBar({super.key, required this.title, this.onTap});
   final String title;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -14,9 +14,7 @@ class CustomizeAppBar extends StatelessWidget {
       surfaceTintColor: AppStyles.scaffoldBG,
       centerTitle: true,
       leading: IconButton(
-        onPressed: () {
-          context.pop();
-        },
+        onPressed: onTap,
 
         icon: Icon(
           Icons.arrow_back_outlined,

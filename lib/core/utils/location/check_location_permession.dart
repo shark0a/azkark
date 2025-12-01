@@ -1,39 +1,55 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart' hide LocationAccuracy;
 
-class CheckLocationPermession {
-  Future<Position> initLocation() async {
-    return await determineLocation();
-  }
+class LocationFailure implements Exception {
+  final String message;
+  LocationFailure(this.message);
 
-  Future<Position> determineLocation() async {
+  @override
+  String toString() => message;
+}
+
+class LocationService {
+  final Location location = Location();
+  Future<Position> getLocation() async {
     try {
-      bool isServiceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!isServiceEnabled) {
-        await Geolocator.openLocationSettings();
-
-        isServiceEnabled = await Geolocator.isLocationServiceEnabled();
-        if (!isServiceEnabled) {
-          throw Exception('Location services are still disabled.');
+      // 1. Check service
+      if (!await Geolocator.isLocationServiceEnabled()) {
+        try {
+          var isServiceEnable = await location.serviceEnabled();
+          if (!isServiceEnable) {
+            isServiceEnable = await location.requestService();
+          }
+          LocationFailure("check The internet");
+        } catch (e) {
+          LocationFailure('Error checking/requesting location service: $e');
         }
       }
 
+      // 2. Check permissions
       LocationPermission permission = await Geolocator.checkPermission();
 
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          throw Exception('Location permissions are denied');
+          throw LocationFailure("Location permission was denied.");
         }
       }
 
       if (permission == LocationPermission.deniedForever) {
         await Geolocator.openAppSettings();
-        throw Exception("Please enable location manually then reopen the app.");
+        throw LocationFailure(
+          "Location permission is permanently denied. "
+          "Please enable it from settings.",
+        );
       }
 
-      return await Geolocator.getCurrentPosition();
+      // 3. Get Position
+      return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
     } catch (e) {
-      throw Exception("Unknown error: $e");
+      throw LocationFailure("Failed to get location: $e");
     }
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:azkark/Features/Home/data/prayer_time_page_model.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_detail_container.dart';
@@ -29,21 +27,18 @@ class PrayerTimeHorezontalListView extends StatelessWidget {
       provider.prayerTimesHive?.timings.sunrise ?? "00:00",
       provider.prayerTimesHive?.timings.fajr ?? "00:00",
     ];
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 8.h),
-      color: Color(0xffEDFBFF),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18.w),
-        child: provider.prayerTimesHive != null
-            ? ListView.builder(
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    log("this isis iiAAAAAAAAAA ");
-                    provider.toggleNextPrayerTimeIndex(index);
-                  },
-                  child: Padding(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 8.h),
+        color: Color(0xffEDFBFF),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 18.w),
+          child: provider.prayerTimesHive != null
+              ? ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) => Padding(
                     padding: EdgeInsets.only(
                       right: index == 0
                           ? 0.w
@@ -66,20 +61,12 @@ class PrayerTimeHorezontalListView extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
-                itemCount: prayersTimePageItems.length,
-              )
-            : ListView.builder(
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    provider.toggleNextPrayerTimeIndex(index);
-                    log(
-                      "this isis ii ${prayersTimePageItems[index].localizationKey.toLowerCase().toString()}",
-                    );
-                  },
-                  child: Padding(
+                  itemCount: prayersTimePageItems.length,
+                )
+              : ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) => Padding(
                     padding: EdgeInsets.only(
                       right: index == 0
                           ? 0.w
@@ -102,9 +89,9 @@ class PrayerTimeHorezontalListView extends StatelessWidget {
                       ),
                     ),
                   ),
+                  itemCount: prayersTimePageItems.length,
                 ),
-                itemCount: prayersTimePageItems.length,
-              ),
+        ),
       ),
     );
   }

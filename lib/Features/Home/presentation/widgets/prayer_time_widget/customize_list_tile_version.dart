@@ -22,7 +22,7 @@ class CustomizeListTileVersion extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       tileColor: Color.fromRGBO(245, 245, 245, 50),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.r)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
       contentPadding: EdgeInsets.symmetric(horizontal: 8.w),
       titleAlignment: ListTileTitleAlignment.center,
       trailing: Row(

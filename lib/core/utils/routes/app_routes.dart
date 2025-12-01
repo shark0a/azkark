@@ -7,12 +7,13 @@ import 'package:azkark/Features/All_acts_of_worship/presentation/views/electroni
 import 'package:azkark/Features/All_acts_of_worship/presentation/views/favourite_screen.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/views/islamic_calendar.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/views/praise_srceen.dart';
+import 'package:azkark/Features/All_acts_of_worship/presentation/views/qibla_screen.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/views/various_azkar_screen.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/various_azkr_widgets/various_zekr.dart';
 import 'package:azkark/Features/Home/presentation/views/home_screen.dart';
-import 'package:azkark/Features/Home/presentation/views/seconde_splash_screen.dart';
-import 'package:azkark/Features/Home/presentation/views/setting_screen.dart';
 import 'package:azkark/Features/Home/presentation/views/splash_screen.dart';
+import 'package:azkark/Features/Home/presentation/views/setting_screen.dart';
+import 'package:azkark/Features/Home/presentation/widgets/settings_widgets/prayers_times_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -33,16 +34,19 @@ class AppRoutes {
   static const kFavouriteScreen = "/favouriteScreen";
   static const kVariousAzkar = "/VariousAzkar";
   static const kVariousZekr = "/VariousZekr";
+  static const kPrayerSetting = "/kPrayerSetting";
+  static const kQiblaCompassScreen = "/QiblaCompassScreen";
+
   // static const kNotificationTestScreen = "/NotificationTestScreen";
   static final route = GoRouter(
     routes: [
-      GoRoute(path: "/", builder: (context, state) => SecondeSplashScreen()),
+      GoRoute(path: "/", builder: (context, state) => SplashScreen()),
       GoRoute(
         path: kSecondeSplashScreen,
         pageBuilder: (context, state) {
           return CustomTransitionPage(
             key: state.pageKey,
-            child: const SecondeSplashScreen(),
+            child: const SplashScreen(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
                   return FadeTransition(opacity: animation, child: child);
@@ -72,10 +76,10 @@ class AppRoutes {
         path: kAzkarPrayers,
         builder: (context, state) => const AzkarPrayers(),
       ),
-      // GoRoute(
-      //   path: kNotificationTestScreen,
-      //   builder: (context, state) => const NotificationTestScreen(),
-      // ),
+      GoRoute(
+        path: kPrayerSetting,
+        builder: (context, state) => const PrayersTimesSettings(),
+      ),
       GoRoute(
         path: kAllPrayers,
         builder: (context, state) => const AllPrayers(),
@@ -112,6 +116,10 @@ class AppRoutes {
       GoRoute(
         path: kSettingScreen,
         builder: (context, state) => const SettingScreen(),
+      ),
+      GoRoute(
+        path: kQiblaCompassScreen,
+        builder: (context, state) => const QiblaCompassScreen(),
       ),
     ],
   );

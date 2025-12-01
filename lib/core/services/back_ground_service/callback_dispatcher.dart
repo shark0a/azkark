@@ -3,17 +3,24 @@ import 'package:azkark/core/services/service_locator.dart';
 import 'package:workmanager/workmanager.dart';
 
 @pragma('vm:entry-point')
-Future<void> callbackDispatcher() async {
+void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     await setupServiceLocator();
+
     if (task == "fetchDailyPrayersTask") {
       await PrayerBackgroundService.fetchDailyPrayers();
+
+      final now = DateTime.now();
+      final tomorrowMidnight = DateTime(now.year, now.month, now.day + 1);
+      final delay = tomorrowMidnight.difference(now);
+
       await Workmanager().registerOneOffTask(
         "fetchTomorrow",
         "fetchDailyPrayersTask",
-        initialDelay: const Duration(hours: 24),
+        initialDelay: delay,
       );
     }
-    return true;
+
+    return Future.value(true);
   });
 }

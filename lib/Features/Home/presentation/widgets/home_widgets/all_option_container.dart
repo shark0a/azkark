@@ -65,6 +65,10 @@ class AllOptionContainer extends StatelessWidget {
         return l10n.hijri_calendar;
       case 'favorites':
         return l10n.favorites;
+      case 'nearest_mosq':
+        return l10n.nearest_mosq;
+      case 'VariuosAzkar':
+        return l10n.VariuosAzkar;
       default:
         return title;
     }

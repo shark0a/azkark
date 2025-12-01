@@ -17,7 +17,12 @@ class VariousZekr extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 60),
-        child: CustomizeAppBar(title: title),
+        child: CustomizeAppBar(
+          onTap: () {
+            context.pop();
+          },
+          title: title,
+        ),
       ),
       body: specificZekr.isEmpty
           ? Center(
