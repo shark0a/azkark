@@ -31,8 +31,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   bool _isLoading = true;
-  StreamSubscription<ConnectivityResult>? _connectivitySub;
-  bool _refetchNeeded = false;
+  bool _refetchNeeded = sl.get<SharedPref>().getBool("refetchNeeded") ?? false;
 
   @override
   void initState() {
@@ -74,26 +73,26 @@ class _SplashScreenState extends State<SplashScreen> {
           "========================in spalshh i n first statues  scheduleDailyPrayers success===================",
         );
         await sl.get<SharedPref>().setBool(SharedPrefKeys.firstTimeOpen, false);
-        // Request OneSignal notification permission now that UI is active
         try {
           OneSignal.Notifications.requestPermission(true);
-        } catch (e) {
-          log('OneSignal permission request failed: $e');
-        }
+        } catch (e) {}
       } catch (e) {
-        // If fetching failed due to network, schedule a refetch when connectivity returns
         showErrorSnackBar(context, S.current.LocationUpdatFAliure);
         log(
           'Initial fetch failed, will retry when connectivity is available: $e',
         );
         _refetchNeeded = true;
-        _startConnectivityListener();
+        await sl.get<SharedPref>().setBool("refetchNeeded", true);
         log(
           "========================in spalshh i n first statues  scheduleDailyPrayers faluire ${e.toString()}===================",
         );
       }
     }
-    print("tis first ${isFirstOpen}");
+    if (_refetchNeeded) {
+      await _attemptRefetch(homeController);
+      await homeController.fetchNextPrayer();
+    }
+    log("tis first ${isFirstOpen}");
     if (!isFirstOpen) {
       await homeController.loadingLocalData();
       await homeController.fetchNextPrayer();
@@ -114,39 +113,15 @@ class _SplashScreenState extends State<SplashScreen> {
     if (mounted) setState(() => _isLoading = false);
 
     if (mounted) {
+      await Future.delayed(Duration(milliseconds: 900));
       await homeController.fetchNextPrayer();
 
-      await Future.delayed(Duration(milliseconds: 900));
       context.go(AppRoutes.kHomeScreen);
     }
     ;
   }
 
-  void _startConnectivityListener() {
-    if (_connectivitySub != null) return;
-
-    _connectivitySub = Connectivity().onConnectivityChanged.listen((
-      result,
-    ) async {
-      if (!_refetchNeeded) return;
-      if (result != ConnectivityResult.none) {
-        log('Connectivity restored: $result — attempting refetch');
-        await _attemptRefetch();
-      }
-    });
-
-    // Also check current connectivity immediately
-    Connectivity().checkConnectivity().then((result) async {
-      if (!_refetchNeeded) return;
-      if (result != ConnectivityResult.none) {
-        log('Connectivity available on check: $result — attempting refetch');
-        await _attemptRefetch();
-      }
-    });
-  }
-
-  Future<void> _attemptRefetch() async {
-    final homeController = context.read<HomeController>();
+  Future<void> _attemptRefetch(HomeController homeController) async {
     try {
       // Try to reinitialize location if missing
       await homeController.initLocation();
@@ -155,21 +130,10 @@ class _SplashScreenState extends State<SplashScreen> {
       await NotificationService.instance.scheduleDailyPrayers();
       await homeController.fetchNextPrayer();
       await sl.get<SharedPref>().setBool(SharedPrefKeys.firstTimeOpen, false);
-      _refetchNeeded = false;
-      // stop listening once succeeded
-      await _connectivitySub?.cancel();
-      _connectivitySub = null;
-      log('Refetch successful and notifications scheduled');
+      await sl.get<SharedPref>().setBool("refetchNeeded", false);
     } catch (e) {
-      log('Refetch attempt failed: $e');
-      // keep listening for next connectivity event
+      await sl.get<SharedPref>().setBool("refetchNeeded", true);
     }
-  }
-
-  @override
-  void dispose() {
-    _connectivitySub?.cancel();
-    super.dispose();
   }
 
   @override
@@ -192,10 +156,10 @@ class _SplashScreenState extends State<SplashScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SvgPicture.asset("assets/seconde_Logo.svg")
-                        .animate()
-                        .fadeIn(delay: 300.ms, duration: 800.ms)
+                        .animate(delay: 350.ms)
+                        .fadeIn(delay: 400.ms, duration: 800.ms)
                         .scale(
-                          delay: 300.ms,
+                          delay: 400.ms,
                           curve: Curves.easeInBack,
                           duration: 850.ms,
                         ),

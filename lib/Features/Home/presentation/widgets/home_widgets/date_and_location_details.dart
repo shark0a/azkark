@@ -37,65 +37,96 @@ class DateAndLocationDetails extends StatelessWidget {
           )
         : Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.5.w),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(S.of(context).place_label, style: AppStyles.regular12),
-                    Text(
-                      MehtodHelper.formatGregorianDate(
-                        provider.prayerTimes?.date.gregorian.date ??
-                            provider.prayerTimesHive?.date.gregorian.date ??
-                            DateFormat("d-MM-yyyy").format(DateTime.now()),
-                        lang,
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        flex: 1,
+                        child: Text(
+                          // overflow: TextOverflow.ellipsis,
+                          S.of(context).place_label,
+                          style: AppStyles.regular12,
+                        ),
                       ),
-                      style: AppStyles.regular16.copyWith(
-                        color: Color(0xFFA1A1A1),
-                        fontSize: 16.sp,
+                      Flexible(
+                        flex: 3,
+                        child: Text(
+                          overflow: TextOverflow.ellipsis,
+
+                          MehtodHelper.formatGregorianDate(
+                            provider.prayerTimes?.date.gregorian.date ??
+                                provider.prayerTimesHive?.date.gregorian.date ??
+                                DateFormat("d-MM-yyyy").format(DateTime.now()),
+                            lang,
+                          ),
+                          style: AppStyles.regular16.copyWith(
+                            color: Color(0xFFA1A1A1),
+                            fontSize: 16.sp,
+                          ),
+                        ),
                       ),
-                      // textDirection: TextDirection.ltr,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 4.h),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    lang == 'ar'
-                        ? Text(
-                            tzArabic ?? tz ?? S.of(context).unknown_label,
-                            style: AppStyles.medium15,
-                          )
-                        : Text(
-                            tz ?? S.of(context).unknown_label,
-                            style: AppStyles.medium15,
-                          ),
-                    SizedBox(width: 4.h),
-                    lang == 'ar'
-                        ? Text(
-                            provider.prayerTimesHive == null
-                                ? '${provider.prayerTimes?.date.hijri.weekday.ar ?? ''} ${provider.prayerTimes?.date.hijri.day ?? ''} ${provider.prayerTimes?.date.hijri.month.ar ?? ''} ${provider.prayerTimes?.date.hijri.year ?? ''} هـ'
-                                : '${provider.prayerTimesHive?.date.hijri.weekday.ar ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.day ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.month.ar ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.year ?? "--:--"} هـ',
-                            style: AppStyles.light15.copyWith(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w600,
+                    ],
+                  ),
+                  SizedBox(height: 4.h),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      lang == 'ar'
+                          ? Flexible(
+                              flex: 1,
+                              child: Text(
+                                overflow: TextOverflow.ellipsis,
+
+                                tzArabic ?? tz ?? S.of(context).unknown_label,
+                                style: AppStyles.medium15,
+                              ),
+                            )
+                          : Flexible(
+                              flex: 1,
+                              child: Text(
+                                overflow: TextOverflow.ellipsis,
+                                tz ?? S.of(context).unknown_label,
+                                style: AppStyles.medium15,
+                              ),
                             ),
-                          )
-                        : Text(
-                            provider.prayerTimesHive == null
-                                ? '${provider.prayerTimes?.date.hijri.weekday.en ?? ''} ${provider.prayerTimes?.date.hijri.day ?? ''} ${provider.prayerTimes?.date.hijri.month.en ?? ''} ${provider.prayerTimes?.date.hijri.year ?? ''}'
-                                : '${provider.prayerTimesHive?.date.hijri.weekday.en ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.day ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.month.en ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.year ?? "--:--"}',
-                            style: AppStyles.light15.copyWith(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w500,
+                      SizedBox(width: 4.w),
+                      lang == 'ar'
+                          ? Flexible(
+                              flex: 3,
+                              child: Text(
+                                overflow: TextOverflow.ellipsis,
+
+                                provider.prayerTimesHive == null
+                                    ? '${provider.prayerTimes?.date.hijri.weekday.ar ?? ''} ${provider.prayerTimes?.date.hijri.day ?? ''} ${provider.prayerTimes?.date.hijri.month.ar ?? ''} ${provider.prayerTimes?.date.hijri.year ?? ''} هـ'
+                                    : '${provider.prayerTimesHive?.date.hijri.weekday.ar ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.day ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.month.ar ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.year ?? "--:--"} هـ',
+                                style: AppStyles.light15.copyWith(
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            )
+                          : Flexible(
+                              flex: 3,
+                              child: Text(
+                                overflow: TextOverflow.ellipsis,
+                                provider.prayerTimesHive == null
+                                    ? '${provider.prayerTimes?.date.hijri.weekday.en ?? ''} ${provider.prayerTimes?.date.hijri.day ?? ''} ${provider.prayerTimes?.date.hijri.month.en ?? ''} ${provider.prayerTimes?.date.hijri.year ?? ''}'
+                                    : '${provider.prayerTimesHive?.date.hijri.weekday.en ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.day ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.month.en ?? "--:--"} ${provider.prayerTimesHive?.date.hijri.year ?? "--:--"}',
+                                style: AppStyles.light15.copyWith(
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ),
-                          ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
   }

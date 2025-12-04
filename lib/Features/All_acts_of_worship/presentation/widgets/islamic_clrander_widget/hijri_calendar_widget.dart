@@ -101,14 +101,7 @@ class HijriCalendarWidgetState extends State<HijriCalendarWidget> {
 
     return Card(
       color: AppStyles.scaffoldBG,
-      // shape: RoundedRectangleBorder(
-      //   side: BorderSide(
-      //     strokeAlign: 1,
-      //     width: 2,
-      //     color: const Color.fromRGBO(0, 0, 0, 50),
-      //   ),
-      //   borderRadius: BorderRadiusGeometry.circular(10),
-      // ),
+  
       margin: EdgeInsets.zero,
       elevation: 4.r,
       child: Container(

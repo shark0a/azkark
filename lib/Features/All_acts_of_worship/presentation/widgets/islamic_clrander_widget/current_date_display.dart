@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hijri_date/hijri_date.dart';
 import 'package:intl/intl.dart';
 import 'package:azkark/generated/l10n.dart';
@@ -48,7 +49,7 @@ class CurrentDateDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
-      margin: EdgeInsets.symmetric(horizontal: isSmallScreen ? 8 : 16),
+      margin: EdgeInsets.symmetric(horizontal: isSmallScreen ? 8.w : 16.w),
       decoration: BoxDecoration(
         color: Colors.blue[50],
         borderRadius: BorderRadius.circular(12),

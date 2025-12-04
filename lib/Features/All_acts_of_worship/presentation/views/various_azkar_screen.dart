@@ -49,9 +49,12 @@ class VariousAzkarScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 60),
-        child: CustomizeAppBar(onTap: () {
+        child: CustomizeAppBar(
+          onTap: () {
             context.pop();
-          },title: S.of(context).VariuosAzkar),
+          },
+          title: S.of(context).VariuosAzkar,
+        ),
       ),
       body: variousDoaa.isEmpty
           ? Center(
@@ -91,7 +94,7 @@ class VariousAzkarScreen extends StatelessWidget {
                         title: displayTitle,
                         tralling: Icon(
                           Icons.arrow_forward,
-                          color: Colors.black,
+                          color: AppStyles.arrow_forward_Icon_Color,
                         ),
                         active: false,
                       ),

@@ -1,6 +1,7 @@
 import 'package:azkark/Features/Home/data/prayer_time_page_model.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
 import 'package:azkark/Features/Home/presentation/widgets/home_widgets/prayer_detail_container.dart';
+import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -31,7 +32,7 @@ class PrayerTimeHorezontalListView extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 8.h),
-        color: Color(0xffEDFBFF),
+        color: AppStyles.azkarContainerBG,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 18.w),
           child: provider.prayerTimesHive != null

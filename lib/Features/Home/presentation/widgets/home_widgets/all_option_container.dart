@@ -33,7 +33,8 @@ class AllOptionContainer extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(icon),
+          SvgPicture.asset(icon, width: 30.w, height: 30.h),
+          SizedBox(height: 4.h),
           Text(
             maxLines: 2,
             textAlign: TextAlign.center,

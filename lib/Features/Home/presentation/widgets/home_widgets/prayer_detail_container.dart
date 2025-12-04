@@ -24,7 +24,7 @@ class PrayerDetailContainer extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 7.h),
       decoration: ShapeDecoration(
-        color: active ? Color(0xff01B7F1) : Color(0xffEDFBFF),
+        color: active ? AppStyles.iconActiveColor : AppStyles.azkarContainerBG,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.r)),
       ),
       child: Column(

@@ -32,7 +32,7 @@ class SettingScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: ListView.builder(
           physics: BouncingScrollPhysics(),
           itemCount: settingItemsModel.length,
@@ -47,16 +47,19 @@ class SettingScreen extends StatelessWidget {
                       onTap: () {
                         context.go(AppRoutes.kPrayerSetting);
                       },
-                      child: Icon(Icons.arrow_forward, color: Colors.black),
+                      child: Icon(
+                        Icons.arrow_forward,
+                        color: AppStyles.arrow_forward_Icon_Color,
+                      ),
                     )
                   : index == 1
                   ? GestureDetector(
                       onTap: context.read<HomeController>().toggleLocale,
                       child: Icon(
-                        size: 60.r,
+                        size: 50.r,
                         lang != 'ar' ? Icons.toggle_on_sharp : Icons.toggle_on,
                         color: lang != 'ar'
-                            ? AppStyles.appBarTitleColor
+                            ? AppStyles.iconActiveColor
                             : AppStyles.inActiveColor,
                       ),
                     )
@@ -105,7 +108,7 @@ class SettingScreen extends StatelessWidget {
                           Icon(
                             size: 30.r,
                             Icons.repeat_outlined,
-                            color: AppStyles.appBarTitleColor,
+                            color: AppStyles.iconActiveColor,
                           ),
                           Text(
                             context

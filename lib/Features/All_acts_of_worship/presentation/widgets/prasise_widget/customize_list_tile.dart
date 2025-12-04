@@ -18,7 +18,7 @@ class CustomizeListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
-      tileColor: const Color.fromARGB(71, 23, 49, 71),
+      tileColor: AppStyles.PrayerContainerBG,
       titleAlignment: ListTileTitleAlignment.center,
       title: Text(title, style: AppStyles.regular16),
       trailing: tralling,
@@ -26,11 +26,11 @@ class CustomizeListTile extends StatelessWidget {
           ? Icon(
               active ? Icons.volume_up_sharp : Icons.volume_off_rounded,
               color: active
-                  ? AppStyles.appBarTitleColor
+                  ? AppStyles.iconActiveColor
                   : AppStyles.inActiveColor,
             )
           : null,
-      contentPadding: EdgeInsets.symmetric(horizontal: 10),
+      // contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
     );
   }
 }

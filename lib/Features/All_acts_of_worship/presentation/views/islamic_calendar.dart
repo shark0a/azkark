@@ -6,6 +6,7 @@ import 'package:azkark/Features/Home/presentation/widgets/customize_app_bar.dart
 import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -188,8 +189,8 @@ class IslamicCalendarState extends State<IslamicCalendar> {
           onPageChanged: (focusedDay) =>
               setState(() => _focusedDay = focusedDay),
 
-          daysOfWeekHeight: isSmallScreen ? 30 : 40,
-          rowHeight: isSmallScreen ? 35 : 45,
+          daysOfWeekHeight: isSmallScreen ? 30.h : 40.h,
+          rowHeight: isSmallScreen ? 35.h : 45.h,
 
           calendarBuilders: CalendarBuilders(
             defaultBuilder: (context, day, focusedDay) {
@@ -199,7 +200,7 @@ class IslamicCalendarState extends State<IslamicCalendar> {
                 child: Center(
                   child: Text(
                     '${day.day}',
-                    style: TextStyle(fontSize: isSmallScreen ? 10 : 12),
+                    style: TextStyle(fontSize: isSmallScreen ? 10.sp : 12.sp),
                   ),
                 ),
               );

@@ -1,6 +1,7 @@
 import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:azkark/generated/l10n.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AllOfOptions extends StatelessWidget {
   const AllOfOptions({super.key});
@@ -8,12 +9,12 @@ class AllOfOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 40),
+      padding: EdgeInsets.symmetric(horizontal: 40.w),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.symmetric(vertical: 8.h),
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(4.r),
             side: BorderSide(color: Color(0xff000000), strokeAlign: 0.5),
           ),
         ),

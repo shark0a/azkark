@@ -11,7 +11,6 @@ Future<void> main() async {
 
   await setupServiceLocator();
   await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
-
   runApp(const AzkarkApp());
-  await initServices();
+  initServices();
 }

@@ -25,6 +25,7 @@ class CustomizeHomeAppBar extends StatelessWidget {
             title,
             textDirection: TextDirection.rtl,
             style: AppStyles.semiblod18.copyWith(
+              color: AppStyles.appBarTitleColor,
               fontSize: 20.sp,
               fontWeight: FontWeight.w900,
             ),

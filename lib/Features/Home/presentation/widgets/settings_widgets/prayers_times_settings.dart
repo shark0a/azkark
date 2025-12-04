@@ -1,4 +1,3 @@
-
 import 'package:azkark/Features/All_acts_of_worship/presentation/widgets/prasise_widget/customize_list_tile.dart';
 import 'package:azkark/Features/Home/data/prayer_time_page_model.dart';
 import 'package:azkark/Features/Home/presentation/controller/home_controller.dart';
@@ -52,41 +51,45 @@ class PrayersTimesSettings extends StatelessWidget {
           title: S.of(context).prayer_times_label,
         ),
       ),
-      body: ListView.builder(
-        itemCount: prayersTimePageItems.length,
-        itemBuilder: (context, index) {
-          final prayer = prayersTimePageItems[index];
-          final localized = _localizedPrayer(context, prayer.localizationKey);
-          final isActive = hive?.activePrayers[prayer.prayerKey] ?? true;
-          return Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: CustomizeListTile(
-              activeleading: true,
-              title: localized,
-              tralling: GestureDetector(
-                onTap: () async {
-                  // toggle active via controller
-                  await home.toggleActive(prayerKey: prayer.prayerKey);
-                },
-                child: Icon(
-                  size: 60.r,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        child: ListView.builder(
+          physics: BouncingScrollPhysics(),
+          itemCount: prayersTimePageItems.length,
+          itemBuilder: (context, index) {
+            final prayer = prayersTimePageItems[index];
+            final localized = _localizedPrayer(context, prayer.localizationKey);
+            final isActive = hive?.activePrayers[prayer.prayerKey] ?? true;
+            return Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: CustomizeListTile(
+                activeleading: true,
+                title: localized,
+                tralling: GestureDetector(
+                  onTap: () async {
+                    // toggle active via controller
+                    await home.toggleActive(prayerKey: prayer.prayerKey);
+                  },
+                  child: Icon(
+                    size: 50.r,
 
-                  isActive
-                      ? lang == 'ar'
-                            ? Icons.toggle_off_sharp
-                            : Icons.toggle_on_sharp
-                      : lang == 'ar'
-                      ? Icons.toggle_on_sharp
-                      : Icons.toggle_off,
-                  color: isActive
-                      ? AppStyles.appBarTitleColor
-                      : AppStyles.inActiveColor,
+                    isActive
+                        ? lang == 'ar'
+                              ? Icons.toggle_off_sharp
+                              : Icons.toggle_on_sharp
+                        : lang == 'ar'
+                        ? Icons.toggle_on_sharp
+                        : Icons.toggle_off,
+                    color: isActive
+                        ? AppStyles.iconActiveColor
+                        : AppStyles.inActiveColor,
+                  ),
                 ),
+                active: isActive,
               ),
-              active: isActive,
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

@@ -30,8 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Errorsharingzekr":
             MessageLookupByLibrary.simpleMessage("Error sharing zekr ⚠️"),
         "Fav": MessageLookupByLibrary.simpleMessage("Favourite"),
-        "ListisEmpty":
-            MessageLookupByLibrary.simpleMessage("List is Empty 🤦‍♂️"),
+        "ListisEmpty": MessageLookupByLibrary.simpleMessage("Empty List 🤦‍♂️"),
         "LocationUpdatFAliure": MessageLookupByLibrary.simpleMessage(
             "Faliure update your location please check internet and try again ⚠️"),
         "LocationUpdateMessage": MessageLookupByLibrary.simpleMessage(

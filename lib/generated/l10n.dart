@@ -520,10 +520,10 @@ class S {
     );
   }
 
-  /// `List is Empty 🤦‍♂️`
+  /// `Empty List 🤦‍♂️`
   String get ListisEmpty {
     return Intl.message(
-      'List is Empty 🤦‍♂️',
+      'Empty List 🤦‍♂️',
       name: 'ListisEmpty',
       desc: '',
       args: [],

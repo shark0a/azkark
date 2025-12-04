@@ -20,7 +20,6 @@ class AkarkAppBody extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
       locale: context.watch<HomeController>().locale,
-
       theme: ThemeData(scaffoldBackgroundColor: AppStyles.scaffoldBG),
       debugShowCheckedModeBanner: false,
       routerConfig: AppRoutes.route,

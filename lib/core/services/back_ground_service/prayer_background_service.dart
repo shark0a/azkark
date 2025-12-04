@@ -54,17 +54,17 @@ class PrayerBackgroundService {
       ]);
       log("Prayer times saved to Hive and preferences");
       await NotificationService.instance.init();
-      print(
+      log(
         "-==================================in spalsh screen daily init ==============================",
       );
       await NotificationService.instance.scheduleDailyPrayers();
-      print(
+      log(
         "-==================================in spalsh screen daily success===============================",
       );
       log("Notifications scheduled successfully");
     } catch (e, stackTrace) {
       log("ERROR in fetchDailyPrayers: $e");
-      print(
+      log(
         "-==================================in spalsh screen daily ${e.toString()}===============================",
       );
       log("Stack trace: $stackTrace");

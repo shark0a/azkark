@@ -26,8 +26,7 @@ Future<void> initServices() async {
     };
 
     OneSignal.initialize(oneSignalSecretKey);
-    // Requesting OneSignal runtime permission requires an active UI context.
-    // The permission prompt will be requested from the UI (splash screen) after runApp().
+   
 
     await Workmanager().registerOneOffTask(
       "fetch_today_prayers",
@@ -35,6 +34,6 @@ Future<void> initServices() async {
     );
   } catch (e) {
     log(e.toString());
-    print("+++++++++++++++++++++++++++++++++++++++++++" + e.toString());
+    log("+++++++++++++++++++++++++++++++++++++++++++" + e.toString());
   }
 }
