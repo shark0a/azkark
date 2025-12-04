@@ -20,7 +20,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:azkark/generated/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'dart:async';
 
 class SplashScreen extends StatefulWidget {

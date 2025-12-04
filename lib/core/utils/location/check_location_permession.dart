@@ -47,6 +47,7 @@ class LocationService {
       // 3. Get Position
       return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
+        
       );
     } catch (e) {
       throw LocationFailure("Failed to get location: $e");
