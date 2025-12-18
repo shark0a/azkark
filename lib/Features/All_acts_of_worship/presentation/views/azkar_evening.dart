@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/core/utils/helper/mehtod_helper.dart';
 import 'package:azkark/Features/All_acts_of_worship/presentation/manager/azkar_provider.dart';
@@ -15,8 +17,8 @@ class AzkarEvening extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<AzkarProvider>();
-    final azkarEvening = provider.azkarEvening;
+    final azkarEvening = context.read<AzkarProvider>().azkarEvening;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 60),
@@ -36,42 +38,50 @@ class AzkarEvening extends StatelessWidget {
             )
           : ListView.builder(
               itemCount: azkarEvening.length,
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               itemBuilder: (context, index) {
                 final zekrItem = azkarEvening[index];
-                ValueNotifier<int> zekrCountNotifier = ValueNotifier<int>(
-                  zekrItem.count,
-                );
-                ValueNotifier<bool> isFavNotifier = ValueNotifier<bool>(
-                  zekrItem.isFav,
-                );
 
-                return ValueListenableBuilder<bool>(
-                  valueListenable: isFavNotifier,
-                  builder: (context, isFav, child) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 20.9),
-                      child: ElzekerSectionContainer(
-                        
-                        onTap: () {
-                          isFavNotifier.value = !isFavNotifier.value;
-                          zekrItem.isFav = isFavNotifier.value;
-                          provider.toggleItemFavList(zekrItem);
-                        },
-                        elzekr: zekrItem.zekr,
-                        infoAboutzekr: zekrItem.description.isEmpty
-                            ? MehtodHelper.cleanText(zekrItem.search)
-                            : zekrItem.description,
-                        numOfZekr: index + 1,
-                        numOfZekrcount: zekrCountNotifier,
-                        isFav: isFav,
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20.9),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Selector<AzkarProvider, int>(
+                          selector: (_, provider) => zekrItem.count,
+                          builder: (context, count, child) {
+                            return Selector<AzkarProvider, bool>(
+                              selector: (_, provider) => zekrItem.isFav,
+                              builder: (context, isFav, child) {
+                                return ElzekerSectionContainer(
+                                  onCountContainerTap: () {
+                                    context
+                                        .read<AzkarProvider>()
+                                        .decrementCount(zekrItem);
+                                  },
+                                  onTap: () {
+                                    context
+                                        .read<AzkarProvider>()
+                                        .toggleItemFavList(zekrItem);
+                                  },
+                                  elzekr: zekrItem.zekr,
+                                  infoAboutzekr: zekrItem.description.isEmpty
+                                      ? MehtodHelper.cleanText(zekrItem.search)
+                                      : zekrItem.description,
+                                  numOfZekr: index + 1,
+                                  numOfZekrcount: count,
+                                  isFav: isFav,
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
-                    );
-                  },
+                    ],
+                  ),
                 );
               },
             ),
-
       bottomNavigationBar: CustomButtomNavigationBar(
         provider: context.watch<HomeController>(),
       ),

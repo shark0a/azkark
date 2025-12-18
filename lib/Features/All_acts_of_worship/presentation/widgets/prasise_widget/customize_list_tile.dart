@@ -19,7 +19,6 @@ class CustomizeListTile extends StatelessWidget {
     return ListTile(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
       tileColor: AppStyles.PrayerContainerBG,
-      titleAlignment: ListTileTitleAlignment.center,
       title: Text(title, style: AppStyles.regular16),
       trailing: tralling,
       leading: activeleading
@@ -30,7 +29,6 @@ class CustomizeListTile extends StatelessWidget {
                   : AppStyles.inActiveColor,
             )
           : null,
-      // contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
     );
   }
 }

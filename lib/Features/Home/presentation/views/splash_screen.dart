@@ -14,7 +14,6 @@ import 'package:azkark/core/utils/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:azkark/generated/l10n.dart';
@@ -46,11 +45,13 @@ class _SplashScreenState extends State<SplashScreen> {
     final prefs = sl.get<SharedPref>();
     final isFirstOpen = prefs.getBool(SharedPrefKeys.firstTimeOpen) ?? true;
 
-    // Load Azkar & favorites in parallel
+    await homeController.cleanOldData();
+
     await Future.wait([
       azkarProvider.loadDataFromJson(),
       azkarProvider.loadFavList(),
     ]);
+
     final localCurrentLocation = await sl
         .get<HiveService>()
         .getData<CurrentLocationModel>(
@@ -58,40 +59,31 @@ class _SplashScreenState extends State<SplashScreen> {
           HiveKeys.locationKey,
         );
 
-    log("message :${localCurrentLocation?.lat}");
     if (isFirstOpen == true || localCurrentLocation == null) {
       try {
         await homeController.initLocation();
-        log("enter  here ");
         await homeController.fetchPrayersTimes();
         await NotificationService.instance.init();
         await NotificationService.instance.scheduleDailyPrayers();
         await homeController.fetchNextPrayer();
+        await prefs.setBool(SharedPrefKeys.firstTimeOpen, false);
 
-        log(
-          "========================in spalshh i n first statues  scheduleDailyPrayers success===================",
-        );
-        await sl.get<SharedPref>().setBool(SharedPrefKeys.firstTimeOpen, false);
         try {
           OneSignal.Notifications.requestPermission(true);
         } catch (e) {}
       } catch (e) {
         showErrorSnackBar(context, S.current.LocationUpdatFAliure);
-        log(
-          'Initial fetch failed, will retry when connectivity is available: $e',
-        );
+        log('Initial fetch failed: $e');
         _refetchNeeded = true;
-        await sl.get<SharedPref>().setBool("refetchNeeded", true);
-        log(
-          "========================in spalshh i n first statues  scheduleDailyPrayers faluire ${e.toString()}===================",
-        );
+        await prefs.setBool("refetchNeeded", true);
       }
     }
+
     if (_refetchNeeded) {
       await _attemptRefetch(homeController);
       await homeController.fetchNextPrayer();
     }
-    log("tis first ${isFirstOpen}");
+
     if (!isFirstOpen) {
       await homeController.loadingLocalData();
       await homeController.fetchNextPrayer();
@@ -112,12 +104,10 @@ class _SplashScreenState extends State<SplashScreen> {
     if (mounted) setState(() => _isLoading = false);
 
     if (mounted) {
-      await Future.delayed(Duration(milliseconds: 900));
       await homeController.fetchNextPrayer();
-
+      await Future.delayed(Duration(milliseconds: 1000));
       context.go(AppRoutes.kHomeScreen);
     }
-    ;
   }
 
   Future<void> _attemptRefetch(HomeController homeController) async {
@@ -150,35 +140,42 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         ),
         child: Center(
-          child: _isLoading
-              ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset("assets/seconde_Logo.svg")
-                        .animate(delay: 350.ms)
-                        .fadeIn(delay: 400.ms, duration: 800.ms)
-                        .scale(
-                          delay: 400.ms,
-                          curve: Curves.easeInBack,
-                          duration: 850.ms,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset("assets/seconde_Logo.png")
+                  .animate()
+                  .fadeIn(duration: 800.ms)
+                  .scale(
+                    delay: 100.ms,
+                    curve: Curves.easeInBack,
+                    duration: 850.ms,
+                  ),
+              SizedBox(height: 30.h),
+              _isLoading
+                  ? Column(
+                      children: [
+                        CircularProgressIndicator(
+                          color: Colors.white,
+                        ).animate().scale(
+                          begin: const Offset(1.0, 1.0),
+                          end: const Offset(1.1, 1.1),
+                          duration: 1500.ms,
+                          curve: Curves.easeInOut,
                         ),
-                    SizedBox(height: 30.h),
-                    CircularProgressIndicator(
-                      color: Colors.white,
-                    ).animate().scale(
-                      begin: const Offset(1.0, 1.0),
-                      end: const Offset(1.1, 1.1),
-                      duration: 1500.ms,
-                      curve: Curves.easeInOut,
-                    ),
-                    SizedBox(height: 20.h),
-                    Text(
-                      S.of(context).loading,
-                      style: TextStyle(color: Colors.white70, fontSize: 16.sp),
-                    ).animate().fadeIn(delay: 600.ms, duration: 600.ms),
-                  ],
-                )
-              : const SizedBox.shrink(),
+                        SizedBox(height: 20.h),
+                        Text(
+                          S.of(context).loading,
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 16.sp,
+                          ),
+                        ).animate().fadeIn(duration: 600.ms),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
+            ],
+          ),
         ),
       ),
     );

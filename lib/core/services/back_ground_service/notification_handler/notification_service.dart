@@ -3,6 +3,7 @@ import 'package:azkark/Features/Home/data/prayers_time_hive_models.dart';
 import 'package:azkark/core/services/service_locator.dart';
 import 'package:azkark/core/utils/cache/hive_keys.dart';
 import 'package:azkark/core/utils/cache/hive_service.dart';
+import 'package:azkark/core/utils/cache/shared_pre.dart';
 import 'package:azkark/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -34,7 +35,7 @@ class NotificationService {
     'isha': 'Isha',
   };
   final String _defaultNotificationTitle = '🕌 Prayer Time';
-  final String _defaultPrayerText = 'It is time for prayer';
+  final String _defaultPrayerText = 'Time for prayer';
 
   Future<void> init() async {
     if (_isInitialized) return;
@@ -59,16 +60,13 @@ class NotificationService {
         ),
       );
 
-      // Android 12+ exact alarms
       const platform = MethodChannel('azkark/exact_alarm');
       try {
         final allowed = await platform.invokeMethod<bool>(
           'ensureExactAlarmsAllowed',
         );
         if (allowed == false) {
-          log(
-            'Exact alarms not permitted by user; skipping scheduling and requesting permission via settings.',
-          );
+          log('Exact alarms not permitted');
         }
       } catch (e) {
         log('Error checking exact alarm permission: $e');
@@ -76,18 +74,27 @@ class NotificationService {
 
       await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()
+            AndroidFlutterLocalNotificationsPlugin
+          >()
           ?.requestNotificationsPermission();
 
-      log(
-        "NotificationService initialized successfully with timezone: ${tz.local.name}",
-      );
+      log("NotificationService initialized successfully");
       _isInitialized = true;
 
+      // ✅ استدعاء مرة واحدة فقط عند أول تهيئة
       try {
-        await scheduleDailyAzkarReminders();
+        final prefs = sl.get<SharedPref>();
+        final lastScheduled = prefs.getInt('lastAzkarSchedule') ?? 0;
+        final now = DateTime.now().millisecondsSinceEpoch;
+
+        // جدول كل 24 ساعة فقط
+        if (now - lastScheduled > 86400000) {
+          // 24 hours
+          await scheduleDailyAzkarReminders();
+          await prefs.setInt('lastAzkarSchedule', now);
+        }
       } catch (e) {
-        log('Error scheduling azkar reminders during init: $e');
+        log('Error scheduling azkar reminders: $e');
       }
     } catch (e) {
       log("Error initializing NotificationService: $e");

@@ -8,10 +8,10 @@ import 'package:azkark/core/utils/cache/shared_pref_keys.dart';
 import 'package:azkark/core/utils/helper/app_styles.dart';
 import 'package:azkark/core/utils/routes/app_routes.dart';
 import 'package:azkark/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 class PrayersTimesSettings extends StatelessWidget {
   const PrayersTimesSettings({super.key});
@@ -62,30 +62,32 @@ class PrayersTimesSettings extends StatelessWidget {
             final isActive = hive?.activePrayers[prayer.prayerKey] ?? true;
             return Padding(
               padding: EdgeInsets.only(top: 10.h),
-              child: CustomizeListTile(
-                activeleading: true,
-                title: localized,
-                tralling: GestureDetector(
-                  onTap: () async {
-                    // toggle active via controller
-                    await home.toggleActive(prayerKey: prayer.prayerKey);
-                  },
-                  child: Icon(
-                    size: 50.r,
+              child: GestureDetector(
+                onTap: () async {
+                  await home.toggleActive(prayerKey: prayer.prayerKey);
+                },
+                child: CustomizeListTile(
+                  activeleading: true,
+                  title: localized,
+                  tralling: SizedBox(
+                    height: 60.h,
+                    child: Icon(
+                      size: 55.r,
 
-                    isActive
-                        ? lang == 'ar'
-                              ? Icons.toggle_off_sharp
-                              : Icons.toggle_on_sharp
-                        : lang == 'ar'
-                        ? Icons.toggle_on_sharp
-                        : Icons.toggle_off,
-                    color: isActive
-                        ? AppStyles.iconActiveColor
-                        : AppStyles.inActiveColor,
+                      isActive
+                          ? lang == 'ar'
+                                ? Icons.toggle_off_sharp
+                                : Icons.toggle_on_sharp
+                          : lang == 'ar'
+                          ? Icons.toggle_on_sharp
+                          : Icons.toggle_off,
+                      color: isActive
+                          ? AppStyles.iconActiveColor
+                          : AppStyles.inActiveColor,
+                    ),
                   ),
+                  active: isActive,
                 ),
-                active: isActive,
               ),
             );
           },

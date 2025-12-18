@@ -42,6 +42,9 @@ class FavouriteScreen extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.only(top: 20.9),
                         child: ElzekerSectionContainer(
+                          onCountContainerTap: () {
+                            provider.decrementCount(zekrItem);
+                          },
                           onTap: () {
                             provider.toggleItemFavList(zekrItem);
                           },
@@ -50,9 +53,9 @@ class FavouriteScreen extends StatelessWidget {
                               ? MehtodHelper.cleanText(zekrItem.search)
                               : zekrItem.description,
                           numOfZekr: index + 1,
-                          numOfZekrcount: ValueNotifier(
-                            zekrItem.count == 0 ? 1 : zekrItem.count,
-                          ),
+                          numOfZekrcount: zekrItem.count == 0
+                              ? 1
+                              : zekrItem.count,
                           isFav: isFav,
                         ),
                       );

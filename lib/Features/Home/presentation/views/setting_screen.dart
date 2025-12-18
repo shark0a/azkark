@@ -38,71 +38,66 @@ class SettingScreen extends StatelessWidget {
           itemCount: settingItemsModel.length,
           itemBuilder: (context, index) => Padding(
             padding: EdgeInsets.only(top: 24.h),
-            child: CustomizeListTile(
-              activeleading: false,
-              active: index == 3,
-              title: _getLocalizedSettingTitle(context, index),
-              tralling: index == 0
-                  ? GestureDetector(
-                      onTap: () {
-                        context.go(AppRoutes.kPrayerSetting);
-                      },
-                      child: Icon(
+            child: GestureDetector(
+              onTap: () async {
+                switch (index) {
+                  case 0:
+                    context.push(AppRoutes.kPrayerSetting);
+
+                    break;
+                  case 1:
+                    context.read<HomeController>().toggleLocale();
+                    break;
+                  case 2:
+                    if (context.read<HomeController>().isLoadingLocation ||
+                        context.read<HomeController>().isFetchingPrayerTimes) {
+                      showInfoSnackBar(
+                        context,
+                        S.of(context).pleaseWaitItLoading,
+                      );
+                    } else {
+                      try {
+                        await context.read<HomeController>().initLocation();
+                        await context
+                            .read<HomeController>()
+                            .fetchPrayersTimes();
+                        context.read<HomeController>().errorMsg.isEmpty
+                            ? showSuccessSnackBar(
+                                context,
+                                S.of(context).LocationUpdateMessage,
+                              )
+                            : showErrorSnackBar(
+                                context,
+
+                                S.of(context).LocationUpdatFAliure,
+                              );
+                      } catch (e) {}
+                    }
+
+                    break;
+                  default:
+                    break;
+                }
+              },
+              child: CustomizeListTile(
+                activeleading: false,
+                active: index == 3,
+                title: _getLocalizedSettingTitle(context, index),
+                tralling: index == 0
+                    ? Icon(
                         Icons.arrow_forward,
                         color: AppStyles.arrow_forward_Icon_Color,
-                      ),
-                    )
-                  : index == 1
-                  ? GestureDetector(
-                      onTap: context.read<HomeController>().toggleLocale,
-                      child: Icon(
-                        size: 50.r,
+                      )
+                    : index == 1
+                    ? Icon(
+                        size: 55.r,
                         lang != 'ar' ? Icons.toggle_on_sharp : Icons.toggle_on,
                         color: lang != 'ar'
                             ? AppStyles.iconActiveColor
                             : AppStyles.inActiveColor,
-                      ),
-                    )
-                  : index == 2
-                  ? GestureDetector(
-                      onTap: () async {
-                        if (context.read<HomeController>().currentLocation !=
-                            null) {
-                          try {
-                            await context
-                                .read<HomeController>()
-                                .fetchPrayersTimes();
-                            context.read<HomeController>().errorMsg.isEmpty
-                                ? showSuccessSnackBar(
-                                    context,
-                                    S.of(context).LocationUpdateMessage,
-                                  )
-                                : showErrorSnackBar(
-                                    context,
-
-                                    S.of(context).LocationUpdatFAliure,
-                                  );
-                          } catch (e) {}
-                        } else {
-                          try {
-                            await context.read<HomeController>().initLocation();
-                            await context
-                                .read<HomeController>()
-                                .fetchPrayersTimes();
-                            context.read<HomeController>().errorMsg.isEmpty
-                                ? showSuccessSnackBar(
-                                    context,
-                                    S.of(context).LocationUpdateMessage,
-                                  )
-                                : showErrorSnackBar(
-                                    context,
-
-                                    S.of(context).LocationUpdatFAliure,
-                                  );
-                          } catch (e) {}
-                        }
-                      },
-                      child: Row(
+                      )
+                    : index == 2
+                    ? Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
@@ -119,12 +114,12 @@ class SettingScreen extends StatelessWidget {
                                 '',
                           ),
                         ],
+                      )
+                    : Text(
+                        '${S.of(context).version_label} 1.0.0',
+                        style: AppStyles.light14,
                       ),
-                    )
-                  : Text(
-                      '${S.of(context).version_label} 1.0.0',
-                      style: AppStyles.light14,
-                    ),
+              ),
             ),
           ),
         ),

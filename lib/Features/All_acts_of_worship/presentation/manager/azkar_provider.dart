@@ -126,7 +126,7 @@ class AzkarProvider extends ChangeNotifier {
       } else {
         favList[item.id] = item;
         item.isFav = true;
-        await saveFavList();
+        await saveFavList(item.id, item);
       }
     } catch (e) {
       log("toggleItemFavList error : ${e.toString()}");
@@ -136,19 +136,10 @@ class AzkarProvider extends ChangeNotifier {
   }
 
   //save  FavItem in hive
-  Future<void> saveFavList() async {
+  Future<void> saveFavList(int id, AzkarModel item) async {
     try {
-      final favItems = favList.entries
-          .map((entry) => FavItemsModel(id: entry.key, azkarModel: entry.value))
-          .toList();
-
-      for (var item in favItems) {
-        await sl.get<HiveService>().putData<FavItemsModel>(
-          'favBox',
-          item.id,
-          item,
-        );
-      }
+      final favItem = FavItemsModel(id: id, azkarModel: item);
+      await sl.get<HiveService>().putData<FavItemsModel>('favBox', id, favItem);
     } catch (e) {
       log("saveFavList error : ${e.toString()}");
     }
@@ -156,12 +147,27 @@ class AzkarProvider extends ChangeNotifier {
 
   //loading  FavItem in hive
   Future<void> loadFavList() async {
-    favList = Map.fromEntries(
-      sl
-          .get<HiveService>()
-          .getAllData<FavItemsModel>('favBox')
-          .map((favItem) => MapEntry(favItem.id, favItem.azkarModel)),
-    );
-    notifyListeners();
+    try {
+      final allFavs = sl.get<HiveService>().getAllData<FavItemsModel>('favBox');
+
+      final uniqueFavs = <int, FavItemsModel>{};
+      for (var fav in allFavs) {
+        uniqueFavs[fav.id] = fav;
+      }
+      favList = Map.fromEntries(
+        uniqueFavs.entries.map((e) => MapEntry(e.key, e.value.azkarModel)),
+      );
+      notifyListeners();
+    } catch (e) {
+      log("loadFavList error: $e");
+    }
+  }
+
+  //azkar provider
+  void decrementCount(AzkarModel item) {
+    if (item.count > 0) {
+      item.count--;
+      notifyListeners();
+    }
   }
 }

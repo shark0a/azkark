@@ -82,6 +82,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "next_prayer_label":
             MessageLookupByLibrary.simpleMessage("Next prayer:"),
         "place_label": MessageLookupByLibrary.simpleMessage("Place"),
+        "pleaseWaitItLoading": MessageLookupByLibrary.simpleMessage(
+            "Please wait process Loading..."),
         "prayer_asr": MessageLookupByLibrary.simpleMessage("Asr"),
         "prayer_dhuhr": MessageLookupByLibrary.simpleMessage("Dhuhr"),
         "prayer_fajr": MessageLookupByLibrary.simpleMessage("Fajr"),

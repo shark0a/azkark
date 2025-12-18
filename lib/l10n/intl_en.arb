@@ -75,5 +75,7 @@
 	"tasbih_title": "Tasbih",
 	"tasbih_azkar": "Tasbih and Istighfar Azkar",
 	"LocationUpdateMessage": "Location Update successfully 👌",
-	"LocationUpdatFAliure": "Faliure update your location please check internet and try again ⚠️"
+	"LocationUpdatFAliure": "Faliure update your location please check internet and try again ⚠️",
+	  "pleaseWaitItLoading":"Please wait process Loading..."
+
 }

@@ -112,7 +112,7 @@ List<Widget> buildHomeSlivers(HomeController homeController) {
       child: SvgPicture.asset('assets/stopwatch.svg').animate().slideX(
         begin: -0.5,
         end: 0,
-        duration: 2500.ms,
+        duration: 900.ms,
         curve: Curves.easeInBack,
       ),
     ),
@@ -135,7 +135,7 @@ List<Widget> buildHomeSlivers(HomeController homeController) {
                   begin: .5,
                   end: 0,
                   delay: 100.ms,
-                  duration: 2000.ms,
+                  duration: 900.ms,
                   curve: Curves.easeInBack,
                 ),
           ),

@@ -1,3 +1,4 @@
+import 'dart:async' show StreamController;
 import 'dart:convert';
 import 'dart:developer';
 import 'package:azkark/Features/All_acts_of_worship/data/all_azkar_model.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class MehtodHelper {
+  static Stream<String>? _timeStreamController;
   //load file containe zekr from asset
   Future<List<AzkarModel>> loadAzkar() async {
     final String file = await rootBundle.loadString("assets/azkar.json");
@@ -79,26 +81,6 @@ class MehtodHelper {
     }
   }
 
-  // static String formatGregorianDate(String? date, String lang) {
-  //   log(date.toString());
-  //   if (date == null || date.trim().isEmpty) return date ?? '';
-
-  //   try {
-  //     final parsed = DateFormat("dd-MM-yyyy").parse(date);
-
-  //     String formatPattern;
-  //     if (lang.startsWith('ar')) {
-  //       formatPattern = "EEEE dd MMMM yyyy";
-  //     } else {
-  //       formatPattern = "EEEE dd MMMM yyyy";
-  //     }
-
-  //     return DateFormat(formatPattern, lang).format(parsed);
-  //   } catch (e) {
-  //     log(e.toString());
-  //     return date;
-  //   }
-  // }
   static String formatGregorianDate(String? date, String lang) {
     log(date.toString());
     if (date == null || date.trim().isEmpty) return date ?? '';
@@ -124,7 +106,6 @@ class MehtodHelper {
     while (true) {
       final now = DateTime.now();
 
-      // فصل الساعات والدقائق يدوياً
       List<String> parts = nextTime.split(':');
       if (parts.length != 2) {
         yield "00:00:00";

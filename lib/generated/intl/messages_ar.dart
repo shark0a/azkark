@@ -39,7 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "تاكد من الاتصال ب الانترنت او قم بإعادة تشغيل التطبيق 🚑"),
         "Sharethis": MessageLookupByLibrary.simpleMessage(
             "شارك هذا الذكر من برنامج اذكارك 🌙"),
-        "VariuosAzkar": MessageLookupByLibrary.simpleMessage("اذكار متنوعه"),
+        "VariuosAzkar": MessageLookupByLibrary.simpleMessage("اذكار متنوعة"),
         "alhamdulillah": MessageLookupByLibrary.simpleMessage("الحمد الله"),
         "all_duas": MessageLookupByLibrary.simpleMessage("جميع الأدعية"),
         "all_worship_label":
@@ -78,6 +78,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "next_prayer_label":
             MessageLookupByLibrary.simpleMessage("الصلاة التالية:"),
         "place_label": MessageLookupByLibrary.simpleMessage("المكان"),
+        "pleaseWaitItLoading": MessageLookupByLibrary.simpleMessage(
+            "من فضلك انتظر حتي انتهاء التحميل "),
         "prayer_asr": MessageLookupByLibrary.simpleMessage("العصر"),
         "prayer_dhuhr": MessageLookupByLibrary.simpleMessage("الظهر"),
         "prayer_fajr": MessageLookupByLibrary.simpleMessage("الفجر"),

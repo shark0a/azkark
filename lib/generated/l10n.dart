@@ -799,6 +799,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please wait process Loading...`
+  String get pleaseWaitItLoading {
+    return Intl.message(
+      'Please wait process Loading...',
+      name: 'pleaseWaitItLoading',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

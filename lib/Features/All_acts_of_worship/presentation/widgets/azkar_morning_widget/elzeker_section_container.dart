@@ -19,13 +19,17 @@ class ElzekerSectionContainer extends StatelessWidget {
     required this.numOfZekr,
     required this.onTap,
     required this.isFav,
+    required this.onCountContainerTap,
   });
 
   final String elzekr;
   final String infoAboutzekr;
-  final ValueNotifier<int> numOfZekrcount;
+  // final ValueNotifier<int> numOfZekrcount;
+  final int numOfZekrcount;
   final int numOfZekr;
   final void Function() onTap;
+  final void Function() onCountContainerTap;
+
   final bool isFav;
 
   // Screenshot controller for this widget
@@ -56,6 +60,7 @@ class ElzekerSectionContainer extends StatelessWidget {
               ElzekrContainer(elzekr: elzekr, numOfZeker: numOfZekr),
               SizedBox(height: 22.93.h),
               InfoAboutZekr(
+                onCountContainerTap: onCountContainerTap,
                 isFav: isFav,
                 onTap: onTap,
                 countOfZekr: numOfZekrcount,

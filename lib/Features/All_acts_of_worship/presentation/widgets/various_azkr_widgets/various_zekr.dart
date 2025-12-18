@@ -11,7 +11,7 @@ class VariousZekr extends StatelessWidget {
   const VariousZekr({super.key});
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<AzkarProvider>();
+    final provider = context.read<AzkarProvider>();
     final specificZekr = provider.specificZekr;
     String title = GoRouter.of(context).state.extra as String;
     return Scaffold(
@@ -36,34 +36,34 @@ class VariousZekr extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 10),
               itemBuilder: (context, index) {
                 final zekrItem = specificZekr[index];
-                ValueNotifier<int> zekrCountNotifier = ValueNotifier<int>(
-                  zekrItem.count == 0 ? 1 : zekrItem.count,
-                );
-                ValueNotifier<bool> isFavNotifier = ValueNotifier<bool>(
-                  zekrItem.isFav,
-                );
 
-                return ValueListenableBuilder<bool>(
-                  valueListenable: isFavNotifier,
-                  builder: (context, isFav, child) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 20.9),
-                      child: ElzekerSectionContainer(
-                        onTap: () {
-                          isFavNotifier.value = !isFavNotifier.value;
-                          zekrItem.isFav = isFavNotifier.value;
-                          provider.toggleItemFavList(zekrItem);
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20.9),
+                  child: Selector<AzkarProvider, int>(
+                    selector: (_, provider) => zekrItem.count,
+                    builder: (context, count, child) {
+                      return Selector<AzkarProvider, bool>(
+                        selector: (_, provider) => zekrItem.isFav,
+                        builder: (context, isFav, child) {
+                          return ElzekerSectionContainer(
+                            onCountContainerTap: () =>
+                                provider.decrementCount(zekrItem),
+
+                            onTap: () {
+                              provider.toggleItemFavList(zekrItem);
+                            },
+                            elzekr: zekrItem.zekr,
+                            infoAboutzekr: zekrItem.description.isEmpty
+                                ? MehtodHelper.cleanText(zekrItem.search)
+                                : zekrItem.description,
+                            numOfZekr: index + 1,
+                            numOfZekrcount: count,
+                            isFav: isFav,
+                          );
                         },
-                        elzekr: zekrItem.zekr,
-                        infoAboutzekr: zekrItem.description.isEmpty
-                            ? MehtodHelper.cleanText(zekrItem.search)
-                            : zekrItem.description,
-                        numOfZekr: index + 1,
-                        numOfZekrcount: zekrCountNotifier,
-                        isFav: isFav,
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 );
               },
             ),

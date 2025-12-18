@@ -174,6 +174,7 @@ class HomeController extends ChangeNotifier {
       if (currentLocation == null) {
         await initLocation();
       }
+
       final result = await _homeRepo.getPrayersTime(
         currentLocation!.lat,
         currentLocation!.long,
@@ -181,15 +182,29 @@ class HomeController extends ChangeNotifier {
       prayerTimes = result.data;
     } catch (e) {
       _errorMsg = "Error : ${e.toString()}";
-      log("_this is error message ${e.toString()}.");
+      log("Error: ${e.toString()}");
     } finally {
       if (prayerTimes != null) {
         await sl.get<SharedPref>().setString(
           SharedPrefKeys.countryName,
           prayerTimes!.meta.timezone,
         );
+
+        final hiveService = sl<HiveService>();
+        final oldData = hiveService.getData<PrayerDataHiveModel>(
+          HiveKeys.prayersBox,
+          HiveKeys.prayersTimesTodayKey,
+        );
+
+        if (oldData != null) {
+          await hiveService.deleteData<PrayerDataHiveModel>(
+            HiveKeys.prayersBox,
+            HiveKeys.prayersTimesTodayKey,
+          );
+        }
+
         prayerTimesHive = prayerTimes!.toHiveModel();
-        await sl<HiveService>().putData<PrayerDataHiveModel>(
+        await hiveService.putData<PrayerDataHiveModel>(
           HiveKeys.prayersBox,
           HiveKeys.prayersTimesTodayKey,
           prayerTimesHive!,
@@ -197,6 +212,25 @@ class HomeController extends ChangeNotifier {
       }
       _isFetchingPrayerTimes = false;
       notifyListeners();
+    }
+  }
+
+  Future<void> cleanOldData() async {
+    try {
+      final prefs = sl.get<SharedPref>();
+      final lastCleanup = prefs.getInt('lastDataCleanup') ?? 0;
+      final now = DateTime.now().millisecondsSinceEpoch;
+
+      if (now - lastCleanup > 604800000) {
+        final hive = sl.get<HiveService>();
+
+        await NotificationService.instance.cancelAll();
+
+        await prefs.setInt('lastDataCleanup', now);
+        log('Old data cleaned successfully');
+      }
+    } catch (e) {
+      log('Error cleaning old data: $e');
     }
   }
 
